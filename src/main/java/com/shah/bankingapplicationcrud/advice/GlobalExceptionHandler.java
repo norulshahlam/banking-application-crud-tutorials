@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.AC_BUSINESS_ERROR;
 import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.AC_INTERNAL_SERVER_ERROR;
@@ -29,12 +31,13 @@ import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.AC_INTERN
 public class GlobalExceptionHandler {
 
     /**
-     * to handle MethodArgumentNotValidException exception
+     * to handle MethodArgumentNotValidException exception during validating request body
      *
      * @param req
      * @param exception
      * @return
      */
+
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler({MethodArgumentNotValidException.class})
     @ResponseBody
@@ -54,10 +57,62 @@ public class GlobalExceptionHandler {
         return ResponseEntity.ok(Message.message(AC_BUSINESS_ERROR, exceptionMessage));
     }
 
+    /**
+     * to handle ConstraintViolationException exception during validating JPA entity
+     *
+     * @param req
+     * @param exception
+     * @return
+     */
+
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler({ConstraintViolationException.class})
+    @ResponseBody
+    public ResponseEntity<Object> handleConstraintViolationException(HttpServletRequest req, ConstraintViolationException exception) {
+
+        String requestURL = req.getRequestURI();
+        List<String> exceptionMessage = exception
+                .getConstraintViolations()
+                .stream()
+                .map(violation -> violation.getPropertyPath().toString() + ": " + violation.getMessage()).collect(Collectors.toList());
+
+        log.error("requestUrl : {}, occurred an error : {}, exception detail : {}", requestURL, exceptionMessage, exception);
+
+        return ResponseEntity.ok(Message.message(AC_BUSINESS_ERROR, exceptionMessage));
+    }
+
+    /**
+     * For handling CannotCreateTransactionException during database connectivity exception
+     *
+     * @param exception
+     * @return
+     */
+
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler({CannotCreateTransactionException.class})
     @ResponseBody
-    public ResponseEntity<Object> handleBaseException(HttpServletRequest req, CannotCreateTransactionException exception) {
+    public ResponseEntity<Object> handleCannotCreateTransactionException(CannotCreateTransactionException exception) {
+        List<String> exceptionMessage = new ArrayList<>();
+        String cause = exception.getCause().getMessage() + " - " + exception.getCause().getCause().getMessage();
+        exceptionMessage.add(cause);
+
+        return ResponseEntity.ok(Message.message(
+                AC_INTERNAL_SERVER_ERROR,
+                exceptionMessage));
+    }
+
+    /**
+     * For all other unexpected exceptions
+     *
+     * @param req
+     * @param exception
+     * @return
+     */
+
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler({Exception.class})
+    @ResponseBody
+    public ResponseEntity<Object> handleBaseException(HttpServletRequest req, Exception exception) {
         List<String> exceptionMessage = new ArrayList<>();
         exceptionMessage.add(exception.getCause().getMessage());
 

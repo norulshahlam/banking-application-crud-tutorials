@@ -7,8 +7,8 @@ import java.util.Locale;
 
 public class BaseException extends RuntimeException {
     @NonNull
-    private ErrorCode errorCode;
-    private ErrorInfo errorInfo;
+    private final ErrorCode errorCode;
+    private final ErrorInfo errorInfo;
     protected BaseException(@NonNull ErrorCode errorCode, String message, ErrorInfo errorInfo, Locale locale, Throwable cause, Object[] params) {
         super(getMessage(errorCode, message, locale, params), cause);
         if (errorCode == null) {
@@ -19,25 +19,25 @@ public class BaseException extends RuntimeException {
         }
     }
     protected BaseException(@NonNull ErrorCode errorCode, String errorDesc, ErrorInfo errorInfo) {
-        this(errorCode, errorDesc, errorInfo, (Locale)null, (Throwable)null, (Object[])null);
+        this(errorCode, errorDesc, errorInfo, null, null, null);
         if (errorCode == null) {
             throw new NullPointerException("errorCode is marked non-null but is null");
         }
     }
     protected BaseException(@NonNull ErrorCode errorCode) {
-        this(errorCode, (String)null, (ErrorInfo)null, (Locale)null, (Throwable)null, (Object[])null);
+        this(errorCode, null, null, null, null, null);
         if (errorCode == null) {
             throw new NullPointerException("errorCode is marked non-null but is null");
         }
     }
     protected BaseException(@NonNull ErrorCode errorCode, Object[] params) {
-        this(errorCode, (String)null, (ErrorInfo)null, (Locale)null, (Throwable)null, params);
+        this(errorCode, null, null, null, null, params);
         if (errorCode == null) {
             throw new NullPointerException("errorCode is marked non-null but is null");
         }
     }
     protected BaseException(@NonNull ErrorCode errorCode, String message) {
-        this(errorCode, message, (ErrorInfo)null, (Locale)null, (Throwable)null, (Object[])null);
+        this(errorCode, message, null, null, null, null);
         if (errorCode == null) {
             throw new NullPointerException("errorCode is marked non-null but is null");
         }
@@ -66,9 +66,9 @@ public class BaseException extends RuntimeException {
             throw new NullPointerException("errorCode is marked non-null but is null");
         } else if (exception instanceof BaseException) {
             BaseException se = (BaseException)exception;
-            return errorCode != se.getErrorCode() ? new BaseException(errorCode, (String)null, se.getErrorInfo(), locale, exception, (Object[])null) : se;
+            return errorCode != se.getErrorCode() ? new BaseException(errorCode, null, se.getErrorInfo(), locale, exception, null) : se;
         } else {
-            return new BaseException(errorCode, (String)null, (ErrorInfo)null, locale, exception, (Object[])null);
+            return new BaseException(errorCode, null, null, locale, exception, null);
         }
     }
     public static BaseException wrap(Throwable exception, @NonNull ErrorCode errorCode) {

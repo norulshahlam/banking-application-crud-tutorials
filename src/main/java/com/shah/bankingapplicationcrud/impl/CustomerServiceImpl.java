@@ -57,8 +57,6 @@ public class CustomerServiceImpl implements CustomerService {
             return GetAllCustomerResponse.success(customers);
         } catch (CrudException e) {
             return GetAllCustomerResponse.fail(null, CrudError.constructErrorForCrudException(e));
-        } catch (Exception e) {
-            throw new CrudException(AC_INTERNAL_SERVER_ERROR, QUERY_CUSTOMER_FAILED);
         }
     }
 }
