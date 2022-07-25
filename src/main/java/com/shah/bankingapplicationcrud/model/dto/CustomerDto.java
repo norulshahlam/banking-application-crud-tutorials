@@ -16,7 +16,7 @@ import java.sql.Date;
 
 @Builder
 @Data
-public class EmployeeDto {
+public class CustomerDto {
 	
 	@ApiModelProperty(notes = "Email address",
 			name="email",required=true,

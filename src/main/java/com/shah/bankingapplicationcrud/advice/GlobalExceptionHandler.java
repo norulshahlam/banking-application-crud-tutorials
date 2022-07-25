@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.CannotCreateTransactionException;
@@ -31,7 +32,7 @@ import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.AC_INTERN
 public class GlobalExceptionHandler {
 
     /**
-     * to handle MethodArgumentNotValidException exception during validating request body
+     * to handle MethodArgumentNotValidException when validating request body from client input
      *
      * @param req
      * @param exception
@@ -58,7 +59,7 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * to handle ConstraintViolationException exception during validating JPA entity
+     * to handle ConstraintViolationException when validating JPA entity from client input
      *
      * @param req
      * @param exception
@@ -82,7 +83,7 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * For handling CannotCreateTransactionException during database connectivity exception
+     * For handling CannotCreateTransactionException happened during database connectivity exception
      *
      * @param exception
      * @return
@@ -100,6 +101,26 @@ public class GlobalExceptionHandler {
                 AC_INTERNAL_SERVER_ERROR,
                 exceptionMessage));
     }
+
+    /**
+     * For handling DataIntegrityViolationException when persisting data into database
+     * @param exception
+     * @return
+     */
+
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler({DataIntegrityViolationException.class})
+    @ResponseBody
+    public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException exception) {
+        List<String> exceptionMessage = new ArrayList<>();
+        String cause = exception.getCause().getMessage() + " - " + exception.getCause().getCause().getMessage();
+        exceptionMessage.add(cause);
+
+        return ResponseEntity.ok(Message.message(
+                AC_INTERNAL_SERVER_ERROR,
+                exceptionMessage));
+    }
+
 
     /**
      * For all other unexpected exceptions

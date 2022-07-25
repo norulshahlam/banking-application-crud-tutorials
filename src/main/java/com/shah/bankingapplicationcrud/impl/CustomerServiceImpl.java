@@ -2,8 +2,10 @@ package com.shah.bankingapplicationcrud.impl;
 
 import com.shah.bankingapplicationcrud.exception.CrudError;
 import com.shah.bankingapplicationcrud.exception.CrudException;
-import com.shah.bankingapplicationcrud.model.GetAllCustomerResponse;
-import com.shah.bankingapplicationcrud.model.GetOneCustomerResponse;
+import com.shah.bankingapplicationcrud.model.response.CreateOneCustomerResponse;
+import com.shah.bankingapplicationcrud.model.response.GetAllCustomerResponse;
+import com.shah.bankingapplicationcrud.model.response.GetOneCustomerResponse;
+import com.shah.bankingapplicationcrud.model.dto.CustomerDto;
 import com.shah.bankingapplicationcrud.model.entity.Customer;
 import com.shah.bankingapplicationcrud.model.request.GetOneCustomerRequest;
 import com.shah.bankingapplicationcrud.repository.CustomerRepository;
@@ -11,6 +13,7 @@ import com.shah.bankingapplicationcrud.service.CustomerService;
 import com.shah.bankingapplicationcrud.validation.ValidateHeaders;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -30,7 +33,7 @@ public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository custRepo;
 
     @Override
-    public GetOneCustomerResponse getOneEmployee(GetOneCustomerRequest request, HttpHeaders headers) {
+    public GetOneCustomerResponse getOneCustomer(GetOneCustomerRequest request, HttpHeaders headers) {
         log.info("Getting one customer...");
         try {
             ValidateHeaders.validateGetOneEmployee(headers);
@@ -46,7 +49,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public GetAllCustomerResponse getAllEmployees(HttpHeaders headers) {
+    public GetAllCustomerResponse getAllCustomers(HttpHeaders headers) {
         log.info("Getting all customer...");
         try {
             ValidateHeaders.validateGetOneEmployee(headers);
@@ -57,6 +60,18 @@ public class CustomerServiceImpl implements CustomerService {
             return GetAllCustomerResponse.success(customers);
         } catch (CrudException e) {
             return GetAllCustomerResponse.fail(null, CrudError.constructErrorForCrudException(e));
+        }
+    }
+
+    @Override
+    public CreateOneCustomerResponse createOneCustomer(CustomerDto customerDto, HttpHeaders headers) {
+        try {
+            Customer customer = new Customer();
+            BeanUtils.copyProperties(customerDto, customer);
+            return CreateOneCustomerResponse.success(custRepo.save(customer));
+
+        } catch (CrudException e) {
+            return CreateOneCustomerResponse.fail(null, CrudError.constructErrorForCrudException(e));
         }
     }
 }

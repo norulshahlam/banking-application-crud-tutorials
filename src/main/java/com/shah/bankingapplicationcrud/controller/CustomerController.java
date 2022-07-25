@@ -1,8 +1,10 @@
 package com.shah.bankingapplicationcrud.controller;
 
 import com.shah.bankingapplicationcrud.impl.CustomerServiceImpl;
-import com.shah.bankingapplicationcrud.model.GetAllCustomerResponse;
-import com.shah.bankingapplicationcrud.model.GetOneCustomerResponse;
+import com.shah.bankingapplicationcrud.model.response.CreateOneCustomerResponse;
+import com.shah.bankingapplicationcrud.model.response.GetAllCustomerResponse;
+import com.shah.bankingapplicationcrud.model.response.GetOneCustomerResponse;
+import com.shah.bankingapplicationcrud.model.dto.CustomerDto;
 import com.shah.bankingapplicationcrud.model.request.GetOneCustomerRequest;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -40,7 +42,7 @@ public class CustomerController {
             @ApiParam(defaultValue = "001d846e-4488-4ecc-84c2-9b6f1d130711")
             @Valid @RequestBody GetOneCustomerRequest request,
             @RequestHeader HttpHeaders headers) {
-        return ResponseEntity.ok(service.getOneEmployee(request, headers));
+        return ResponseEntity.ok(service.getOneCustomer(request, headers));
     }
 
     @ApiOperation(
@@ -50,6 +52,14 @@ public class CustomerController {
     @PostMapping("/all-customers")
     public ResponseEntity<GetAllCustomerResponse> getAllCustomers(
             @RequestHeader HttpHeaders headers) {
-        return ResponseEntity.ok(service.getAllEmployees(headers));
+        return ResponseEntity.ok(service.getAllCustomers(headers));
+    }
+
+    @ApiOperation(value = "Add customer", response = CreateOneCustomerResponse.class, tags = "Add customer")
+    @PostMapping("/create-customer")
+    public ResponseEntity<CreateOneCustomerResponse> createOneCustomer(
+            @Valid @RequestBody CustomerDto customerDto,
+            @RequestHeader HttpHeaders headers) {
+        return ResponseEntity.ok(service.createOneCustomer(customerDto, headers));
     }
 }
