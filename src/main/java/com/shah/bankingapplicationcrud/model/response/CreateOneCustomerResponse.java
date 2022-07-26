@@ -6,9 +6,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
-import static com.shah.bankingapplicationcrud.model.Constants.FAIL;
-import static com.shah.bankingapplicationcrud.model.Constants.SUCCESS;
+import static com.shah.bankingapplicationcrud.model.constant.CommonConstants.FAIL;
+import static com.shah.bankingapplicationcrud.model.constant.CommonConstants.SUCCESS;
+
 
 @Data
 @AllArgsConstructor

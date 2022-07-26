@@ -1,23 +1,23 @@
 package com.shah.bankingapplicationcrud.model.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
-@JsonPropertyOrder({"firstName","lastName"})
 @Builder
 @Getter
 @Setter
@@ -45,8 +45,8 @@ public class Customer {
     @Range(min = 21, max = 55, message = "Age must be between 21 and 55")
     private int age;
 
-    @JsonIgnore
-    private Double accBalance;
+    @Digits(integer=6, fraction=2)
+    private BigDecimal accBalance;
 
     @NotNull(message = "Gender cannot be empty")
     private String gender;
@@ -54,11 +54,18 @@ public class Customer {
     @NotNull(message = "Country cannot be empty")
     private String country;
 
-    @JsonProperty("Job Scope")
     private String designation;
 
-    @CreationTimestamp
-    private Date createdAt;
     @DateTimeFormat
+    @Past
     private Date birthDate;
+
+    @CreationTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private ZonedDateTime createdAt;
+
+    @UpdateTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private ZonedDateTime updatedAt;
+
 }

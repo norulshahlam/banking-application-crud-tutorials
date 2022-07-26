@@ -7,18 +7,21 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.UUID;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmployeePatch {
+public class PatchCustomerRequest {
 
-	@Column(updatable = true, unique = true)
+	private UUID id;
+
 	@Email(message = "Enter a valid email")
 	private String email;
 
@@ -30,7 +33,8 @@ public class EmployeePatch {
 
 	@Range(min = 21, max = 55, message = "Age must be between 21 and 55")
 	private Integer age;
-	private Double accBalance;
+	@Digits(integer=6, fraction=2)
+	private BigDecimal accBalance;
 	private String gender;
 	private String country;
 	private String designation;

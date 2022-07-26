@@ -1,4 +1,4 @@
-package com.shah.bankingapplicationcrud.model.dto;
+package com.shah.bankingapplicationcrud.model.request;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -9,14 +9,13 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+import java.math.BigDecimal;
 import java.sql.Date;
 
 @Builder
 @Data
-public class CustomerDto {
+public class CreateCustomerRequest {
 	
 	@ApiModelProperty(notes = "Email address",
 			name="email",required=true,
@@ -39,9 +38,9 @@ public class CustomerDto {
     @Range(min = 21, max = 55, message = "Age must be between 21 and 55")
     private int age;
 
-    @JsonIgnore
     @ApiModelProperty(example = "1500.33")
-    private Double accBalance;
+    @Digits(integer=6, fraction=2)
+    private BigDecimal accBalance;
 
     @ApiModelProperty(example = "male")
     @NotNull(message = "Gender cannot be empty")
@@ -57,5 +56,6 @@ public class CustomerDto {
 
     @ApiModelProperty(example = "1968-04-24")
     @DateTimeFormat
+    @Past
     private Date birthDate;
 }

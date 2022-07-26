@@ -10,6 +10,11 @@ public enum CrudErrorCodes implements ErrorCode {
      * AC-20000 -> AC = app or ms service name, E=error, B=backend(SOA)/M=Microservice, then 4 digits unique number.
      */
 
+    //For global exception
+    DATA_INTEGRITY_VIOLATION_EXCEPTION("10001"),
+    JPA_CONNECTION_ERROR("10002"),
+    CONSTRAINT_VIOLATION_EXCEPTION("10003"),
+
     //For 400 response error code
     AC_BAD_REQUEST("40000"),
     //For 500 response error code,
@@ -30,12 +35,19 @@ public enum CrudErrorCodes implements ErrorCode {
     EMPTY_DATE_TIME("20004"),
     INVALID_SOURCE_COUNTRY("20005"),
     INVALID_CORRELATION_ID("20006"),
-    NO_CUSTOMER("20007");
+    NO_CUSTOMER("20007"),
+    EMPTY_ID("20008");
 
 
 
     private static final Map<String, String> errorDescription = new HashMap<>();
     static {
+        // Global exception
+        errorDescription.put("10001", "An attempt to insert or update data results in violation of an integrity constraint");
+        errorDescription.put("10002", "Could not open JPA EntityManager for transaction");
+        errorDescription.put("10003", "An action violates a constraint on repository structure");
+
+
         //Base error message
         errorDescription.put("20000", "Business Error. please contact bank.");
         errorDescription.put("EM0001", "Technical exception. please contact bank.");
@@ -44,7 +56,7 @@ public enum CrudErrorCodes implements ErrorCode {
         //For 500XXX error message
         errorDescription.put("50000", "Internal Server Error occurred.");
         errorDescription.put("50001", "Exception while quering customer.");
-        //For 200XXX error message
+         //For 200XXX error message
         errorDescription.put("20001", "Customer not found");
         errorDescription.put("20002", "Empty source country");
         errorDescription.put("20003", "Empty correlation id");
@@ -52,6 +64,7 @@ public enum CrudErrorCodes implements ErrorCode {
         errorDescription.put("20005", "Invalid source country");
         errorDescription.put("20006", "Invalid correlation id format. Eg of UUID: f9bd1139-c907-11ec-b11c-0242ac110002");
         errorDescription.put("20007", "No customer");
+        errorDescription.put("20008", "No ID");
     }
 
     private final String appCode = "CRUD";

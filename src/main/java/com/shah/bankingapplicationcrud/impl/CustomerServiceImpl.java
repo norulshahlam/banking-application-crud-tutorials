@@ -2,10 +2,11 @@ package com.shah.bankingapplicationcrud.impl;
 
 import com.shah.bankingapplicationcrud.exception.CrudError;
 import com.shah.bankingapplicationcrud.exception.CrudException;
+import com.shah.bankingapplicationcrud.model.request.CreateCustomerRequest;
+import com.shah.bankingapplicationcrud.model.request.PatchCustomerRequest;
 import com.shah.bankingapplicationcrud.model.response.CreateOneCustomerResponse;
 import com.shah.bankingapplicationcrud.model.response.GetAllCustomerResponse;
 import com.shah.bankingapplicationcrud.model.response.GetOneCustomerResponse;
-import com.shah.bankingapplicationcrud.model.dto.CustomerDto;
 import com.shah.bankingapplicationcrud.model.entity.Customer;
 import com.shah.bankingapplicationcrud.model.request.GetOneCustomerRequest;
 import com.shah.bankingapplicationcrud.repository.CustomerRepository;
@@ -13,16 +14,25 @@ import com.shah.bankingapplicationcrud.service.CustomerService;
 import com.shah.bankingapplicationcrud.validation.ValidateHeaders;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
+import java.beans.FeatureDescriptor;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.*;
+import static com.shah.bankingapplicationcrud.model.response.GetAllCustomerResponse.*;
+import static com.shah.bankingapplicationcrud.validation.ValidateHeaders.*;
+import static org.apache.commons.lang3.ObjectUtils.*;
+import static org.springframework.beans.BeanUtils.*;
 
 @Service
 @Data
@@ -32,46 +42,106 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private final CustomerRepository custRepo;
 
-    @Override
-    public GetOneCustomerResponse getOneCustomer(GetOneCustomerRequest request, HttpHeaders headers) {
-        log.info("Getting one customer...");
-        try {
-            ValidateHeaders.validateGetOneEmployee(headers);
-            Optional<Customer> customer = custRepo.findById(UUID.fromString(request.getId()));
-            if (customer.isEmpty()) {
-                throw new CrudException(AC_BUSINESS_ERROR, CUSTOMER_NOT_FOUND);
-            }
-            return GetOneCustomerResponse.success(customer.get());
-
-        } catch (CrudException e) {
-            return GetOneCustomerResponse.fail(null, CrudError.constructErrorForCrudException(e));
-        }
-    }
-
+    /**
+     * Fetch all customers. If empty will throw exception
+     * @param headers
+     * @return
+     */
     @Override
     public GetAllCustomerResponse getAllCustomers(HttpHeaders headers) {
-        log.info("Getting all customer...");
+        log.info("Fetching all customers...");
         try {
-            ValidateHeaders.validateGetOneEmployee(headers);
+            validateGetOneEmployee(headers);
             List<Customer> customers = custRepo.findAll();
             if (customers.isEmpty()) {
                 throw new CrudException(AC_BUSINESS_ERROR, NO_CUSTOMER);
             }
-            return GetAllCustomerResponse.success(customers);
+            log.info("Fetch all customers success...");
+            return success(customers);
         } catch (CrudException e) {
-            return GetAllCustomerResponse.fail(null, CrudError.constructErrorForCrudException(e));
+            log.error("Fetch all customers failed...");
+            return fail(null, CrudError.constructErrorForCrudException(e));
         }
     }
 
+    /**
+     * Fetch one customer. If not found will throw exception
+     * @param request
+     * @param headers
+     * @return
+     */
     @Override
-    public CreateOneCustomerResponse createOneCustomer(CustomerDto customerDto, HttpHeaders headers) {
+    public GetOneCustomerResponse getOneCustomer(GetOneCustomerRequest request, HttpHeaders headers) {
+        log.info("Fetching customer...");
         try {
+            validateGetOneEmployee(headers);
+            Optional<Customer> customer = custRepo.findById(UUID.fromString(request.getId()));
+            if (customer.isEmpty()) {
+                throw new CrudException(AC_BUSINESS_ERROR, CUSTOMER_NOT_FOUND);
+            }
+            log.info("Fetch customer success...");
+            return GetOneCustomerResponse.success(customer.get());
+
+        } catch (CrudException e) {
+            log.error("Fetch customer failed...");
+            return GetOneCustomerResponse.fail(null, CrudError.constructErrorForCrudException(e));
+        }
+    }
+
+    /**
+     * Create new customer
+     * @param request
+     * @param headers
+     * @return
+     */
+
+    @Override
+    public CreateOneCustomerResponse createOneCustomer(CreateCustomerRequest request, HttpHeaders headers) {
+        log.info("Creating one customer...");
+        try {
+            validateGetOneEmployee(headers);
             Customer customer = new Customer();
-            BeanUtils.copyProperties(customerDto, customer);
+            copyProperties(request, customer);
             return CreateOneCustomerResponse.success(custRepo.save(customer));
+
+        } catch (CrudException e) {
+            log.error("Creating one customer failed...");
+            return CreateOneCustomerResponse.fail(null, CrudError.constructErrorForCrudException(e));
+        }
+    }
+
+    /**
+     * Patch customer - To edit a single field, simply add that field, we don't need to include rest of the fields
+     * @param request
+     * @param headers
+     * @return
+     */
+    @Override
+    public CreateOneCustomerResponse patchOneCustomer(PatchCustomerRequest request, HttpHeaders headers) {
+        log.info("Editing one customer...");
+        try {
+            validateGetOneEmployee(headers);
+            if (isEmpty(request.getId())) throw new CrudException(AC_BUSINESS_ERROR, EMPTY_ID);
+
+            Customer customer = custRepo.findById(request.getId()).orElseThrow(() -> new CrudException(AC_BUSINESS_ERROR, CUSTOMER_NOT_FOUND));
+            copyProperties(request, customer, getNullPropertyNames(request));
+            return CreateOneCustomerResponse.success(custRepo.save(customer));
+
 
         } catch (CrudException e) {
             return CreateOneCustomerResponse.fail(null, CrudError.constructErrorForCrudException(e));
         }
+    }
+
+
+    /**
+     * For ignoring empty fields during copy property
+     *
+     * @param source
+     * @return
+     */
+    public static String[] getNullPropertyNames(Object source) {
+        final BeanWrapper wrappedSource = new BeanWrapperImpl(source);
+        return Stream.of(wrappedSource.getPropertyDescriptors()).map(FeatureDescriptor::getName).filter(propertyName -> wrappedSource.getPropertyValue(propertyName) == null).toArray(String[]::new);
     }
 }

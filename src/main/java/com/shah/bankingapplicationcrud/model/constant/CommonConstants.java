@@ -1,6 +1,6 @@
-package com.shah.bankingapplicationcrud.model;
+package com.shah.bankingapplicationcrud.model.constant;
 
-public class Constants {
+public class CommonConstants {
 
     public static final String SUCCESS = "SUCCESS";
     public static final String FAIL = "FAIL";

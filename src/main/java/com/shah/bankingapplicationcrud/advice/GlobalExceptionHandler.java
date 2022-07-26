@@ -24,8 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.AC_BUSINESS_ERROR;
-import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.AC_INTERNAL_SERVER_ERROR;
+import static com.shah.bankingapplicationcrud.advice.Message.*;
+import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.*;
 
 @RestControllerAdvice
 @Slf4j
@@ -55,32 +55,52 @@ public class GlobalExceptionHandler {
         }
         log.error("requestUrl : {}, occurred an error : {}, exception detail : {}", requestURL, exceptionMessage, exception);
 
-        return ResponseEntity.ok(Message.message(AC_BUSINESS_ERROR, exceptionMessage));
+        return ResponseEntity.ok(message(AC_BUSINESS_ERROR, exceptionMessage));
     }
 
     /**
-     * to handle ConstraintViolationException when validating JPA entity from client input
+     * When an action violates a constraint on repository structure
      *
      * @param req
-     * @param exception
+     * @param e
      * @return
      */
 
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler({ConstraintViolationException.class})
     @ResponseBody
-    public ResponseEntity<Object> handleConstraintViolationException(HttpServletRequest req, ConstraintViolationException exception) {
+    public ResponseEntity<Object> handleConstraintViolationException(HttpServletRequest req, ConstraintViolationException e) {
 
         String requestURL = req.getRequestURI();
-        List<String> exceptionMessage = exception
+        List<String> exceptionMessage = e
                 .getConstraintViolations()
                 .stream()
                 .map(violation -> violation.getPropertyPath().toString() + ": " + violation.getMessage()).collect(Collectors.toList());
 
-        log.error("requestUrl : {}, occurred an error : {}, exception detail : {}", requestURL, exceptionMessage, exception);
+        log.error("requestUrl : {}, occurred an error : {}, exception detail : {}", requestURL, exceptionMessage, e);
 
-        return ResponseEntity.ok(Message.message(AC_BUSINESS_ERROR, exceptionMessage));
+        return ResponseEntity.ok(message(CONSTRAINT_VIOLATION_EXCEPTION, exceptionMessage));
     }
+
+    /**
+     * When an attempt to insert or update data results in violation of an integrity constraint
+     * @param exception
+     * @return
+     */
+
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler({DataIntegrityViolationException.class})
+    @ResponseBody
+    public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException exception) {
+        List<String> exceptionMessage = new ArrayList<>();
+        String cause = exception.getCause().getCause().getMessage();
+        exceptionMessage.add(cause);
+
+        return ResponseEntity.ok(message(
+                DATA_INTEGRITY_VIOLATION_EXCEPTION,
+                exceptionMessage));
+    }
+
 
     /**
      * For handling CannotCreateTransactionException happened during database connectivity exception
@@ -94,30 +114,11 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseEntity<Object> handleCannotCreateTransactionException(CannotCreateTransactionException exception) {
         List<String> exceptionMessage = new ArrayList<>();
-        String cause = exception.getCause().getMessage() + " - " + exception.getCause().getCause().getMessage();
+        String cause = exception.getCause().getCause().getMessage();
         exceptionMessage.add(cause);
 
-        return ResponseEntity.ok(Message.message(
-                AC_INTERNAL_SERVER_ERROR,
-                exceptionMessage));
-    }
-
-    /**
-     * For handling DataIntegrityViolationException when persisting data into database
-     * @param exception
-     * @return
-     */
-
-    @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler({DataIntegrityViolationException.class})
-    @ResponseBody
-    public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException exception) {
-        List<String> exceptionMessage = new ArrayList<>();
-        String cause = exception.getCause().getMessage() + " - " + exception.getCause().getCause().getMessage();
-        exceptionMessage.add(cause);
-
-        return ResponseEntity.ok(Message.message(
-                AC_INTERNAL_SERVER_ERROR,
+        return ResponseEntity.ok(message(
+                JPA_CONNECTION_ERROR,
                 exceptionMessage));
     }
 
@@ -137,7 +138,7 @@ public class GlobalExceptionHandler {
         List<String> exceptionMessage = new ArrayList<>();
         exceptionMessage.add(exception.getCause().getMessage());
 
-        return ResponseEntity.ok(Message.message(
+        return ResponseEntity.ok(message(
                 AC_INTERNAL_SERVER_ERROR,
                 exceptionMessage));
     }
@@ -168,7 +169,7 @@ class Message {
                 .description(acBusinessError.getDescription())
                 .build();
 
-        return Message.builder()
+        return builder()
                 .errorObject(er)
                 .build();
     }

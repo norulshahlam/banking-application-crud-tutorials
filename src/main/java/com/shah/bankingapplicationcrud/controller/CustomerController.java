@@ -1,10 +1,11 @@
 package com.shah.bankingapplicationcrud.controller;
 
 import com.shah.bankingapplicationcrud.impl.CustomerServiceImpl;
+import com.shah.bankingapplicationcrud.model.request.CreateCustomerRequest;
+import com.shah.bankingapplicationcrud.model.request.PatchCustomerRequest;
 import com.shah.bankingapplicationcrud.model.response.CreateOneCustomerResponse;
 import com.shah.bankingapplicationcrud.model.response.GetAllCustomerResponse;
 import com.shah.bankingapplicationcrud.model.response.GetOneCustomerResponse;
-import com.shah.bankingapplicationcrud.model.dto.CustomerDto;
 import com.shah.bankingapplicationcrud.model.request.GetOneCustomerRequest;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -14,6 +15,7 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,6 +24,7 @@ import javax.validation.Valid;
 @RequestMapping("/crud-api")
 @Data
 @RestController
+@Validated
 @ApiResponses(value = {
         @ApiResponse(code = 201, message = "Created"),
         @ApiResponse(code = 302, message = "Found"),
@@ -58,8 +61,16 @@ public class CustomerController {
     @ApiOperation(value = "Add customer", response = CreateOneCustomerResponse.class, tags = "Add customer")
     @PostMapping("/create-customer")
     public ResponseEntity<CreateOneCustomerResponse> createOneCustomer(
-            @Valid @RequestBody CustomerDto customerDto,
+            @Valid @RequestBody CreateCustomerRequest createCustomerRequest,
             @RequestHeader HttpHeaders headers) {
-        return ResponseEntity.ok(service.createOneCustomer(customerDto, headers));
+        return ResponseEntity.ok(service.createOneCustomer(createCustomerRequest, headers));
+    }
+
+    @ApiOperation(value = "Patch customer", response = CreateOneCustomerResponse.class, tags = "Add customer")
+    @PostMapping("/patch-customer")
+    public ResponseEntity<CreateOneCustomerResponse> patchOneCustomer(
+            @Valid @RequestBody PatchCustomerRequest createCustomerRequest,
+            @RequestHeader HttpHeaders headers) {
+        return ResponseEntity.ok(service.patchOneCustomer(createCustomerRequest, headers));
     }
 }
