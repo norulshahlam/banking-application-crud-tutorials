@@ -4,6 +4,7 @@ import com.shah.bankingapplicationcrud.impl.CustomerServiceImpl;
 import com.shah.bankingapplicationcrud.model.request.CreateCustomerRequest;
 import com.shah.bankingapplicationcrud.model.request.PatchCustomerRequest;
 import com.shah.bankingapplicationcrud.model.response.CreateOneCustomerResponse;
+import com.shah.bankingapplicationcrud.model.response.DeleteOneCustomerResponse;
 import com.shah.bankingapplicationcrud.model.response.GetAllCustomerResponse;
 import com.shah.bankingapplicationcrud.model.response.GetOneCustomerResponse;
 import com.shah.bankingapplicationcrud.model.request.GetOneCustomerRequest;
@@ -36,26 +37,28 @@ public class CustomerController {
     @Autowired
     private final CustomerServiceImpl service;
 
-    @ApiOperation(
-            value = "Retrieve one customer",
-            response = GetOneCustomerResponse.class,
-            tags = "Retrieve one customer")
-    @PostMapping("/one-customer")
-    public ResponseEntity<GetOneCustomerResponse> getOneCustomer(
-            @ApiParam(defaultValue = "001d846e-4488-4ecc-84c2-9b6f1d130711")
-            @Valid @RequestBody GetOneCustomerRequest request,
-            @RequestHeader HttpHeaders headers) {
-        return ResponseEntity.ok(service.getOneCustomer(request, headers));
-    }
 
     @ApiOperation(
             value = "Retrieve all customer",
             response = GetOneCustomerResponse.class,
             tags = "Retrieve all customer")
-    @PostMapping("/all-customers")
+    @PostMapping("/get-all-customers")
     public ResponseEntity<GetAllCustomerResponse> getAllCustomers(
             @RequestHeader HttpHeaders headers) {
         return ResponseEntity.ok(service.getAllCustomers(headers));
+    }
+
+
+    @ApiOperation(
+            value = "Retrieve one customer",
+            response = GetOneCustomerResponse.class,
+            tags = "Retrieve one customer")
+    @PostMapping("/get-one-customer")
+    public ResponseEntity<GetOneCustomerResponse> getOneCustomer(
+            @ApiParam(defaultValue = "001d846e-4488-4ecc-84c2-9b6f1d130711")
+            @Valid @RequestBody GetOneCustomerRequest request,
+            @RequestHeader HttpHeaders headers) {
+        return ResponseEntity.ok(service.getOneCustomer(request, headers));
     }
 
     @ApiOperation(value = "Add customer", response = CreateOneCustomerResponse.class, tags = "Add customer")
@@ -72,5 +75,17 @@ public class CustomerController {
             @Valid @RequestBody PatchCustomerRequest createCustomerRequest,
             @RequestHeader HttpHeaders headers) {
         return ResponseEntity.ok(service.patchOneCustomer(createCustomerRequest, headers));
+    }
+
+    @ApiOperation(
+            value = "Retrieve one customer",
+            response = DeleteOneCustomerResponse.class,
+            tags = "Retrieve one customer")
+    @PostMapping("/delete-customer")
+    public ResponseEntity<DeleteOneCustomerResponse> deleteOneCustomer(
+            @ApiParam(defaultValue = "001d846e-4488-4ecc-84c2-9b6f1d130711")
+            @Valid @RequestBody GetOneCustomerRequest request,
+            @RequestHeader HttpHeaders headers) {
+        return ResponseEntity.ok(service.deleteOneCustomer(request, headers));
     }
 }

@@ -5,6 +5,7 @@ import com.shah.bankingapplicationcrud.exception.CrudException;
 import com.shah.bankingapplicationcrud.model.request.CreateCustomerRequest;
 import com.shah.bankingapplicationcrud.model.request.PatchCustomerRequest;
 import com.shah.bankingapplicationcrud.model.response.CreateOneCustomerResponse;
+import com.shah.bankingapplicationcrud.model.response.DeleteOneCustomerResponse;
 import com.shah.bankingapplicationcrud.model.response.GetAllCustomerResponse;
 import com.shah.bankingapplicationcrud.model.response.GetOneCustomerResponse;
 import com.shah.bankingapplicationcrud.model.entity.Customer;
@@ -44,6 +45,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * Fetch all customers. If empty will throw exception
+     *
      * @param headers
      * @return
      */
@@ -66,6 +68,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * Fetch one customer. If not found will throw exception
+     *
      * @param request
      * @param headers
      * @return
@@ -90,6 +93,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * Create new customer
+     *
      * @param request
      * @param headers
      * @return
@@ -111,11 +115,15 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     /**
-     * Patch customer - To edit a single field, simply add that field, we don't need to include rest of the fields
+     * Patch or put customer
+     * To edit a single field, simply add that field, we don't need to include rest of the fields
+     * To edit all field, simply add all fields.
+     *
      * @param request
      * @param headers
      * @return
      */
+
     @Override
     public CreateOneCustomerResponse patchOneCustomer(PatchCustomerRequest request, HttpHeaders headers) {
         log.info("Editing one customer...");
@@ -130,6 +138,37 @@ public class CustomerServiceImpl implements CustomerService {
 
         } catch (CrudException e) {
             return CreateOneCustomerResponse.fail(null, CrudError.constructErrorForCrudException(e));
+        }
+    }
+
+    /**
+     * Delete customer by id
+     *
+     * @param request
+     * @param headers
+     * @return
+     */
+
+    @Override
+    public DeleteOneCustomerResponse deleteOneCustomer(GetOneCustomerRequest request, HttpHeaders headers) {
+        log.info("Check if customer exists...");
+        UUID id = UUID.fromString(request.getId());
+        try {
+            validateGetOneEmployee(headers);
+
+            Optional<Customer> customer = custRepo.findById(id);
+            if (customer.isEmpty()) {
+                throw new CrudException(AC_BUSINESS_ERROR, CUSTOMER_NOT_FOUND);
+            }
+
+            log.info("Customer found: \n {} \n Deleting customer...", customer);
+            custRepo.deleteById(id);
+            log.info("Delete customer success...");
+            return DeleteOneCustomerResponse.success(id);
+
+        } catch (CrudException e) {
+            log.error("Delete customer failed...");
+            return DeleteOneCustomerResponse.fail(id, CrudError.constructErrorForCrudException(e));
         }
     }
 
