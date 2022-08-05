@@ -1,7 +1,6 @@
 package com.shah.bankingapplicationcrud.model.request;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
@@ -16,12 +15,12 @@ import java.sql.Date;
 @Builder
 @Data
 public class CreateCustomerRequest {
-	
-	@ApiModelProperty(notes = "Email address",
-			name="email",required=true,
-			value="abc@email.com",
-			dataType = "String",
-			example = "abcd@email.com")
+
+    @ApiModelProperty(notes = "Email address",
+            name = "email", required = true,
+            value = "abc@email.com",
+            dataType = "String",
+            example = "abcd@email.com")
     @Email(message = "Enter a valid email")
     private String email;
 
@@ -29,7 +28,7 @@ public class CreateCustomerRequest {
     @Size(min = 3, message = "First name character must be more than 3!")
     @ApiModelProperty(example = "Christopher")
     private String firstName;
-   
+
     @ApiModelProperty(example = "Columbus")
     @Size(min = 3, message = "Last name character must be more than 3!")
     private String lastName;
@@ -39,7 +38,7 @@ public class CreateCustomerRequest {
     private int age;
 
     @ApiModelProperty(example = "1500.33")
-    @Digits(integer=6, fraction=2)
+    @Digits(integer = 6, fraction = 2)
     private BigDecimal accBalance;
 
     @ApiModelProperty(example = "male")

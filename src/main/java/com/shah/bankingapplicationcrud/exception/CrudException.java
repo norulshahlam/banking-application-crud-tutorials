@@ -24,14 +24,17 @@ public class CrudException extends BaseException {
     private transient ErrorCode msErrorCode;
     private String msErrorDesc;
     private transient ErrorInfo errorInfo;
+
     public CrudException(ErrorCode errorCode) {
         super(errorCode == null ? CrudErrorCodes.AC_TECHNICAL_ERROR : errorCode);
         this.errorCode = errorCode == null ? CrudErrorCodes.AC_TECHNICAL_ERROR : errorCode;
     }
+
     public CrudException(ErrorCode errorCode, String errorDesc) {
         this(errorCode);
         this.errorDesc = errorDesc;
     }
+
     public CrudException(ErrorCode errorCode, String errorDesc, ErrorCode msErrorCode) {
         this(errorCode, errorDesc);
         this.msErrorCode = msErrorCode;
@@ -39,6 +42,7 @@ public class CrudException extends BaseException {
             this.msErrorDesc = msErrorCode.getDescription(Locale.ENGLISH);
         }
     }
+
     public CrudException(ErrorCode errorCode, ErrorCode msErrorCode) {
         this(errorCode);
         this.msErrorCode = msErrorCode;
@@ -46,6 +50,7 @@ public class CrudException extends BaseException {
             this.msErrorDesc = msErrorCode.getDescription(Locale.ENGLISH);
         }
     }
+
     public CrudException(ErrorCode errorCode, String errorDesc, ErrorCode msErrorCode, String msErrorDesc, ErrorInfo errorInfo) {
         super(errorCode == null ? CrudErrorCodes.AC_TECHNICAL_ERROR : errorCode, errorDesc, errorInfo);
         this.msErrorCode = msErrorCode;
@@ -55,9 +60,11 @@ public class CrudException extends BaseException {
             this.msErrorDesc = msErrorCode.getDescription(Locale.ENGLISH);
         }
     }
+
     public CrudException(ErrorCode errorCode, String errorDesc, ErrorInfo errorInfo) {
         super(errorCode == null ? CrudErrorCodes.AC_TECHNICAL_ERROR : errorCode, errorDesc, errorInfo);
     }
+
     public CrudException(ErrorCode errorCode, ErrorCode msErrorCode, ErrorInfo errorInfo) {
         super(errorCode == null ? CrudErrorCodes.AC_TECHNICAL_ERROR : errorCode, null, errorInfo);
         this.msErrorCode = msErrorCode;

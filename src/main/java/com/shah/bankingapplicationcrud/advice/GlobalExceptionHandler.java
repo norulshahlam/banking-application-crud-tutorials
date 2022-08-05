@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.shah.bankingapplicationcrud.advice.Message.*;
+import static com.shah.bankingapplicationcrud.advice.Message.message;
 import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.*;
 
 @RestControllerAdvice
@@ -84,6 +84,7 @@ public class GlobalExceptionHandler {
 
     /**
      * When an attempt to insert or update data results in violation of an integrity constraint
+     *
      * @param exception
      * @return
      */

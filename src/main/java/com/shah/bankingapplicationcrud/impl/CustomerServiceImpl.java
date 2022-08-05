@@ -2,21 +2,18 @@ package com.shah.bankingapplicationcrud.impl;
 
 import com.shah.bankingapplicationcrud.exception.CrudError;
 import com.shah.bankingapplicationcrud.exception.CrudException;
+import com.shah.bankingapplicationcrud.model.entity.Customer;
 import com.shah.bankingapplicationcrud.model.request.CreateCustomerRequest;
+import com.shah.bankingapplicationcrud.model.request.GetOneCustomerRequest;
 import com.shah.bankingapplicationcrud.model.request.PatchCustomerRequest;
 import com.shah.bankingapplicationcrud.model.response.CreateOneCustomerResponse;
 import com.shah.bankingapplicationcrud.model.response.DeleteOneCustomerResponse;
 import com.shah.bankingapplicationcrud.model.response.GetAllCustomerResponse;
 import com.shah.bankingapplicationcrud.model.response.GetOneCustomerResponse;
-import com.shah.bankingapplicationcrud.model.entity.Customer;
-import com.shah.bankingapplicationcrud.model.request.GetOneCustomerRequest;
 import com.shah.bankingapplicationcrud.repository.CustomerRepository;
 import com.shah.bankingapplicationcrud.service.CustomerService;
-import com.shah.bankingapplicationcrud.validation.ValidateHeaders;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +27,11 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.*;
-import static com.shah.bankingapplicationcrud.model.response.GetAllCustomerResponse.*;
-import static com.shah.bankingapplicationcrud.validation.ValidateHeaders.*;
-import static org.apache.commons.lang3.ObjectUtils.*;
-import static org.springframework.beans.BeanUtils.*;
+import static com.shah.bankingapplicationcrud.model.response.GetAllCustomerResponse.fail;
+import static com.shah.bankingapplicationcrud.model.response.GetAllCustomerResponse.success;
+import static com.shah.bankingapplicationcrud.validation.ValidateHeaders.validateGetOneEmployee;
+import static org.apache.commons.lang3.ObjectUtils.isEmpty;
+import static org.springframework.beans.BeanUtils.copyProperties;
 
 @Service
 @Data
@@ -42,6 +40,18 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     private final CustomerRepository custRepo;
+
+    /**
+     * For ignoring empty fields during copy property
+     *
+     * @param source
+     * @return
+     */
+
+    public static String[] getNullPropertyNames(Object source) {
+        final BeanWrapper wrappedSource = new BeanWrapperImpl(source);
+        return Stream.of(wrappedSource.getPropertyDescriptors()).map(FeatureDescriptor::getName).filter(propertyName -> wrappedSource.getPropertyValue(propertyName) == null).toArray(String[]::new);
+    }
 
     /**
      * Fetch all customers. If empty will throw exception
@@ -147,6 +157,7 @@ public class CustomerServiceImpl implements CustomerService {
      * @param request
      * @param headers
      * @return
+     * @throws CrudException
      */
 
     @Override
@@ -170,17 +181,5 @@ public class CustomerServiceImpl implements CustomerService {
             log.error("Delete customer failed...");
             return DeleteOneCustomerResponse.fail(id, CrudError.constructErrorForCrudException(e));
         }
-    }
-
-
-    /**
-     * For ignoring empty fields during copy property
-     *
-     * @param source
-     * @return
-     */
-    public static String[] getNullPropertyNames(Object source) {
-        final BeanWrapper wrappedSource = new BeanWrapperImpl(source);
-        return Stream.of(wrappedSource.getPropertyDescriptors()).map(FeatureDescriptor::getName).filter(propertyName -> wrappedSource.getPropertyValue(propertyName) == null).toArray(String[]::new);
     }
 }

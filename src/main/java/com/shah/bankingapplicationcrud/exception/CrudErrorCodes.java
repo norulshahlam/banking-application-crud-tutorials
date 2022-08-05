@@ -39,8 +39,8 @@ public enum CrudErrorCodes implements ErrorCode {
     EMPTY_ID("20008");
 
 
-
     private static final Map<String, String> errorDescription = new HashMap<>();
+
     static {
         // Global exception
         errorDescription.put("10001", "An attempt to insert or update data results in violation of an integrity constraint");
@@ -56,7 +56,7 @@ public enum CrudErrorCodes implements ErrorCode {
         //For 500XXX error message
         errorDescription.put("50000", "Internal Server Error occurred.");
         errorDescription.put("50001", "Exception while quering customer.");
-         //For 200XXX error message
+        //For 200XXX error message
         errorDescription.put("20001", "Customer not found");
         errorDescription.put("20002", "Empty source country");
         errorDescription.put("20003", "Empty correlation id");
@@ -73,15 +73,19 @@ public enum CrudErrorCodes implements ErrorCode {
     CrudErrorCodes(String code) {
         this.code = code;
     }
+
     public String getDescription(Locale locale) {
         return errorDescription.get(this.code);
     }
+
     public String getLocalCode() {
         return code;
     }
+
     public String getAppCode() {
         return this.appCode;
     }
+
     public String getDescription() {
         return errorDescription.get(this.code);
     }

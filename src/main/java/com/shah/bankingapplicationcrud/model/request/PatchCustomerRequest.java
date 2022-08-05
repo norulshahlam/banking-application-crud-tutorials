@@ -20,25 +20,25 @@ import java.util.UUID;
 @NoArgsConstructor
 public class PatchCustomerRequest {
 
-	private UUID id;
+    private UUID id;
 
-	@Email(message = "Enter a valid email")
-	private String email;
+    @Email(message = "Enter a valid email")
+    private String email;
 
-	@Size(min = 3, message = "First name character must be more than 3!")
-	private String firstName;
-	
-	@Size(min = 3, message = "Last name character must be more than 3!")
-	private String lastName;
+    @Size(min = 3, message = "First name character must be more than 3!")
+    private String firstName;
 
-	@Range(min = 21, max = 55, message = "Age must be between 21 and 55")
-	private Integer age;
-	@Digits(integer=6, fraction=2)
-	private BigDecimal accBalance;
-	private String gender;
-	private String country;
-	private String designation;
+    @Size(min = 3, message = "Last name character must be more than 3!")
+    private String lastName;
 
-	@DateTimeFormat
-	private Date birthDate;
+    @Range(min = 21, max = 55, message = "Age must be between 21 and 55")
+    private Integer age;
+    @Digits(integer = 6, fraction = 2)
+    private BigDecimal accBalance;
+    private String gender;
+    private String country;
+    private String designation;
+
+    @DateTimeFormat
+    private Date birthDate;
 }

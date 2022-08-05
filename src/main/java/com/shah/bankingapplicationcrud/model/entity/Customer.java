@@ -2,7 +2,6 @@ package com.shah.bankingapplicationcrud.model.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
@@ -14,7 +13,6 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
@@ -27,7 +25,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Customer {
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Type(type="uuid-char")
+    @Type(type = "uuid-char")
     @Column(updatable = false, nullable = false, unique = true)
     @Id
     private UUID id;
@@ -45,7 +43,7 @@ public class Customer {
     @Range(min = 21, max = 55, message = "Age must be between 21 and 55")
     private int age;
 
-    @Digits(integer=6, fraction=2)
+    @Digits(integer = 6, fraction = 2)
     private BigDecimal accBalance;
 
     @NotNull(message = "Gender cannot be empty")

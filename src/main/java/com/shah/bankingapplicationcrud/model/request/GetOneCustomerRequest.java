@@ -16,7 +16,7 @@ import javax.validation.constraints.Pattern;
 public class GetOneCustomerRequest {
 
     @NotBlank
-    @ApiModelProperty(value = "Customer ID",required = true, example = "f9bd1139-c907-11ec-b11c-0242ac110002")
+    @ApiModelProperty(value = "Customer ID", required = true, example = "f9bd1139-c907-11ec-b11c-0242ac110002")
     @Pattern(
             regexp = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
             message = "Value must be in UUID format eg f9bd1139-c907-11ec-b11c-0242ac110002")

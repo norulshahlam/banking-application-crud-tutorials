@@ -18,7 +18,7 @@ public class ValidateHeaders {
             throw new CrudException(AC_BUSINESS_ERROR, EMPTY_SOURCE_COUNTRY);
         } else if (ObjectUtils.isEmpty(headers.getFirst(X_CORRELATION_ID))) {
             throw new CrudException(AC_BUSINESS_ERROR, EMPTY_CORRELATION_ID);
-        }  else if (ObjectUtils.isEmpty(headers.getFirst(X_SOURCE_DATE_TIME))) {
+        } else if (ObjectUtils.isEmpty(headers.getFirst(X_SOURCE_DATE_TIME))) {
             throw new CrudException(AC_BUSINESS_ERROR, EMPTY_DATE_TIME);
         } else if (!SG.equalsIgnoreCase(headers.getFirst(X_SOURCE_COUNTRY))) {
             throw new CrudException(AC_BUSINESS_ERROR, INVALID_SOURCE_COUNTRY);
