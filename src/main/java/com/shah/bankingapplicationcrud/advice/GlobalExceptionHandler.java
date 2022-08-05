@@ -35,27 +35,28 @@ public class GlobalExceptionHandler {
      * to handle MethodArgumentNotValidException when validating request body from client input
      *
      * @param req
-     * @param exception
+     * @param e
      * @return
      */
 
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler({MethodArgumentNotValidException.class})
     @ResponseBody
-    public ResponseEntity<Object> handleMethodArgumentNotValidException(HttpServletRequest req, MethodArgumentNotValidException exception) {
+    public ResponseEntity<Object> handleMethodArgumentNotValidException(HttpServletRequest req, MethodArgumentNotValidException e) {
 
         String requestURL = req.getRequestURI();
-        List<String> exceptionMessage = new ArrayList<>();
+        List<String> cause = new ArrayList<>();
 
-        for (FieldError error : exception.getBindingResult().getFieldErrors()) {
-            exceptionMessage.add(error.getField() + ": " + error.getDefaultMessage());
+        for (FieldError error : e.getBindingResult().getFieldErrors()) {
+            cause.add(error.getDefaultMessage());
         }
-        for (ObjectError error : exception.getBindingResult().getGlobalErrors()) {
-            exceptionMessage.add(error.getObjectName() + ": " + error.getDefaultMessage());
+        for (ObjectError error : e.getBindingResult().getGlobalErrors()) {
+            cause.add(error.getDefaultMessage());
         }
-        log.error("requestUrl : {}, occurred an error : {}, exception detail : {}", requestURL, exceptionMessage, exception);
+        log.error("requestUrl : {}, occurred an error : {}, e detail : {}", requestURL, cause, e);
+        String collect = String.join(", ", cause);
 
-        return ResponseEntity.ok(message(AC_BUSINESS_ERROR, exceptionMessage));
+        return ResponseEntity.ok(message(AC_BUSINESS_ERROR, collect));
     }
 
     /**
@@ -71,15 +72,10 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseEntity<Object> handleConstraintViolationException(HttpServletRequest req, ConstraintViolationException e) {
 
-        String requestURL = req.getRequestURI();
-        List<String> exceptionMessage = e
-                .getConstraintViolations()
-                .stream()
-                .map(violation -> violation.getPropertyPath().toString() + ": " + violation.getMessage()).collect(Collectors.toList());
-
-        log.error("requestUrl : {}, occurred an error : {}, exception detail : {}", requestURL, exceptionMessage, e);
-
-        return ResponseEntity.ok(message(CONSTRAINT_VIOLATION_EXCEPTION, exceptionMessage));
+        List<String> cause = e.getConstraintViolations().stream().map(violation -> violation.getPropertyPath().toString() + ": " + violation.getMessage()).collect(Collectors.toList());
+        log.error("requestUrl : {}, occurred an error : {}, exception detail : {}", req.getRequestURI(), cause, e);
+        String collect = String.join(", ", cause);
+        return ResponseEntity.ok(message(CONSTRAINT_VIOLATION_EXCEPTION, collect));
     }
 
     /**
@@ -93,13 +89,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({DataIntegrityViolationException.class})
     @ResponseBody
     public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException exception) {
-        List<String> exceptionMessage = new ArrayList<>();
-        String cause = exception.getCause().getCause().getMessage();
-        exceptionMessage.add(cause);
 
-        return ResponseEntity.ok(message(
-                DATA_INTEGRITY_VIOLATION_EXCEPTION,
-                exceptionMessage));
+        String cause = exception.getCause().getCause().getMessage();
+        return ResponseEntity.ok(message(DATA_INTEGRITY_VIOLATION_EXCEPTION, cause));
     }
 
 
@@ -114,13 +106,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({CannotCreateTransactionException.class})
     @ResponseBody
     public ResponseEntity<Object> handleCannotCreateTransactionException(CannotCreateTransactionException exception) {
-        List<String> exceptionMessage = new ArrayList<>();
         String cause = exception.getCause().getCause().getMessage();
-        exceptionMessage.add(cause);
-
-        return ResponseEntity.ok(message(
-                JPA_CONNECTION_ERROR,
-                exceptionMessage));
+        return ResponseEntity.ok(message(JPA_CONNECTION_ERROR, cause));
     }
 
 
@@ -128,20 +115,18 @@ public class GlobalExceptionHandler {
      * For all other unexpected exceptions
      *
      * @param req
-     * @param exception
+     * @param e
      * @return
      */
 
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler({Exception.class})
     @ResponseBody
-    public ResponseEntity<Object> handleBaseException(HttpServletRequest req, Exception exception) {
-        List<String> exceptionMessage = new ArrayList<>();
-        exceptionMessage.add(exception.getCause().getMessage());
-
-        return ResponseEntity.ok(message(
-                AC_INTERNAL_SERVER_ERROR,
-                exceptionMessage));
+    public ResponseEntity<Object> handleBaseException(HttpServletRequest req, Exception e) {
+        List<String> cause = new ArrayList<>();
+        cause.add(e.getCause().getMessage());
+        log.error("requestUrl : {}, occurred an error : {}, e detail : {}", req.getRequestURI(), cause, e);
+        return ResponseEntity.ok(message(AC_INTERNAL_SERVER_ERROR, e.getCause().getMessage()));
     }
 }
 
@@ -153,26 +138,10 @@ class Message {
     @JsonProperty("error")
     private ErrorObject errorObject;
 
-    public static Message message(CrudErrorCodes acBusinessError, List<String> exceptionMessage) {
+    public static Message message(CrudErrorCodes acBusinessError, String exceptionMessage) {
 
-        List<CrudErrorDetails> crudErrorDetails = new ArrayList<>();
-        exceptionMessage.forEach(message -> {
-            CrudErrorDetails crudErrorDetail = CrudErrorDetails.builder()
-                    .crudErrorCode(acBusinessError.getCode())
-                    .crudErrorDescription(message)
-                    .build();
-            crudErrorDetails.add(crudErrorDetail);
-        });
-
-        ErrorObject er = ErrorObject.builder()
-                .crudErrorDetails(crudErrorDetails)
-                .errorCode(acBusinessError.getCode())
-                .description(acBusinessError.getDescription())
-                .build();
-
-        return builder()
-                .errorObject(er)
-                .build();
+        ErrorObject er = ErrorObject.builder().errorCode(acBusinessError.getCode()).description(exceptionMessage).build();
+        return builder().errorObject(er).build();
     }
 
     @Builder
@@ -180,14 +149,5 @@ class Message {
     private static class ErrorObject {
         private final String errorCode;
         private final String description;
-        private final List<CrudErrorDetails> crudErrorDetails;
-    }
-
-    @Builder
-    @Data
-    private static class CrudErrorDetails {
-        private final String crudErrorCode;
-        private final String crudErrorDescription;
-
     }
 }

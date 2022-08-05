@@ -80,7 +80,7 @@ public class CustomerServiceImpl implements CustomerService {
      * Fetch one customer. If not found will throw exception
      *
      * @param request
-     * @param headers
+     * @param headers Headers coming from client
      * @return
      */
     @Override

@@ -43,6 +43,7 @@ public class CreateCustomerRequest {
 
     @ApiModelProperty(example = "male")
     @NotNull(message = "Gender cannot be empty")
+    @Pattern(regexp = "Male|Female", message = "Gender must be Male or Female")
     private String gender;
 
     @ApiModelProperty(example = "Japan")

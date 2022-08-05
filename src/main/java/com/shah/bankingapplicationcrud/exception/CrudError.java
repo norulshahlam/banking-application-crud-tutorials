@@ -4,13 +4,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
+import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.AC_TECHNICAL_ERROR;
 import static java.util.Objects.nonNull;
+import static org.apache.commons.lang3.StringUtils.*;
 
 /**
  * @ClassName: Error
@@ -30,8 +29,7 @@ public class CrudError {
     public String errorCode;
     @Schema(title = "Error Description", example = "Network Error")
     public String description;
-    @Schema(title = "Error Details")
-    private List<CrudError.ErrorDetail> crudErrorDetails;
+
 
     /**
      * All AcException are for 200 HTTP code.
@@ -42,17 +40,16 @@ public class CrudError {
      * @return
      */
     public static CrudError constructErrorForCrudException(CrudException exp) {
-        CrudError error = new CrudError();
-        if (nonNull(exp) && nonNull(exp.getErrorCode())) {
-            String errorCode = exp.getErrorCode().getCode(); // getCode includes:: getAppCode() + "-" + getLocalCode()
-            String errorDesc = StringUtils.isNotBlank(exp.getErrorCode().getDescription(Locale.ENGLISH)) ? exp.getErrorCode().getDescription(Locale.ENGLISH) : StringUtils.EMPTY;
-            ErrorDetail msErrorDetail = setupMsSpecificErrorDetail(exp);
-            error.addErrorDetail(errorCode, errorDesc, msErrorDetail);
+        if (nonNull(exp) && nonNull(exp.getMsErrorDesc())) {
+            String errorCode = exp.getMsErrorCode().getCode(); // getCode includes:: getAppCode() + "-" + getLocalCode()
+            String errorDesc = isNotBlank(exp.getMsErrorDesc()) ? exp.getMsErrorDesc() : EMPTY;
+            return builder().errorCode(errorCode).description(errorDesc).build();
+
         } else {
-            error.addErrorDetail(CrudErrorCodes.AC_TECHNICAL_ERROR.getCode(), CrudErrorCodes.AC_TECHNICAL_ERROR.getDescription(Locale.ENGLISH), null);
+            return builder().errorCode(AC_TECHNICAL_ERROR.getCode()).description(AC_TECHNICAL_ERROR.getDescription(Locale.ENGLISH)).build();
         }
-        return error;
     }
+
 
     /**
      * This errorInfo is useful for MS side investigation/troubleshooting
@@ -61,32 +58,17 @@ public class CrudError {
      * @return
      */
     private static ErrorDetail setupMsSpecificErrorDetail(CrudException exp) {
-        String msErrorCode = StringUtils.EMPTY;
-        String msErrorDesc = StringUtils.EMPTY;
+        String msErrorCode = EMPTY;
+        String msErrorDesc = EMPTY;
         if (nonNull(exp.getMsErrorCode())) {
-            msErrorCode = StringUtils.trim(exp.getMsErrorCode().getLocalCode()); //here we need only localCode
+            msErrorCode = trim(exp.getMsErrorCode().getLocalCode()); //here we need only localCode
         }
-        if (StringUtils.isNotBlank(exp.getMsErrorDesc())) {
-            msErrorDesc = StringUtils.trim(exp.getMsErrorDesc());
+        if (isNotBlank(exp.getMsErrorDesc())) {
+            msErrorDesc = trim(exp.getMsErrorDesc());
         }
         return ErrorDetail.builder().crudErrorCode(msErrorCode).crudErrorDescription(msErrorDesc).build();
     }
 
-    public CrudError addErrorDetail(String errorCode, String errorDesc, ErrorDetail errorDetail) {
-        this.errorCode = errorCode;
-        this.description = errorDesc;
-        List<CrudError.ErrorDetail> errorDetailList = this.checkAndGetErrorDetailList();
-        errorDetailList.add(errorDetail);
-        this.setCrudErrorDetails(errorDetailList);
-        return this;
-    }
-
-    private List<CrudError.ErrorDetail> checkAndGetErrorDetailList() {
-        if (CollectionUtils.isEmpty(this.crudErrorDetails)) {
-            this.crudErrorDetails = new ArrayList<>();
-        }
-        return this.crudErrorDetails;
-    }
 
     @Builder
     @Data

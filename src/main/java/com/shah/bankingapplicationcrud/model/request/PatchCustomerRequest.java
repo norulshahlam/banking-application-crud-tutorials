@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -35,6 +36,7 @@ public class PatchCustomerRequest {
     private Integer age;
     @Digits(integer = 6, fraction = 2)
     private BigDecimal accBalance;
+    @Pattern(regexp = "Male|Female", message = "Gender must be Male or Female")
     private String gender;
     private String country;
     private String designation;
