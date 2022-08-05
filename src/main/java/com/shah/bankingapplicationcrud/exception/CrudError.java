@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Locale;
 
-import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.AC_TECHNICAL_ERROR;
+import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.AC_INTERNAL_SERVER_ERROR;
 import static java.util.Objects.nonNull;
 import static org.apache.commons.lang3.StringUtils.*;
 
@@ -25,6 +25,7 @@ import static org.apache.commons.lang3.StringUtils.*;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CrudError {
+
     @Schema(title = "Error Code", example = "TFA9")
     public String errorCode;
     @Schema(title = "Error Description", example = "Network Error")
@@ -46,29 +47,9 @@ public class CrudError {
             return builder().errorCode(errorCode).description(errorDesc).build();
 
         } else {
-            return builder().errorCode(AC_TECHNICAL_ERROR.getCode()).description(AC_TECHNICAL_ERROR.getDescription(Locale.ENGLISH)).build();
+            return builder().errorCode(AC_INTERNAL_SERVER_ERROR.getCode()).description(AC_INTERNAL_SERVER_ERROR.getDescription(Locale.ENGLISH)).build();
         }
     }
-
-
-    /**
-     * This errorInfo is useful for MS side investigation/troubleshooting
-     *
-     * @param exp
-     * @return
-     */
-    private static ErrorDetail setupMsSpecificErrorDetail(CrudException exp) {
-        String msErrorCode = EMPTY;
-        String msErrorDesc = EMPTY;
-        if (nonNull(exp.getMsErrorCode())) {
-            msErrorCode = trim(exp.getMsErrorCode().getLocalCode()); //here we need only localCode
-        }
-        if (isNotBlank(exp.getMsErrorDesc())) {
-            msErrorDesc = trim(exp.getMsErrorDesc());
-        }
-        return ErrorDetail.builder().crudErrorCode(msErrorCode).crudErrorDescription(msErrorDesc).build();
-    }
-
 
     @Builder
     @Data

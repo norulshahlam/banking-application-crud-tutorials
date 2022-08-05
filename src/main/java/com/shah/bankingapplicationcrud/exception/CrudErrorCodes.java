@@ -15,13 +15,11 @@ public enum CrudErrorCodes implements ErrorCode {
     JPA_CONNECTION_ERROR("10002"),
     CONSTRAINT_VIOLATION_EXCEPTION("10003"),
 
-    //For 400 response error code
-    AC_TECHNICAL_ERROR("40000"),
 
-    AC_BAD_REQUEST("40001"),
     //For 500 response error code,
     AC_INTERNAL_SERVER_ERROR("50000"),
     QUERY_CUSTOMER_FAILED("50001"),
+
 
     //======================================================================================
     /**
@@ -29,7 +27,7 @@ public enum CrudErrorCodes implements ErrorCode {
      * 200XYYY -> 200 = HTTP Error code, X=API name, YYY = 3 digits unique number
      */
     //for 200 response error code
-    AC_BUSINESS_ERROR("20000"),
+    AC_BAD_REQUEST("20000"),
     CUSTOMER_NOT_FOUND("20001"),
     EMPTY_SOURCE_COUNTRY("20002"),
     EMPTY_CORRELATION_ID("20003"),
@@ -37,9 +35,7 @@ public enum CrudErrorCodes implements ErrorCode {
     INVALID_SOURCE_COUNTRY("20005"),
     INVALID_CORRELATION_ID("20006"),
     NO_CUSTOMER("20007"),
-    EMPTY_ID("20008"),
-    DYNAMIC_VALUES("20009");
-
+    EMPTY_ID("20008");
 
     private static final Map<String, String> errorDescription = new HashMap<>();
 
@@ -49,14 +45,12 @@ public enum CrudErrorCodes implements ErrorCode {
         errorDescription.put("10002", "Could not open JPA EntityManager for transaction");
         errorDescription.put("10003", "An action violates a constraint on repository structure");
 
-        //For 400XXX error message
-        errorDescription.put("40000", "Technical exception");
-        errorDescription.put("40001", "Bad/Invalid Request.");
         //For 500XXX error message
         errorDescription.put("50000", "Internal Server Error occurred.");
         errorDescription.put("50001", "Exception while quering customer.");
+
         //For 200XXX error message
-        errorDescription.put("20000", "Business Error");
+        errorDescription.put("20000", "Bad/Invalid Request");
         errorDescription.put("20001", "Customer not found");
         errorDescription.put("20002", "Empty source country");
         errorDescription.put("20003", "Empty correlation id");
@@ -65,7 +59,6 @@ public enum CrudErrorCodes implements ErrorCode {
         errorDescription.put("20006", "Invalid correlation id format. Eg of UUID: f9bd1139-c907-11ec-b11c-0242ac110002");
         errorDescription.put("20007", "No customer");
         errorDescription.put("20008", "No ID");
-        errorDescription.put("20009", "%s");
     }
 
     private final String appCode = "CRUD";

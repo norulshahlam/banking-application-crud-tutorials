@@ -26,8 +26,8 @@ public class CrudException extends BaseException {
     private transient ErrorInfo errorInfo;
 
     public CrudException(ErrorCode errorCode) {
-        super(errorCode == null ? CrudErrorCodes.AC_TECHNICAL_ERROR : errorCode);
-        this.errorCode = errorCode == null ? CrudErrorCodes.AC_TECHNICAL_ERROR : errorCode;
+        super(errorCode == null ? CrudErrorCodes.AC_INTERNAL_SERVER_ERROR : errorCode);
+        this.errorCode = errorCode == null ? CrudErrorCodes.AC_INTERNAL_SERVER_ERROR : errorCode;
     }
 
     public CrudException(ErrorCode errorCode, String errorDesc) {
@@ -52,7 +52,7 @@ public class CrudException extends BaseException {
     }
 
     public CrudException(ErrorCode errorCode, String errorDesc, ErrorCode msErrorCode, String msErrorDesc, ErrorInfo errorInfo) {
-        super(errorCode == null ? CrudErrorCodes.AC_TECHNICAL_ERROR : errorCode, errorDesc, errorInfo);
+        super(errorCode == null ? CrudErrorCodes.AC_INTERNAL_SERVER_ERROR : errorCode, errorDesc, errorInfo);
         this.msErrorCode = msErrorCode;
         if (StringUtils.isNotBlank(msErrorDesc)) {
             this.msErrorDesc = msErrorDesc;
@@ -62,11 +62,11 @@ public class CrudException extends BaseException {
     }
 
     public CrudException(ErrorCode errorCode, String errorDesc, ErrorInfo errorInfo) {
-        super(errorCode == null ? CrudErrorCodes.AC_TECHNICAL_ERROR : errorCode, errorDesc, errorInfo);
+        super(errorCode == null ? CrudErrorCodes.AC_INTERNAL_SERVER_ERROR : errorCode, errorDesc, errorInfo);
     }
 
     public CrudException(ErrorCode errorCode, ErrorCode msErrorCode, ErrorInfo errorInfo) {
-        super(errorCode == null ? CrudErrorCodes.AC_TECHNICAL_ERROR : errorCode, null, errorInfo);
+        super(errorCode == null ? CrudErrorCodes.AC_INTERNAL_SERVER_ERROR : errorCode, null, errorInfo);
         this.msErrorCode = msErrorCode;
         if (Objects.nonNull(msErrorCode)) {
             this.msErrorDesc = msErrorCode.getDescription(Locale.ENGLISH);

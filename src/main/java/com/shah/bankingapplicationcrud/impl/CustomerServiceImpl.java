@@ -66,7 +66,7 @@ public class CustomerServiceImpl implements CustomerService {
             validateGetOneEmployee(headers);
             List<Customer> customers = custRepo.findAll();
             if (customers.isEmpty()) {
-                throw new CrudException(AC_BUSINESS_ERROR, NO_CUSTOMER);
+                throw new CrudException(AC_BAD_REQUEST, NO_CUSTOMER);
             }
             log.info("Fetch all customers success...");
             return success(customers);
@@ -90,7 +90,7 @@ public class CustomerServiceImpl implements CustomerService {
             validateGetOneEmployee(headers);
             Optional<Customer> customer = custRepo.findById(UUID.fromString(request.getId()));
             if (customer.isEmpty()) {
-                throw new CrudException(AC_BUSINESS_ERROR, CUSTOMER_NOT_FOUND);
+                throw new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND);
             }
             log.info("Fetch customer success...");
             return GetOneCustomerResponse.success(customer.get());
@@ -139,9 +139,9 @@ public class CustomerServiceImpl implements CustomerService {
         log.info("Editing one customer...");
         try {
             validateGetOneEmployee(headers);
-            if (isEmpty(request.getId())) throw new CrudException(AC_BUSINESS_ERROR, EMPTY_ID);
+            if (isEmpty(request.getId())) throw new CrudException(AC_BAD_REQUEST, EMPTY_ID);
 
-            Customer customer = custRepo.findById(request.getId()).orElseThrow(() -> new CrudException(AC_BUSINESS_ERROR, CUSTOMER_NOT_FOUND));
+            Customer customer = custRepo.findById(request.getId()).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND));
             copyProperties(request, customer, getNullPropertyNames(request));
             return CreateOneCustomerResponse.success(custRepo.save(customer));
 
@@ -169,7 +169,7 @@ public class CustomerServiceImpl implements CustomerService {
 
             Optional<Customer> customer = custRepo.findById(id);
             if (customer.isEmpty()) {
-                throw new CrudException(AC_BUSINESS_ERROR, CUSTOMER_NOT_FOUND);
+                throw new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND);
             }
 
             log.info("Customer found: \n {} \n Deleting customer...", customer);

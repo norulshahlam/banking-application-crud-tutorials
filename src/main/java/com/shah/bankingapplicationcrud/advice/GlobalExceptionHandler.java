@@ -56,7 +56,7 @@ public class GlobalExceptionHandler {
         log.error("requestUrl : {}, occurred an error : {}, e detail : {}", requestURL, cause, e);
         String collect = String.join(", ", cause);
 
-        return ResponseEntity.ok(message(AC_BUSINESS_ERROR, collect));
+        return ResponseEntity.ok(message(AC_BAD_REQUEST, collect));
     }
 
     /**
@@ -134,17 +134,17 @@ public class GlobalExceptionHandler {
 class Message {
 
     @JsonProperty("error")
-    private ErrorObject errorObject;
+    private CrudError crudError;
 
     public static Message message(CrudErrorCodes acBusinessError, String exceptionMessage) {
 
-        ErrorObject er = ErrorObject.builder().errorCode(acBusinessError.getCode()).description(exceptionMessage).build();
-        return builder().errorObject(er).build();
+        CrudError er = CrudError.builder().errorCode(acBusinessError.getCode()).description(exceptionMessage).build();
+        return builder().crudError(er).build();
     }
 
     @Builder
     @Data
-    private static class ErrorObject {
+    private static class CrudError {
         private final String errorCode;
         private final String description;
     }
