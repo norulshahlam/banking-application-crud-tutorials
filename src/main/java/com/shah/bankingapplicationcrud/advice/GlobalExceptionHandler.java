@@ -89,7 +89,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({DataIntegrityViolationException.class})
     @ResponseBody
     public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException exception) {
-
         String cause = exception.getCause().getCause().getMessage();
         return ResponseEntity.ok(message(DATA_INTEGRITY_VIOLATION_EXCEPTION, cause));
     }
@@ -123,10 +122,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({Exception.class})
     @ResponseBody
     public ResponseEntity<Object> handleBaseException(HttpServletRequest req, Exception e) {
-        List<String> cause = new ArrayList<>();
-        cause.add(e.getCause().getMessage());
+        String cause = e.getCause().getMessage();
         log.error("requestUrl : {}, occurred an error : {}, e detail : {}", req.getRequestURI(), cause, e);
-        return ResponseEntity.ok(message(AC_INTERNAL_SERVER_ERROR, e.getCause().getMessage()));
+        return ResponseEntity.ok(message(AC_INTERNAL_SERVER_ERROR, cause));
     }
 }
 
