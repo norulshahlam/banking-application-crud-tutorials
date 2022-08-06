@@ -13,10 +13,14 @@ import com.shah.bankingapplicationcrud.model.response.GetOneCustomerResponse;
 import com.shah.bankingapplicationcrud.repository.CustomerRepository;
 import com.shah.bankingapplicationcrud.service.CustomerService;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +28,9 @@ import java.beans.FeatureDescriptor;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.*;
 import static com.shah.bankingapplicationcrud.model.response.GetAllCustomerResponse.fail;
@@ -36,22 +42,11 @@ import static org.springframework.beans.BeanUtils.copyProperties;
 @Service
 @Data
 @Slf4j
+@RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     private final CustomerRepository custRepo;
-
-    /**
-     * For ignoring empty fields during copy property
-     *
-     * @param source
-     * @return
-     */
-
-    public static String[] getNullPropertyNames(Object source) {
-        final BeanWrapper wrappedSource = new BeanWrapperImpl(source);
-        return Stream.of(wrappedSource.getPropertyDescriptors()).map(FeatureDescriptor::getName).filter(propertyName -> wrappedSource.getPropertyValue(propertyName) == null).toArray(String[]::new);
-    }
 
     /**
      * Fetch all customers. If empty will throw exception
@@ -59,17 +54,22 @@ public class CustomerServiceImpl implements CustomerService {
      * @param headers
      * @return
      */
+
     @Override
-    public GetAllCustomerResponse getAllCustomers(HttpHeaders headers) {
+    public GetAllCustomerResponse getAllCustomers(HttpHeaders headers,int page, int size, String field) {
         log.info("Fetching all customers...");
         try {
             validateGetOneEmployee(headers);
-            List<Customer> customers = custRepo.findAll();
-            if (customers.isEmpty()) {
+            Page<Customer> customers = custRepo.findAll(
+                    PageRequest.of(page, size).withSort(Sort.by(Sort.Direction.ASC,field)));
+            if (!customers.iterator().hasNext()) {
+                log.error("No customer in DB!");
                 throw new CrudException(AC_BAD_REQUEST, NO_CUSTOMER);
             }
-            log.info("Fetch all customers success...");
+            log.info("Fetch all customers success. Total size: {}..",customers.getSize());
+
             return success(customers);
+
         } catch (CrudException e) {
             log.error("Fetch all customers failed...");
             return fail(null, CrudError.constructErrorForCrudException(e));
@@ -181,5 +181,17 @@ public class CustomerServiceImpl implements CustomerService {
             log.error("Delete customer failed...");
             return DeleteOneCustomerResponse.fail(id, CrudError.constructErrorForCrudException(e));
         }
+    }
+
+    /**
+     * For ignoring empty fields during copy property
+     *
+     * @param source
+     * @return
+     */
+
+    public static String[] getNullPropertyNames(Object source) {
+        final BeanWrapper wrappedSource = new BeanWrapperImpl(source);
+        return Stream.of(wrappedSource.getPropertyDescriptors()).map(FeatureDescriptor::getName).filter(propertyName -> wrappedSource.getPropertyValue(propertyName) == null).toArray(String[]::new);
     }
 }

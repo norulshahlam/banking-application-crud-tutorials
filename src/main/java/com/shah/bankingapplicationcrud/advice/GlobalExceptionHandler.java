@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.CannotCreateTransactionException;
@@ -109,6 +110,22 @@ public class GlobalExceptionHandler {
         return ResponseEntity.ok(message(JPA_CONNECTION_ERROR, cause));
     }
 
+    /**
+     * When sort by field but the field property is not found
+     *
+     * @param req
+     * @param e
+     * @return
+     */
+
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler({PropertyReferenceException.class})
+    @ResponseBody
+    public ResponseEntity<Object> handlePropertyReferenceException(HttpServletRequest req, PropertyReferenceException e) {
+        String cause = e.getMessage();
+        log.error("requestUrl : {}, occurred an error : {}, e detail : {}", req.getRequestURI(), cause, e);
+        return ResponseEntity.ok(message(AC_BAD_REQUEST, cause));
+    }
 
     /**
      * For all other unexpected exceptions
@@ -122,7 +139,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({Exception.class})
     @ResponseBody
     public ResponseEntity<Object> handleBaseException(HttpServletRequest req, Exception e) {
-        String cause = e.getCause().getMessage();
+        String cause = e.getMessage();
         log.error("requestUrl : {}, occurred an error : {}, e detail : {}", req.getRequestURI(), cause, e);
         return ResponseEntity.ok(message(AC_INTERNAL_SERVER_ERROR, cause));
     }

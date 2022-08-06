@@ -42,10 +42,13 @@ public class CustomerController {
             value = "Retrieve all customer",
             response = GetOneCustomerResponse.class,
             tags = "Retrieve all customer")
-    @PostMapping("/get-all-customers")
+    @PostMapping("/get-all-customers/{page}/{size}/{field}")
     public ResponseEntity<GetAllCustomerResponse> getAllCustomers(
-            @RequestHeader HttpHeaders headers) {
-        return ResponseEntity.ok(service.getAllCustomers(headers));
+            @RequestHeader HttpHeaders headers,
+            @PathVariable int page,
+            @PathVariable int size,
+            @PathVariable(required = false) String field) {
+        return ResponseEntity.ok(service.getAllCustomers(headers, page, size, field));
     }
 
 

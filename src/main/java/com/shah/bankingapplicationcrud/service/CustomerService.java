@@ -15,7 +15,7 @@ public interface CustomerService {
 
     GetOneCustomerResponse getOneCustomer(GetOneCustomerRequest request, HttpHeaders headers);
 
-    GetAllCustomerResponse getAllCustomers(HttpHeaders headers);
+    GetAllCustomerResponse getAllCustomers(HttpHeaders headers,int page, int size, String field);
 
     CreateOneCustomerResponse createOneCustomer(CreateCustomerRequest createCustomerRequest, HttpHeaders headers);
 
