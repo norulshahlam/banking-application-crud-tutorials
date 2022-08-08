@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
-import static com.shah.bankingapplicationcrud.model.constant.CommonConstants.FAIL;
-import static com.shah.bankingapplicationcrud.model.constant.CommonConstants.SUCCESS;
+import static com.shah.bankingapplicationcrud.constant.CommonConstants.FAIL;
+import static com.shah.bankingapplicationcrud.constant.CommonConstants.SUCCESS;
 
 @Data
 @AllArgsConstructor

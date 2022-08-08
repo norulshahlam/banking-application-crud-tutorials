@@ -9,10 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 
-import java.util.List;
-
-import static com.shah.bankingapplicationcrud.model.constant.CommonConstants.FAIL;
-import static com.shah.bankingapplicationcrud.model.constant.CommonConstants.SUCCESS;
+import static com.shah.bankingapplicationcrud.constant.CommonConstants.FAIL;
+import static com.shah.bankingapplicationcrud.constant.CommonConstants.SUCCESS;
 
 
 @Data

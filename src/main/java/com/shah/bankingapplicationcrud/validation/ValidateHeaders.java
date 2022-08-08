@@ -7,7 +7,7 @@ import org.springframework.http.HttpHeaders;
 import java.util.Objects;
 
 import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.*;
-import static com.shah.bankingapplicationcrud.model.constant.CommonConstants.*;
+import static com.shah.bankingapplicationcrud.constant.CommonConstants.*;
 
 public class ValidateHeaders {
 

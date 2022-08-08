@@ -7,11 +7,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
 
-import java.util.List;
-
-import static com.shah.bankingapplicationcrud.model.constant.CommonConstants.FAIL;
-import static com.shah.bankingapplicationcrud.model.constant.CommonConstants.SUCCESS;
+import static com.shah.bankingapplicationcrud.constant.CommonConstants.FAIL;
+import static com.shah.bankingapplicationcrud.constant.CommonConstants.SUCCESS;
 
 
 @Data
@@ -24,12 +23,12 @@ public class SearchCustomerResponse {
     private String status;
 
     @Schema(description = "Details of all customer")
-    private List<Customer> customers;
+    private Page<Customer> customers;
     @Schema(description = "Details of error")
     private CrudError error;
 
 
-    public static SearchCustomerResponse success(List<Customer> customers) {
+    public static SearchCustomerResponse success(Page<Customer> customers) {
         return new SearchCustomerResponse(SUCCESS, customers, null);
     }
 

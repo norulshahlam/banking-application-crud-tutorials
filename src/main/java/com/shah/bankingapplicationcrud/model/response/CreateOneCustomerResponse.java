@@ -7,8 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import static com.shah.bankingapplicationcrud.model.constant.CommonConstants.FAIL;
-import static com.shah.bankingapplicationcrud.model.constant.CommonConstants.SUCCESS;
+import static com.shah.bankingapplicationcrud.constant.CommonConstants.FAIL;
+import static com.shah.bankingapplicationcrud.constant.CommonConstants.SUCCESS;
 
 
 @Data

@@ -5,9 +5,8 @@ import com.shah.bankingapplicationcrud.model.request.GetOneCustomerRequest;
 import com.shah.bankingapplicationcrud.model.request.PatchCustomerRequest;
 import com.shah.bankingapplicationcrud.model.response.*;
 import org.springframework.http.HttpHeaders;
-import org.springframework.stereotype.Service;
 
-@Service
+
 public interface CustomerService {
 
     GetOneCustomerResponse getOneCustomer(GetOneCustomerRequest request, HttpHeaders headers);
@@ -20,5 +19,5 @@ public interface CustomerService {
 
     DeleteOneCustomerResponse deleteOneCustomer(GetOneCustomerRequest request, HttpHeaders headers);
 
-    SearchCustomerResponse searchCustomersByName(String name, HttpHeaders headers);
+    SearchCustomerResponse searchCustomersByName(HttpHeaders headers,String name, int page, int size, String field);
 }

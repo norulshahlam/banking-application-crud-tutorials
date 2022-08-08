@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import static com.shah.bankingapplicationcrud.constant.CommonConstants.*;
 
-@RequestMapping("/crud-api")
+
+@RequestMapping("/api/v1")
 @Data
 @RestController
 @Validated
@@ -39,7 +41,7 @@ public class CustomerController {
             value = "Retrieve all customer",
             response = GetOneCustomerResponse.class,
             tags = "Retrieve all customer")
-    @PostMapping("/get-all-customers/{page}/{size}/{field}")
+    @PostMapping(value = GET_ALL_CUSTOMERS + "/{page}/{size}/{field}")
     public ResponseEntity<GetAllCustomerResponse> getAllCustomers(
             @RequestHeader HttpHeaders headers,
             @PathVariable int page,
@@ -48,12 +50,25 @@ public class CustomerController {
         return ResponseEntity.ok(service.getAllCustomers(headers, page, size, field));
     }
 
+    @ApiOperation(
+            value = "Search customer containing by first or last name",
+            response = GetOneCustomerResponse.class,
+            tags = "Search customer containing by first or last name")
+    @PostMapping(GET_CUSTOMERS_BY_FIRSTNAME_OR_LASTNAME_LIKE + "/{name}/{page}/{size}/{field}")
+    public ResponseEntity<SearchCustomerResponse> searchCustomersByName(
+            @RequestHeader HttpHeaders headers,
+            @PathVariable int page,
+            @PathVariable int size,
+            @PathVariable(required = false) String field,
+            @PathVariable String name) {
+        return ResponseEntity.ok(service.searchCustomersByName(headers, name,page,size,field));
+    }
 
     @ApiOperation(
             value = "Retrieve one customer",
             response = GetOneCustomerResponse.class,
             tags = "Retrieve one customer")
-    @PostMapping("/get-one-customer")
+    @PostMapping(GET_ONE_CUSTOMER)
     public ResponseEntity<GetOneCustomerResponse> getOneCustomer(
             @ApiParam(defaultValue = "001d846e-4488-4ecc-84c2-9b6f1d130711")
             @Valid @RequestBody GetOneCustomerRequest request,
@@ -62,7 +77,7 @@ public class CustomerController {
     }
 
     @ApiOperation(value = "Add customer", response = CreateOneCustomerResponse.class, tags = "Add customer")
-    @PostMapping("/create-customer")
+    @PostMapping(CREATE_CUSTOMER)
     public ResponseEntity<CreateOneCustomerResponse> createOneCustomer(
             @Valid @RequestBody CreateCustomerRequest createCustomerRequest,
             @RequestHeader HttpHeaders headers) {
@@ -70,7 +85,7 @@ public class CustomerController {
     }
 
     @ApiOperation(value = "Patch customer", response = CreateOneCustomerResponse.class, tags = "Add customer")
-    @PostMapping("/patch-customer")
+    @PostMapping(PATCH_CUSTOMER)
     public ResponseEntity<CreateOneCustomerResponse> patchOneCustomer(
             @Valid @RequestBody PatchCustomerRequest createCustomerRequest,
             @RequestHeader HttpHeaders headers) {
@@ -81,7 +96,7 @@ public class CustomerController {
             value = "Retrieve one customer",
             response = DeleteOneCustomerResponse.class,
             tags = "Retrieve one customer")
-    @PostMapping("/delete-customer")
+    @PostMapping(DELETE_CUSTOMER)
     public ResponseEntity<DeleteOneCustomerResponse> deleteOneCustomer(
             @ApiParam(defaultValue = "001d846e-4488-4ecc-84c2-9b6f1d130711")
             @Valid @RequestBody GetOneCustomerRequest request,
@@ -89,14 +104,5 @@ public class CustomerController {
         return ResponseEntity.ok(service.deleteOneCustomer(request, headers));
     }
 
-    @ApiOperation(
-            value = "Search customer by first and last name",
-            response = GetOneCustomerResponse.class,
-            tags = "Search customer by first and last name")
-    @PostMapping("/get-customers-by-name/search/{name}")
-    public ResponseEntity<SearchCustomerResponse> getAllCustomers(
-            @RequestHeader HttpHeaders headers,
-            @PathVariable String name) {
-        return ResponseEntity.ok(service.searchCustomersByName(name, headers));
-    }
+
 }

@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface CustomerRepository extends PagingAndSortingRepository<Customer, UUID>,
-        JpaSpecificationExecutor<Customer>, CustomerCustomRepository {
+        JpaSpecificationExecutor<Customer> {
 
     Optional<Customer> findById(UUID id);
 
@@ -22,5 +22,7 @@ public interface CustomerRepository extends PagingAndSortingRepository<Customer,
         return ((root, query, criteriaBuilder) -> criteriaBuilder.like(
                 root.get("lastName"), "%" + name + "%"));
     }
+
+
 
 }
