@@ -6,10 +6,7 @@ import com.shah.bankingapplicationcrud.model.entity.Customer;
 import com.shah.bankingapplicationcrud.model.request.CreateCustomerRequest;
 import com.shah.bankingapplicationcrud.model.request.GetOneCustomerRequest;
 import com.shah.bankingapplicationcrud.model.request.PatchCustomerRequest;
-import com.shah.bankingapplicationcrud.model.response.CreateOneCustomerResponse;
-import com.shah.bankingapplicationcrud.model.response.DeleteOneCustomerResponse;
-import com.shah.bankingapplicationcrud.model.response.GetAllCustomerResponse;
-import com.shah.bankingapplicationcrud.model.response.GetOneCustomerResponse;
+import com.shah.bankingapplicationcrud.model.response.*;
 import com.shah.bankingapplicationcrud.repository.CustomerRepository;
 import com.shah.bankingapplicationcrud.service.CustomerService;
 import lombok.Data;
@@ -28,16 +25,17 @@ import java.beans.FeatureDescriptor;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.*;
 import static com.shah.bankingapplicationcrud.model.response.GetAllCustomerResponse.fail;
 import static com.shah.bankingapplicationcrud.model.response.GetAllCustomerResponse.success;
+import static com.shah.bankingapplicationcrud.repository.CustomerRepository.firstNameLike;
+import static com.shah.bankingapplicationcrud.repository.CustomerRepository.lastNameLike;
 import static com.shah.bankingapplicationcrud.validation.ValidateHeaders.validateGetOneEmployee;
 import static org.apache.commons.lang3.ObjectUtils.isEmpty;
 import static org.springframework.beans.BeanUtils.copyProperties;
+import static org.springframework.data.jpa.domain.Specification.where;
 
 @Service
 @Data
@@ -48,6 +46,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private final CustomerRepository custRepo;
 
+
     /**
      * Fetch all customers. If empty will throw exception
      *
@@ -56,17 +55,17 @@ public class CustomerServiceImpl implements CustomerService {
      */
 
     @Override
-    public GetAllCustomerResponse getAllCustomers(HttpHeaders headers,int page, int size, String field) {
+    public GetAllCustomerResponse getAllCustomers(HttpHeaders headers, int page, int size, String field) {
         log.info("Fetching all customers...");
         try {
             validateGetOneEmployee(headers);
             Page<Customer> customers = custRepo.findAll(
-                    PageRequest.of(page, size).withSort(Sort.by(Sort.Direction.ASC,field)));
+                    PageRequest.of(page, size).withSort(Sort.by(Sort.Direction.ASC, field)));
             if (!customers.iterator().hasNext()) {
                 log.error("No customer in DB!");
                 throw new CrudException(AC_BAD_REQUEST, NO_CUSTOMER);
             }
-            log.info("Fetch all customers success. Total size: {}..",customers.getSize());
+            log.info("Fetch all customers success. Total size: {}..", customers.getSize());
 
             return success(customers);
 
@@ -183,12 +182,38 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
+
+    public SearchCustomerResponse searchCustomersByName(String name, HttpHeaders headers) {
+        try {
+            validateGetOneEmployee(headers);
+
+            // to test below jpa query
+            // select * from customer where last_name like '%s%' or first_name like '%s%';
+
+            List<Customer> customer = custRepo.findAll(
+                    where(firstNameLike(name).or(lastNameLike(name))));
+
+            if (!customer.isEmpty()) {
+                log.info("total customers found: {}", customer.stream().count());
+                return SearchCustomerResponse.success(customer);
+            }
+            throw new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND);
+        } catch (CrudException e) {
+            log.error("Customer: {} not found...", name);
+            return SearchCustomerResponse.fail(CrudError.constructErrorForCrudException(e));
+        }
+
+    }
+
+
+
     /**
      * For ignoring empty fields during copy property
      *
      * @param source
      * @return
      */
+
 
     public static String[] getNullPropertyNames(Object source) {
         final BeanWrapper wrappedSource = new BeanWrapperImpl(source);

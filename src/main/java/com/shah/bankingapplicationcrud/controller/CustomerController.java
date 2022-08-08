@@ -4,10 +4,7 @@ import com.shah.bankingapplicationcrud.impl.CustomerServiceImpl;
 import com.shah.bankingapplicationcrud.model.request.CreateCustomerRequest;
 import com.shah.bankingapplicationcrud.model.request.GetOneCustomerRequest;
 import com.shah.bankingapplicationcrud.model.request.PatchCustomerRequest;
-import com.shah.bankingapplicationcrud.model.response.CreateOneCustomerResponse;
-import com.shah.bankingapplicationcrud.model.response.DeleteOneCustomerResponse;
-import com.shah.bankingapplicationcrud.model.response.GetAllCustomerResponse;
-import com.shah.bankingapplicationcrud.model.response.GetOneCustomerResponse;
+import com.shah.bankingapplicationcrud.model.response.*;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -90,5 +87,16 @@ public class CustomerController {
             @Valid @RequestBody GetOneCustomerRequest request,
             @RequestHeader HttpHeaders headers) {
         return ResponseEntity.ok(service.deleteOneCustomer(request, headers));
+    }
+
+    @ApiOperation(
+            value = "Search customer by first and last name",
+            response = GetOneCustomerResponse.class,
+            tags = "Search customer by first and last name")
+    @PostMapping("/get-customers-by-name/search/{name}")
+    public ResponseEntity<SearchCustomerResponse> getAllCustomers(
+            @RequestHeader HttpHeaders headers,
+            @PathVariable String name) {
+        return ResponseEntity.ok(service.searchCustomersByName(name, headers));
     }
 }
