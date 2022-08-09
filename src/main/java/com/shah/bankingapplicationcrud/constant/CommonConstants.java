@@ -9,7 +9,6 @@ public class CommonConstants {
     public static final String X_SOURCE_DATE_TIME = "x-source-date-time";
     public static final String SG = "SG";
 
-    public static final String GET_CUSTOMERS_BY_FIRSTNAME_OR_LASTNAME_LIKE = "/get-customers/by-firstname-or-lastname-like";
     public static final String DELETE_CUSTOMER = "/delete-customer";
     public static final String PATCH_CUSTOMER = "/patch-customer";
     public static final String CREATE_CUSTOMER = "/create-customer";

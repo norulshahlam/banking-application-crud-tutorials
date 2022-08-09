@@ -11,13 +11,11 @@ public interface CustomerService {
 
     GetOneCustomerResponse getOneCustomer(GetOneCustomerRequest request, HttpHeaders headers);
 
-    GetAllCustomerResponse getAllCustomers(HttpHeaders headers,int page, int size, String field);
-
     CreateOneCustomerResponse createOneCustomer(CreateCustomerRequest createCustomerRequest, HttpHeaders headers);
 
     CreateOneCustomerResponse patchOneCustomer(PatchCustomerRequest createCustomerRequest, HttpHeaders headers);
 
     DeleteOneCustomerResponse deleteOneCustomer(GetOneCustomerRequest request, HttpHeaders headers);
 
-    SearchCustomerResponse searchCustomersByName(HttpHeaders headers,String name, int page, int size, String field);
+    SearchCustomerResponse getAllCustomersOrSearchByLastAndFirstName(HttpHeaders headers, String name, int page, int size, String field);
 }

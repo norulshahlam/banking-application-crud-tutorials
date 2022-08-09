@@ -33,35 +33,23 @@ import static com.shah.bankingapplicationcrud.constant.CommonConstants.*;
         @ApiResponse(code = 500, message = "Service Unavaliable")})
 public class CustomerController {
 
+
     @Autowired
     private final CustomerServiceImpl service;
 
 
     @ApiOperation(
-            value = "Retrieve all customer",
-            response = GetOneCustomerResponse.class,
-            tags = "Retrieve all customer")
-    @PostMapping(value = GET_ALL_CUSTOMERS + "/{page}/{size}/{field}")
-    public ResponseEntity<GetAllCustomerResponse> getAllCustomers(
-            @RequestHeader HttpHeaders headers,
-            @PathVariable int page,
-            @PathVariable int size,
-            @PathVariable(required = false) String field) {
-        return ResponseEntity.ok(service.getAllCustomers(headers, page, size, field));
-    }
-
-    @ApiOperation(
-            value = "Search customer containing by first or last name",
-            response = GetOneCustomerResponse.class,
-            tags = "Search customer containing by first or last name")
-    @PostMapping(GET_CUSTOMERS_BY_FIRSTNAME_OR_LASTNAME_LIKE + "/{name}/{page}/{size}/{field}")
+            value = "Retrieve all customers. Optional query param to search for customer containing by first or last name",
+            response = SearchCustomerResponse.class,
+            tags = "Retrieve all customers. Optional query param to search for customer containing by first or last name")
+    @PostMapping(GET_ALL_CUSTOMERS)
     public ResponseEntity<SearchCustomerResponse> searchCustomersByName(
             @RequestHeader HttpHeaders headers,
-            @PathVariable int page,
-            @PathVariable int size,
-            @PathVariable(required = false) String field,
-            @PathVariable String name) {
-        return ResponseEntity.ok(service.searchCustomersByName(headers, name,page,size,field));
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "email") String field,
+            @RequestParam(defaultValue = "") String query) {
+        return ResponseEntity.ok(service.getAllCustomersOrSearchByLastAndFirstName(headers, query, page, size, field));
     }
 
     @ApiOperation(

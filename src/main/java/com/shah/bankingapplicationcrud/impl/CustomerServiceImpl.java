@@ -6,17 +6,20 @@ import com.shah.bankingapplicationcrud.model.entity.Customer;
 import com.shah.bankingapplicationcrud.model.request.CreateCustomerRequest;
 import com.shah.bankingapplicationcrud.model.request.GetOneCustomerRequest;
 import com.shah.bankingapplicationcrud.model.request.PatchCustomerRequest;
-import com.shah.bankingapplicationcrud.model.response.*;
+import com.shah.bankingapplicationcrud.model.response.CreateOneCustomerResponse;
+import com.shah.bankingapplicationcrud.model.response.DeleteOneCustomerResponse;
+import com.shah.bankingapplicationcrud.model.response.GetOneCustomerResponse;
+import com.shah.bankingapplicationcrud.model.response.SearchCustomerResponse;
 import com.shah.bankingapplicationcrud.repository.CustomerRepository;
 import com.shah.bankingapplicationcrud.service.CustomerService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -27,8 +30,9 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.*;
-import static com.shah.bankingapplicationcrud.model.response.GetAllCustomerResponse.fail;
-import static com.shah.bankingapplicationcrud.model.response.GetAllCustomerResponse.success;
+import static com.shah.bankingapplicationcrud.model.response.CreateOneCustomerResponse.success;
+import static com.shah.bankingapplicationcrud.model.response.DeleteOneCustomerResponse.fail;
+import static com.shah.bankingapplicationcrud.model.response.SearchCustomerResponse.fail;
 import static com.shah.bankingapplicationcrud.repository.CustomerRepository.firstNameLike;
 import static com.shah.bankingapplicationcrud.repository.CustomerRepository.lastNameLike;
 import static com.shah.bankingapplicationcrud.validation.ValidateHeaders.validateGetOneEmployee;
@@ -50,36 +54,17 @@ public class CustomerServiceImpl implements CustomerService {
 
 
     /**
-     * Fetch all customers. If empty will throw exception
+     * Fetch all customers. If empty will throw exception. Optional query param to search for customer containing by first or last name
      *
      * @param headers
+     * @param name
+     * @param page
+     * @param size
+     * @param field
      * @return
      */
 
-    @Override
-    public GetAllCustomerResponse getAllCustomers(HttpHeaders headers, int page, int size, String field) {
-        log.info("Fetching all customers...");
-        try {
-            validateGetOneEmployee(headers);
-
-            PageRequest pageRequest = of(page, size).withSort(by(ASC, field));
-            Page<Customer> customers = custRepo.findAll(pageRequest);
-            if (!customers.iterator().hasNext()) {
-                log.error("No customer in DB!");
-                throw new CrudException(AC_BAD_REQUEST, NO_CUSTOMER);
-            }
-            log.info("Fetch all customers success. current customers displayed: {} total customers found: {}", customers.getSize(), customers.getTotalElements());
-
-            return success(customers);
-
-        } catch (CrudException e) {
-            log.error("Fetch all customers failed...");
-            return fail(null, CrudError.constructErrorForCrudException(e));
-        }
-    }
-
-
-    public SearchCustomerResponse searchCustomersByName(HttpHeaders headers, String name, int page, int size, String field) {
+    public SearchCustomerResponse getAllCustomersOrSearchByLastAndFirstName(HttpHeaders headers, String name, int page, int size, String field) {
         try {
             validateGetOneEmployee(headers);
             Pageable pageRequest = of(page, size).withSort(by(ASC, field));
@@ -88,17 +73,22 @@ public class CustomerServiceImpl implements CustomerService {
              select * from customers where last_name like '%s%' or first_name like '%s%';
              */
 
+            if (StringUtils.isNotBlank(name)) log.info("Performing search like by firstname or lastname by keyword: {}", name);
+            else log.info("Getting all customers");
+
             Page<Customer> customers = custRepo.findAll(
-                    where(firstNameLike(name).or(lastNameLike(name))), pageRequest);
+                    where(firstNameLike(name)
+                            .or(lastNameLike(name))),
+                    pageRequest);
 
             if (!customers.isEmpty()) {
-                log.info("searched keyword: {}, current customers displayed: {}, total customers found: {}",name, customers.getSize(), customers.getTotalElements());
+                log.info("current customers displayed: {}, total customers found: {}", customers.getSize(), customers.getTotalElements());
                 return SearchCustomerResponse.success(customers);
             }
             throw new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND);
         } catch (CrudException e) {
             log.error("Customer: {} not found...", name);
-            return SearchCustomerResponse.fail(CrudError.constructErrorForCrudException(e));
+            return fail(CrudError.constructErrorForCrudException(e));
         }
 
     }
@@ -143,7 +133,7 @@ public class CustomerServiceImpl implements CustomerService {
             validateGetOneEmployee(headers);
             Customer customer = new Customer();
             copyProperties(request, customer);
-            return CreateOneCustomerResponse.success(custRepo.save(customer));
+            return success(custRepo.save(customer));
 
         } catch (CrudException e) {
             log.error("Creating one customer failed...");
@@ -170,7 +160,7 @@ public class CustomerServiceImpl implements CustomerService {
 
             Customer customer = custRepo.findById(request.getId()).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND));
             copyProperties(request, customer, getNullPropertyNames(request));
-            return CreateOneCustomerResponse.success(custRepo.save(customer));
+            return success(custRepo.save(customer));
 
 
         } catch (CrudException e) {
@@ -206,7 +196,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         } catch (CrudException e) {
             log.error("Delete customer failed...");
-            return DeleteOneCustomerResponse.fail(id, CrudError.constructErrorForCrudException(e));
+            return fail(id, CrudError.constructErrorForCrudException(e));
         }
     }
 
