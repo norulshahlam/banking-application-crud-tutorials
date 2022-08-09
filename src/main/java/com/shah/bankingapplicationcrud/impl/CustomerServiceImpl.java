@@ -6,10 +6,8 @@ import com.shah.bankingapplicationcrud.model.entity.Customer;
 import com.shah.bankingapplicationcrud.model.request.CreateCustomerRequest;
 import com.shah.bankingapplicationcrud.model.request.GetOneCustomerRequest;
 import com.shah.bankingapplicationcrud.model.request.PatchCustomerRequest;
-import com.shah.bankingapplicationcrud.model.response.CreateOneCustomerResponse;
-import com.shah.bankingapplicationcrud.model.response.DeleteOneCustomerResponse;
-import com.shah.bankingapplicationcrud.model.response.GetOneCustomerResponse;
-import com.shah.bankingapplicationcrud.model.response.SearchCustomerResponse;
+import com.shah.bankingapplicationcrud.model.request.TransferRequestDto;
+import com.shah.bankingapplicationcrud.model.response.*;
 import com.shah.bankingapplicationcrud.repository.CustomerRepository;
 import com.shah.bankingapplicationcrud.service.CustomerService;
 import lombok.Data;
@@ -200,6 +198,28 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
+    @Override
+    public TransferAmountResponse transferAmount(TransferRequestDto request, HttpHeaders headers) {
+        log.info("Check if customer exists...");
+        String senderId = request.getSenderId();
+
+        try {
+            validateGetOneEmployee(headers);
+
+            // 1. check if sender acc exists
+            // 2. check if sender bal is more than transfer amount
+            // 3. check if receiver acc exists
+            // 4. transfer
+
+        }
+        catch (CrudException e) {
+            log.error("Delete customer failed...");
+            TransferResponseDto data = TransferResponseDto.builder().senderId(senderId).receiverId(request.getReceiverId()).amount(request.getAmount()).build();
+            return TransferAmountResponse.fail(data,CrudError.constructErrorForCrudException(e));
+        }
+
+            return null;
+    }
 
     /**
      * For ignoring empty fields during copy property
