@@ -2,16 +2,12 @@ package com.shah.bankingapplicationcrud.model.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.shah.bankingapplicationcrud.model.enums.Gender;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.validator.constraints.Range;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.ZonedDateTime;
@@ -29,9 +25,9 @@ public class Customer {
     @Type(type = "uuid-char")
     @Column(updatable = false, nullable = false, unique = true)
     @Id
-    private UUID id;
+    private UUID accountNumber;
 
-    @Column(updatable = true, nullable = false, unique = true)
+    @Column(updatable = false, nullable = false, unique = true)
     private String email;
 
     private String firstName;

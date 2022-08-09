@@ -3,7 +3,7 @@ package com.shah.bankingapplicationcrud.service;
 import com.shah.bankingapplicationcrud.model.request.CreateCustomerRequest;
 import com.shah.bankingapplicationcrud.model.request.GetOneCustomerRequest;
 import com.shah.bankingapplicationcrud.model.request.PatchCustomerRequest;
-import com.shah.bankingapplicationcrud.model.request.TransferRequestDto;
+import com.shah.bankingapplicationcrud.model.request.TransferRequest;
 import com.shah.bankingapplicationcrud.model.response.*;
 import org.springframework.http.HttpHeaders;
 
@@ -20,5 +20,5 @@ public interface CustomerService {
 
     SearchCustomerResponse getAllCustomersOrSearchByLastAndFirstName(HttpHeaders headers, String name, int page, int size, String field);
 
-    TransferAmountResponse transferAmount(TransferRequestDto request, HttpHeaders headers);
+    TransferAmountResponse transferAmount(TransferRequest request, HttpHeaders headers);
 }

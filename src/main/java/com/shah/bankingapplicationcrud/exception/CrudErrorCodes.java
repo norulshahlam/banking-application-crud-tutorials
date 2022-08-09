@@ -35,7 +35,11 @@ public enum CrudErrorCodes implements ErrorCode {
     INVALID_SOURCE_COUNTRY("20005"),
     INVALID_CORRELATION_ID("20006"),
     NO_CUSTOMER("20007"),
-    EMPTY_ID("20008");
+    EMPTY_ID("20008"),
+    INSUFFICIENT_AMOUNT("20009"),
+    PAYEE_ACCOUNT_NOT_FOUND("20010"),
+    PAYER_ACCOUNT_NOT_FOUND("20011");
+
 
     private static final Map<String, String> errorDescription = new HashMap<>();
 
@@ -59,6 +63,9 @@ public enum CrudErrorCodes implements ErrorCode {
         errorDescription.put("20006", "Invalid correlation id format. Eg of UUID: f9bd1139-c907-11ec-b11c-0242ac110002");
         errorDescription.put("20007", "No customer");
         errorDescription.put("20008", "No ID");
+        errorDescription.put("20009", "Insufficient amount");
+        errorDescription.put("20010", "Payee account not found");
+        errorDescription.put("20011", "Payer account not found");
     }
 
     private final String appCode = "CRUD";

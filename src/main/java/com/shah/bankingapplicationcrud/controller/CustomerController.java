@@ -4,6 +4,7 @@ import com.shah.bankingapplicationcrud.impl.CustomerServiceImpl;
 import com.shah.bankingapplicationcrud.model.request.CreateCustomerRequest;
 import com.shah.bankingapplicationcrud.model.request.GetOneCustomerRequest;
 import com.shah.bankingapplicationcrud.model.request.PatchCustomerRequest;
+import com.shah.bankingapplicationcrud.model.request.TransferRequest;
 import com.shah.bankingapplicationcrud.model.response.*;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -36,6 +37,7 @@ public class CustomerController {
 
     @Autowired
     private final CustomerServiceImpl service;
+
 
 
     @ApiOperation(
@@ -90,6 +92,17 @@ public class CustomerController {
             @Valid @RequestBody GetOneCustomerRequest request,
             @RequestHeader HttpHeaders headers) {
         return ResponseEntity.ok(service.deleteOneCustomer(request, headers));
+    }
+
+    @ApiOperation(
+            value = "Transfer amount",
+            response = TransferAmountResponse.class,
+            tags = "Transfer amount")
+    @PostMapping(TRANSFER)
+    public ResponseEntity<TransferAmountResponse> transferAmount(
+            @Valid @RequestBody TransferRequest request,
+            @RequestHeader HttpHeaders headers) {
+        return ResponseEntity.ok(service.transferAmount(request, headers));
     }
 
 

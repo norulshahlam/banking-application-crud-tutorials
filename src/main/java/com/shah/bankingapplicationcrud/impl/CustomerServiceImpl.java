@@ -6,7 +6,7 @@ import com.shah.bankingapplicationcrud.model.entity.Customer;
 import com.shah.bankingapplicationcrud.model.request.CreateCustomerRequest;
 import com.shah.bankingapplicationcrud.model.request.GetOneCustomerRequest;
 import com.shah.bankingapplicationcrud.model.request.PatchCustomerRequest;
-import com.shah.bankingapplicationcrud.model.request.TransferRequestDto;
+import com.shah.bankingapplicationcrud.model.request.TransferRequest;
 import com.shah.bankingapplicationcrud.model.response.*;
 import com.shah.bankingapplicationcrud.repository.CustomerRepository;
 import com.shah.bankingapplicationcrud.service.CustomerService;
@@ -22,8 +22,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.beans.FeatureDescriptor;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -31,9 +31,13 @@ import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.*;
 import static com.shah.bankingapplicationcrud.model.response.CreateOneCustomerResponse.success;
 import static com.shah.bankingapplicationcrud.model.response.DeleteOneCustomerResponse.fail;
 import static com.shah.bankingapplicationcrud.model.response.SearchCustomerResponse.fail;
+import static com.shah.bankingapplicationcrud.model.response.TransferAmountResponse.fail;
+import static com.shah.bankingapplicationcrud.model.response.TransferAmountResponse.success;
 import static com.shah.bankingapplicationcrud.repository.CustomerRepository.firstNameLike;
 import static com.shah.bankingapplicationcrud.repository.CustomerRepository.lastNameLike;
 import static com.shah.bankingapplicationcrud.validation.ValidateHeaders.validateGetOneEmployee;
+import static java.util.List.of;
+import static java.util.UUID.fromString;
 import static org.apache.commons.lang3.ObjectUtils.isEmpty;
 import static org.springframework.beans.BeanUtils.copyProperties;
 import static org.springframework.data.domain.PageRequest.of;
@@ -71,7 +75,8 @@ public class CustomerServiceImpl implements CustomerService {
              select * from customers where last_name like '%s%' or first_name like '%s%';
              */
 
-            if (StringUtils.isNotBlank(name)) log.info("Performing search like by firstname or lastname by keyword: {}", name);
+            if (StringUtils.isNotBlank(name))
+                log.info("Performing search like by firstname or lastname by keyword: {}", name);
             else log.info("Getting all customers");
 
             Page<Customer> customers = custRepo.findAll(
@@ -103,12 +108,9 @@ public class CustomerServiceImpl implements CustomerService {
         log.info("Fetching customer...");
         try {
             validateGetOneEmployee(headers);
-            Optional<Customer> customer = custRepo.findById(UUID.fromString(request.getId()));
-            if (customer.isEmpty()) {
-                throw new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND);
-            }
+            Customer customer = custRepo.findById(fromString(request.getId())).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND));
             log.info("Fetch customer success...");
-            return GetOneCustomerResponse.success(customer.get());
+            return GetOneCustomerResponse.success(customer);
 
         } catch (CrudException e) {
             log.error("Fetch customer failed...");
@@ -178,14 +180,12 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public DeleteOneCustomerResponse deleteOneCustomer(GetOneCustomerRequest request, HttpHeaders headers) {
         log.info("Check if customer exists...");
-        UUID id = UUID.fromString(request.getId());
+        UUID id = fromString(request.getId());
         try {
             validateGetOneEmployee(headers);
 
-            Optional<Customer> customer = custRepo.findById(id);
-            if (customer.isEmpty()) {
-                throw new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND);
-            }
+            Customer customer = custRepo.findById(id).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND));
+            ;
 
             log.info("Customer found: \n {} \n Deleting customer...", customer);
             custRepo.deleteById(id);
@@ -198,28 +198,65 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
+    /**
+     * To transfer amount from one acc to another
+     * @param request
+     * @param headers
+     * @return
+     */
+    @Transactional
     @Override
-    public TransferAmountResponse transferAmount(TransferRequestDto request, HttpHeaders headers) {
-        log.info("Check if customer exists...");
-        String senderId = request.getSenderId();
+    public TransferAmountResponse transferAmount(TransferRequest request, HttpHeaders headers) {
+        String senderId = request.getPayerAccountNumber();
 
         try {
             validateGetOneEmployee(headers);
 
-            // 1. check if sender acc exists
-            // 2. check if sender bal is more than transfer amount
-            // 3. check if receiver acc exists
+            // 1. check if payer acc exists
+            Customer payer = custRepo.findById(fromString(request.getPayerAccountNumber())).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, PAYEE_ACCOUNT_NOT_FOUND));
+            log.info("Payer found: {}", payer);
+
+            // 2. check if payer bal is more than transfer amount
+            if (payer.getAccBalance().compareTo(request.getAmount()) == -1)
+                throw new CrudException(AC_BAD_REQUEST, INSUFFICIENT_AMOUNT);
+
+            // 3. check if payee acc exists
+            Customer payee = custRepo.findById(fromString(request.getPayeeAccountNumber())).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, PAYER_ACCOUNT_NOT_FOUND));
+            log.info("Payee found: {}", payee);
+
             // 4. transfer
+            payee.setAccBalance(payee.getAccBalance().add(request.getAmount()));
+            payer.setAccBalance(payer.getAccBalance().subtract(request.getAmount()));
+            log.info("Transfer success");
 
-        }
-        catch (CrudException e) {
-            log.error("Delete customer failed...");
-            TransferResponseDto data = TransferResponseDto.builder().senderId(senderId).receiverId(request.getReceiverId()).amount(request.getAmount()).build();
-            return TransferAmountResponse.fail(data,CrudError.constructErrorForCrudException(e));
-        }
+            // 5. update both accounts to db
+            Iterable<Customer> updatedAccs = of(payee, payer);
+            Iterable<Customer> customers = custRepo.saveAll(updatedAccs);
+            log.info("Customers updated: {}", customers);
 
-            return null;
+            // 6. create object for response
+            TransferResponseDto data = TransferResponseDto.builder()
+                    .senderId(senderId)
+                    .senderFirstName(payer.getFirstName())
+                    .senderAccOldBal(payer.getAccBalance().add(request.getAmount()))
+                    .senderAccNewBal(payer.getAccBalance())
+                    .receiverId(request.getPayeeAccountNumber())
+                    .receiverFirstName(payee.getFirstName())
+                    .receiverAccOldBal(payee.getAccBalance().subtract(request.getAmount()))
+                    .receiverAccNewBal(payee.getAccBalance())
+                    .transactionDate(updatedAccs.iterator().next().getUpdatedAt())
+                    .amount(request.getAmount())
+                    .build();
+
+            return success(data);
+
+        } catch (CrudException e) {
+            log.error("Transfer operation failed...");
+            TransferResponseDto data = TransferResponseDto.builder().senderId(senderId).receiverId(request.getPayeeAccountNumber()).amount(request.getAmount()).build();
+            return fail(data, CrudError.constructErrorForCrudException(e));
+        }
     }
+
 
     /**
      * For ignoring empty fields during copy property

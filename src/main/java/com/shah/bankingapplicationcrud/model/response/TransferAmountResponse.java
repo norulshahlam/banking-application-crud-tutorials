@@ -19,7 +19,7 @@ public class TransferAmountResponse {
             " + FAILED\n")
     private String status;
 
-    private TransferResponseDto requesDto;
+    private TransferResponseDto data;
 
     @Schema(description = "Error description")
     private CrudError error;

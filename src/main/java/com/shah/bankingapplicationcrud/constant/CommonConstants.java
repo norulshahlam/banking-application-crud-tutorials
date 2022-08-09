@@ -14,4 +14,5 @@ public class CommonConstants {
     public static final String CREATE_CUSTOMER = "/create-customer";
     public static final String GET_ONE_CUSTOMER = "/get-one-customer";
     public static final String GET_ALL_CUSTOMERS = "/get-all-customers";
+    public static final String TRANSFER = "/transfer";
 }
