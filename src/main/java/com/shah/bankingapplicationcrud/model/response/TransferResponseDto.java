@@ -15,15 +15,15 @@ import java.time.ZonedDateTime;
 @Builder
 public class TransferResponseDto {
 
-    private String senderId;
-    private String senderFirstName;
-    private BigDecimal senderAccOldBal;
-    private BigDecimal senderAccNewBal;
+    private String payerAccountNumber;
+    private String payerFirstName;
+    private BigDecimal payerOldAccBal;
+    private BigDecimal payerNewAccBal;
 
-    private String receiverId;
-    private String receiverFirstName;
-    private BigDecimal receiverAccOldBal;
-    private BigDecimal receiverAccNewBal;
+    private String payeeAccountNumber;
+    private String payeeFirstName;
+    private BigDecimal payeeOldAccBal;
+    private BigDecimal payeeNewAccBal;
 
     private BigDecimal amount;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")

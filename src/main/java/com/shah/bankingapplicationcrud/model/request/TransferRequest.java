@@ -22,7 +22,7 @@ public class TransferRequest {
     private String payeeAccountNumber;
     @NotNull
     @ApiModelProperty(example = "1500.33")
-    @Digits(integer = 6, fraction = 2, message = "Must be in 2 decimal points!")
+    @Digits(integer = 8, fraction = 2, message = "Must be in 2 decimal points!")
     private BigDecimal amount;
 
 }

@@ -200,6 +200,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * To transfer amount from one acc to another
+     *
      * @param request
      * @param headers
      * @return
@@ -208,6 +209,12 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public TransferAmountResponse transferAmount(TransferRequest request, HttpHeaders headers) {
         String senderId = request.getPayerAccountNumber();
+
+        TransferResponseDto data = TransferResponseDto.builder()
+                .payerAccountNumber(senderId)
+                .payeeAccountNumber(request.getPayeeAccountNumber())
+                .amount(request.getAmount())
+                .build();
 
         try {
             validateGetOneEmployee(headers);
@@ -235,16 +242,16 @@ public class CustomerServiceImpl implements CustomerService {
             log.info("Customers updated: {}", customers);
 
             // 6. create object for response
-            TransferResponseDto data = TransferResponseDto.builder()
-                    .senderId(senderId)
-                    .senderFirstName(payer.getFirstName())
-                    .senderAccOldBal(payer.getAccBalance().add(request.getAmount()))
-                    .senderAccNewBal(payer.getAccBalance())
-                    .receiverId(request.getPayeeAccountNumber())
-                    .receiverFirstName(payee.getFirstName())
-                    .receiverAccOldBal(payee.getAccBalance().subtract(request.getAmount()))
-                    .receiverAccNewBal(payee.getAccBalance())
-                    .transactionDate(updatedAccs.iterator().next().getUpdatedAt())
+            data = TransferResponseDto.builder()
+                    .payerAccountNumber(senderId)
+                    .payerFirstName(payer.getFirstName())
+                    .payerOldAccBal(payer.getAccBalance().add(request.getAmount()))
+                    .payerNewAccBal(payer.getAccBalance())
+                    .payeeAccountNumber(request.getPayeeAccountNumber())
+                    .payeeFirstName(payee.getFirstName())
+                    .payeeOldAccBal(payee.getAccBalance().subtract(request.getAmount()))
+                    .payeeNewAccBal(payee.getAccBalance())
+                    .transactionDate(customers.iterator().next().getUpdatedAt())
                     .amount(request.getAmount())
                     .build();
 
@@ -252,7 +259,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         } catch (CrudException e) {
             log.error("Transfer operation failed...");
-            TransferResponseDto data = TransferResponseDto.builder().senderId(senderId).receiverId(request.getPayeeAccountNumber()).amount(request.getAmount()).build();
+
             return fail(data, CrudError.constructErrorForCrudException(e));
         }
     }
