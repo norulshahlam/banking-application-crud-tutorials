@@ -48,14 +48,14 @@ Marks a property as the creation timestamp of the containing entity. The propert
 <details>
 <summary>Click to expand</summary><br>
  
-[How to map random fields](https://newbedev.com/spring-rest-partial-update-with-patch-method)
-[javax-validation](https://www.baeldung.com/javax-validation)
-[Retrieve validation message](https://stackoverflow.com/questions/2751603/how-to-get-error-text-in-controller-from-bindingresult)
-[Diff btwn javax.persistence & javax.validation and how to handle error from each validation](https://reflectoring.io/bean-validation-with-spring-boot/)
-[Create mock data](https://www.mockaroo.com/) 
-[How to validate patch method using ValidatorFactory](https://stackoverflow.com/questions/56139024/how-to-automatically-add-bean-validation-when-partially-updating-patch-spring-bo) 
+[How to map random fields](https://newbedev.com/spring-rest-partial-update-with-patch-method)  
+[javax-validation](https://www.baeldung.com/javax-validation)  
+[Retrieve validation message](https://stackoverflow.com/questions/2751603/how-to-get-error-text-in-controller-from-bindingresult)  
+[Diff btwn javax.persistence & javax.validation and how to handle error from each validation](https://reflectoring.io/bean-validation-with-spring-boot/)  
+[Create mock data](https://www.mockaroo.com/)  
+[How to validate patch method using ValidatorFactory](https://stackoverflow.com/questions/56139024/how-to-automatically-add-bean-validation-when-partially-updating-patch-spring-bo)  
 [Structuring Your Code](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.structuring-your-code)  
-[If you have issue packaging to jar](https://stackoverflow.com/questions/35394885/lombok-not-compiling-in-maven)
+[If you have issue packaging to jar](https://stackoverflow.com/questions/35394885/lombok-not-compiling-in-maven)  
 
 </details>
 
