@@ -153,12 +153,63 @@ To test repository, we can run the query against H2 database simply we dont want
   </ul>
 </details>
 
+### Unit Test - Service layer
+
+<details>
+<summary>Click to expand</summary><br>
+
+Hardest unit to test.
+
+  <ul>
+    <li>Using Mock</li><br>
+
+Since our repo is tested and works fine, we dont need to test the service class against repo but instead we will mock it. Basically we don't want to test the real repository when we are testing the service because we know that repository is tested and it works. So we can just mock its implementation inside of the service test.
+The benefit that we get is that our unit test is now testing is fast as we don't have to bring up the database, create table, insert a new student, drop the database, and all of that stuff that you've seen when we tested the repository which we've done earlier. Therefore anywhere that we use the repository we just `mock` it. 
+
+[![Image](./src/main/resources/unit-test-service.JPG "Deploying Spring Boot Apps to AWS using Elastic Beanstalk")](https://www.tutorialspoint.com/mockito/mockito_junit_integration.htm)
+
+Besides mocking the repository, we can mock basically anything and define what it reutrn, making our work easier and faster [(more info)](https://visitmehere.wordpress.com/2019/06/07/mock-an-arraylist/). We also implement @InjectMocks simply because Service layer need Repository layer [(more info)](https://stackoverflow.com/questions/16467685/difference-between-mock-and-injectmocks).
+
+  <li>Important</li><br>
+
+You dont need to create any real objects at all. Just create mock of any instance, method, class, anything. The goal of testing the service is to detach any real object as much as possible!
+
+  </ul>
+</details>
+
+### Unit Test - Controller layer
+
+<details>
+<summary>Click to expand</summary><br>
+
+ Unlike the Service layer where we can mock everything, here we need to use real object for the response. From there we will use JSONPath to match certain fields in your result set. If you are not familiar with it, you can use  [(JSONPath Online Evaluator)](https://jsonpath.com/) to play around with the expressions.
+</details>
+
+
 ### Postman collections
 
 <details>
 <summary>Click to expand</summary><br>
 
 [View collection](./src/main/resources/banking-rest-api-tutorials.postman_collection.json)
+</details>
+
+### Sample
+
+<details>
+<summary>Click to expand</summary><br>
+  <ul>
+    <li>Fetch all customers with pagination</li>
+  </ul>
+</details>
+
+### Sample
+
+<details>
+<summary>Click to expand</summary><br>
+  <ul>
+    <li>Fetch all customers with pagination</li>
+  </ul>
 </details>
 
 ### Sample
