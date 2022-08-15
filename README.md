@@ -124,10 +124,8 @@ To achieve a high % coverage, we need to test elements that has highest number o
   <li>Code quality</li><br>
 
 [(SonarLint)](https://www.sonarlint.org/) is a Free and Open Source IDE extension that identifies and helps you fix quality and security issues as you code. Like a spell checker, SonarLint squiggles flaws and provides real-time feedback and clear remediation guidance to deliver clean code from the get-go.
-
 </ul>
 
-<br><br>
 
 </details>
 
@@ -138,7 +136,6 @@ To achieve a high % coverage, we need to test elements that has highest number o
   <ul>
     <li>Fetch all customers with pagination</li>
   </ul>
-<br><br>
 </details>
 
 ### Sample
@@ -148,7 +145,6 @@ To achieve a high % coverage, we need to test elements that has highest number o
   <ul>
     <li>Fetch all customers with pagination</li>
   </ul>
-<br><br>
 </details>
 
 ### Sample
@@ -158,5 +154,4 @@ To achieve a high % coverage, we need to test elements that has highest number o
   <ul>
     <li>Fetch all customers with pagination</li>
   </ul>
-<br><br>
 </details>
