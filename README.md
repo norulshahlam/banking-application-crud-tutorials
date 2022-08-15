@@ -29,16 +29,18 @@ The Jackson JSON toolkit contains a set of Java annotations which you can use to
 <br>
 
   </li>
-    <li>Creation timestamp<br>
+    <li>Creation timestamp<br></li>
 
 Marks a property as the creation timestamp of the containing entity. The property value will be set to the current VM date exactly once when saving the owning entity for the first time.
 
 ```
-    @CreationTimestamp
-    private Date createdAt;
+@CreationTimestamp
+private Date createdAt;
 ```
+  
+ <li>Validations</li>
 
-  </li>
+We assume that this is web-service where user can enter any field and value so a lot of validation is needed. Although most of the time validation will be done in front-end.
 
   </ol>
 </details>
@@ -48,13 +50,15 @@ Marks a property as the creation timestamp of the containing entity. The propert
 <details>
 <summary>Click to expand</summary><br>
 
+```
 Database
-|
+    |
 Repository -> Model (Entity)
-|
+    |
 Service - > Exception Handler
-|
+    |
 Controller (Handle request from external)
+```
 
 </details>
 
@@ -78,8 +82,6 @@ docker run --detach --env MYSQL_ROOT_PASSWORD=root --env MYSQL_DATABASE=mydb --e
 docker run --name postgres-tutorial -e POSTGRES_PASSWORD=password -d -p 5432:5432 postgres
 ```
 
-  <li>Fetch all customers with pagination</li>
-  <li>Fetch all customers with pagination</li>
   </ul>
 </details>
 
@@ -107,9 +109,9 @@ mysql -u admin -proot;
 
 ```
 use mydb;
-    show tables;
-    desc customer;
-    select * from customer;
+show tables;
+desc customer;
+select * from customer;
 ```
 
   <li>Stop & remove all running proceses</li>
@@ -119,6 +121,41 @@ docker rm $(docker ps -a -q) -f
 ```
 
   </ul>
+</details>
+
+### Global exception - @ControllerAdvice
+
+<details>
+<summary>Click to expand</summary><br>
+  <ul>
+  <li>Intro</li>
+
+During the software development process, it is inevitable to handle all kinds of exceptions. For me, at least half of the time is spent dealing with all kinds of exceptions, so there will be a lot of try {...} catch {...} finally {...} code blocks in the code, which not only has a lot of redundant code, but also affects the readability of the code.
+
+  <li>So what is it?</li>
+
+Spring consider exception handling a cross-cutting concern, thus it allows you to handle exceptions separately from the rest of your code. This approach truly does work great with Spring!
+
+Used for global error handling in the Spring MVC application.It also has full control over the body of the response and the status code.
+
+  <li>Types</li>
+
+There are 2 types: <br>
+
+  <ol>
+  <li>Custom exception</li>
+
+Where u throw yourself if it meets your condition and use GlobalExceptionHandler to handle [HERE](https://stackoverflow.com/questions/67090406/throw-custom-exception-with-spring-data-rest)
+
+  <li>Global exception</li>
+
+Where it throws itself and u handle it using GlobalExceptionHandler
+  </ol>
+
+  <li>Benefits</li>
+No cluttering of your code surrounding with try-catch blocks. This will result in cleaner and manageable code. You can have more meaningful error message
+        
+</ul>
 </details>
 
 ### Unit Testing
@@ -289,6 +326,14 @@ This test case will be created under repository test folder, for the sake of Pro
  <li>Create native query</li>
 
 [Click here](https://stackoverflow.com/questions/58453768/variables-in-spring-data-jpa-native-query)
+
+ <li>3 tier architecture</li>
+
+[![Image](./src/main/resources/3-tier-architecture.JPG)](https://ipwithease.com/three-tier-architecture-in-application/)
+
+ <li>Layered Architecture</li>
+
+[![Image](./src/main/resources/3-layered-architecture.JPG "Deploying Spring Boot Apps to AWS using Elastic Beanstalk")](https://medium.com/java-vault/layered-architecture-b2f4ebe8d587)
 
   </ul>
 </details>
