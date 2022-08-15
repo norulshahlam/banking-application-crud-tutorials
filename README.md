@@ -101,6 +101,7 @@ private String firstName;
  <li>Create native query</li>
 
 [Click here](https://stackoverflow.com/questions/58453768/variables-in-spring-data-jpa-native-query)
+
   </ol>
 </details>
 
@@ -125,8 +126,18 @@ To achieve a high % coverage, we need to test elements that has highest number o
   <li>Code quality</li><br>
 
 [(SonarLint)](https://www.sonarlint.org/) is a Free and Open Source IDE extension that identifies and helps you fix quality and security issues as you code. Like a spell checker, SonarLint squiggles flaws and provides real-time feedback and clear remediation guidance to deliver clean code from the get-go.
-</ul>
 
+  <li>Create test case</li><br>
+
+If you are using IntelliJ, simply right-click on the repo file -> new -> Junit. This will automatically generate test method. We will implement our test cases. 
+
+  <li>H2 database</li><br>
+
+To test repository, we can run the query against H2 database simply we dont want to store the data during testing. This can be easily done by copy-paste our main application.properties into the test folder and change the db url from mysql to h2. Schema and data will be loaded from the main resources
+
+
+
+</ul>
 
 </details>
 
@@ -138,16 +149,16 @@ To achieve a high % coverage, we need to test elements that has highest number o
     <li>Diagram</li>
 
 [![Image](./src/main/resources/unit-test-repository.JPG)](https://ipwithease.com/three-tier-architecture-in-application/)
+
   </ul>
 </details>
 
-### Sample
+### Postman collections
 
 <details>
 <summary>Click to expand</summary><br>
-  <ul>
-    <li>Fetch all customers with pagination</li>
-  </ul>
+
+[View collection](./src/main/resources/banking-rest-api-tutorials.postman_collection.json)
 </details>
 
 ### Sample
