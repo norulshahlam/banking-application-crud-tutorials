@@ -15,7 +15,7 @@
     <li>Delete customer by account number</li>
     <li>Transfer credit from one acc number to another</li>
   </ol>
-<br><br>
+
 </details>
 
 ### Technical features
@@ -23,13 +23,13 @@
 <details>
 <summary>Click to expand</summary><br>
   <ol>
-    <li>Customize json property<br><br>
+    <li>Customize json property<br>
 
 The Jackson JSON toolkit contains a set of Java annotations which you can use to influence how JSON is read into objects, or what JSON is generated from the objects. Click [HERE](http://tutorials.jenkov.com/java-json/jackson-annotations.html) for more information.
 <br>
 
   </li>
-    <li>Creation timestamp<br><br>
+    <li>Creation timestamp<br>
 
 Marks a property as the creation timestamp of the containing entity. The property value will be set to the current VM date exactly once when saving the owning entity for the first time.
 
