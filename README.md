@@ -49,13 +49,14 @@ Marks a property as the creation timestamp of the containing entity. The propert
 <summary>Click to expand</summary><br>
  
 [How to map random fields](https://newbedev.com/spring-rest-partial-update-with-patch-method)  
-[javax-validation](https://www.baeldung.com/javax-validation)  
+[Javax validation](https://www.baeldung.com/javax-validation)  
 [Retrieve validation message](https://stackoverflow.com/questions/2751603/how-to-get-error-text-in-controller-from-bindingresult)  
 [Diff btwn javax.persistence & javax.validation and how to handle error from each validation](https://reflectoring.io/bean-validation-with-spring-boot/)  
 [Create mock data](https://www.mockaroo.com/)  
 [How to validate patch method using ValidatorFactory](https://stackoverflow.com/questions/56139024/how-to-automatically-add-bean-validation-when-partially-updating-patch-spring-bo)  
 [Structuring Your Code](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.structuring-your-code)  
 [If you have issue packaging to jar](https://stackoverflow.com/questions/35394885/lombok-not-compiling-in-maven)  
+[Custom fields using projection](https://stackoverflow.com/questions/46083329/no-converter-found-capable-of-converting-from-type-to-type)
 
 </details>
 
@@ -117,7 +118,7 @@ Unit test refers to the test of the most basic parts of an app -> A Unit. For RE
 
 Code coverage describes the percentage of code covered by automated tests. in Eclipse we use [EclEmma](https://www.eclemma.org/) which is a free Java code coverage tool for Eclipse. Coverage is measured by percentage. Especially when working in enterprise, we must achieve atleast 50% total coverage
 
-![Image](./src/main/resources/code-coverage.JPG "Deploying Spring Boot Apps to AWS using Elastic Beanstalk")
+![Image](./src/main/resources/code-coverage.JPG)
 
 To achieve a high % coverage, we need to test elements that has highest number of instruction. Also, to cover your service class is highest priority.
 
@@ -129,12 +130,14 @@ To achieve a high % coverage, we need to test elements that has highest number o
 
 </details>
 
-### Sample
+### Unit Test - Repository
 
 <details>
 <summary>Click to expand</summary><br>
   <ul>
-    <li>Fetch all customers with pagination</li>
+    <li>Diagram</li>
+
+[![Image](./src/main/resources/unit-test-repository.JPG)](https://ipwithease.com/three-tier-architecture-in-application/)
   </ul>
 </details>
 
