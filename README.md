@@ -184,10 +184,6 @@ To achieve a high % coverage, we need to test elements that has highest number o
 
 If you are using IntelliJ, simply right-click on the repo file -> new -> Junit. This will automatically generate test method. We will implement our test cases.
 
-  <li>H2 database</li><br>
-
-To test repository, we can run the query against H2 database simply we dont want to store the data during testing. This can be easily done by copy-paste our main application.properties into the test folder and change the db url from mysql to h2. Schema and data will be loaded from the main resources
-
 </ul>
 
 </details>
@@ -203,6 +199,10 @@ In Repository, we dont need to test build-in methods of JPA. Only test your cust
     <li>Diagram</li>
 
 [![Image](./src/main/resources/unit-test-repository.JPG)](https://ipwithease.com/three-tier-architecture-in-application/)
+
+ <li>H2 database</li><br>
+
+To test repository, we can run the query against H2 database simply we dont want to store the data during testing. This can be easily done by copy-paste our main application.properties into the test folder and change the db url from mysql to h2. Schema and data will be loaded from the main resources
 
   </ul>
 </details>
