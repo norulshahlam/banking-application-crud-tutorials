@@ -56,6 +56,6 @@ public class CreateCustomerRequest {
 
     @ApiModelProperty(example = "1968-04-24")
     @DateTimeFormat
-    @Past
+    @Past(message = "Date cannot be tomorrow onwards")
     private Date birthDate;
 }

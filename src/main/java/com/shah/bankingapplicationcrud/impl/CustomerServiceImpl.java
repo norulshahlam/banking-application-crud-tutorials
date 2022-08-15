@@ -58,11 +58,11 @@ public class CustomerServiceImpl implements CustomerService {
     /**
      * Fetch all customers. If empty will throw exception. Optional query param to search for customer containing by first or last name
      *
-     * @param headers
-     * @param name
-     * @param page
-     * @param size
-     * @param field
+     * @param headers request headers coming from client
+     * @param name name of field
+     * @param page page number to display
+     * @param size number of items to display in each page
+     * @param field the parameter to search from eg by firstName, email, etc
      * @return
      */
 
