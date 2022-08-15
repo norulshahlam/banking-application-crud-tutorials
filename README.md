@@ -145,6 +145,9 @@ To test repository, we can run the query against H2 database simply we dont want
 
 <details>
 <summary>Click to expand</summary><br>
+
+In Repository, we dont need to test build-in methods of JPA. Only test your custom methods. Since we dont have one, lets create one (using @Query). This query will count number of country in employee table. The result will have custom fields (using projection)
+
   <ul>
     <li>Diagram</li>
 
