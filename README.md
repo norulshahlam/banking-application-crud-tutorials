@@ -43,20 +43,26 @@ We assume that this is web-service where user can enter any field and value so a
   </ol>
 </details>
 
+### Architecture Diagram
+
+<details>
+<summary>Click to expand</summary><br>
+
+[![Image](./src/main/resources/architecture-diagram.drawio.png)](https://medium.com/java-vault/layered-architecture-b2f4ebe8d587)
+
+</details>
 ### Diagram flow
 
 <details>
 <summary>Click to expand</summary><br>
 
-```
-Database
-    |
-Repository -> Model (Entity)
-    |
-Service - > Exception Handler
-    |
-Controller (Handle request from external)
-```
+ <li><b>3 tier architecture</b></li>
+
+[![Image](./src/main/resources/3-tier-architecture.JPG)](https://ipwithease.com/three-tier-architecture-in-application/)
+
+ <li><b>Layered Architecture</b></li>
+
+[![Image](./src/main/resources/3-layered-architecture.JPG)](https://medium.com/java-vault/layered-architecture-b2f4ebe8d587)
 
 </details>
 
@@ -324,14 +330,6 @@ This test case will be created under repository test folder, for the sake of Pro
  <li><b>Create native query</b></li>
 
 [Click here](https://stackoverflow.com/questions/58453768/variables-in-spring-data-jpa-native-query)
-
- <li><b>3 tier architecture</b></li>
-
-[![Image](./src/main/resources/3-tier-architecture.JPG)](https://ipwithease.com/three-tier-architecture-in-application/)
-
- <li><b>Layered Architecture</b></li>
-
-[![Image](./src/main/resources/3-layered-architecture.JPG "Deploying Spring Boot Apps to AWS using Elastic Beanstalk")](https://medium.com/java-vault/layered-architecture-b2f4ebe8d587)
 
   </ul>
 </details>
