@@ -43,13 +43,99 @@ Marks a property as the creation timestamp of the containing entity. The propert
 private Date createdAt;
 ```
   
- <li><b>Validations</b></li>
+  <li><b>Validations</b></li>
 
 We assume that this is web-service where user can enter any field and value so a lot of validation is needed. Although most of the time validation will be done in front-end.
 
- <li><b>Swagger Api</b><br></li>
+  <li><b>Swagger Api</b><br></li>
+
+An open source project used to generate the REST API documents for RESTful web services. It provides a user interface to access our RESTful web services via the web browser.
+
+`What to implement?`
+
+Docket - Your configurations and useful information
+- Api information like name, contact, version  
+- Request header like application/json, request id, request date/time
+
+@ApiResponses
+- Describes a possible response of an operation. 
+- Defined at controller level or application level
+
+@ApiOperation
+- Describes an operation or typically a HTTP method against a specific path
+- Defined on every controller method
+
+@ApiParam
+- Describes a parameters of an API resource request
+- You give a sample value on the request parameter
+- Defined on every controller method
+
+@ApiModelProperty
+- Define your model description (value), name, data type, example values on your model
 
 
+We have one class for this config to do all the necessary configurations there. Click [here](https://stackoverflow.com/questions/70043841/swagger-2-issue-spring-boot) for any issues faced. You can access it in JSON-based or UI-based. These two have their default url. You can, of course customize this.
+
+JSON-based
+
+    http://localhost:9090/v2/api-docs
+
+UI-based
+
+    http://localhost:9090/swagger-ui.html
+
+  <li><b>Scheduler</b><br></li>
+
+Scheduling is a process of executing the tasks for the specific time period. Spring Boot provides a good support to write a scheduler on the Spring applications. You can set the interval using cron or time units eg
+
+```
+@Scheduled(fixedDelay = 1000)
+@Scheduled(fixedRate = 1000)
+@Scheduled(fixedDelay = 1000, initialDelay = 1000)
+@Scheduled(cron = "0 15 10 15 * ?")
+@Scheduled(cron = "0 15 10 15 * ?", zone = "Europe/Paris")
+```
+
+Cron Expression
+
+It is always an advantage to know what your cron expression value is by using CronParser
+
+<!-- https://mvnrepository.com/artifact/net.redhogs.cronparser/cron-parser-spring -->
+  <dependency>
+      <groupId>net.redhogs.cronparser</groupId>
+      <artifactId>cron-parser-spring</artifactId>
+      <version>3.5</version>
+  </dependency>
+
+Not sure what expression to use? Click [here](https://www.freeformatter.com/cron-expression-generator-quartz.html) to generate expression online
+
+  <li><b>Initializer</b><br></li>
+
+How to run logic at the startup of a Spring application? There many ways to achieve this:
+1. @PostConstruct Annotation
+2. _InitializingBean_ Interface
+3. _ApplicationListener_
+4. _@Bean initMethod_ Attribute
+5. Constructor Injection
+6. _CommandLineRunner_
+7. _ApplicationRunner_
+8. Combining any combination above
+
+For simplicity we will demo using _CommandLineRunner_
+
+Spring Boot provides a _CommandLineRunner_ interface with a callback _run()_ method. This method will be called after the Spring application context is instantiated. [More info](https://www.baeldung.com/spring-boot-console-app)
+
+  <li><b>Console appenders</b><br></li>
+
+The console log can be customized to suit your preferences. we can customize the date format or what to display.
+
+For quick setup, simply add this in your property:
+
+    spring.main.banner-mode=off 
+    spring.output.ansi.enabled=ALWAYS
+    logging.pattern.console=%clr(%d{yy-MM-dd E HH:mm:ss.SSS}){blue} %clr(%-5p) %clr(${PID}){faint} %clr(---){faint} %clr([%8.15t]){cyan} %clr(%-40.40logger{0}){blue} %clr(:){red} %clr(%m){faint}%n
+
+[More info](https://howtodoinjava.com/spring-boot2/logging/console-logging-configuration/)
 
   </ol>
 </details>
@@ -113,10 +199,12 @@ docker rm $(docker ps -a -q) -f
 
  <li><b>Verify database (using Dbeaver)</b></li><br>
 
- Database:
+ Download Dbeaver [here](https://dbeaver.io/download/). Open and create new database connection.
+
+ Database input field:
 
  ```
- spring.datasource.url=jdbc:mysql://localhost:3306/mydb?allowPublicKeyRetrieval=true&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
+ mydb?allowPublicKeyRetrieval=true&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
  ```
 
 [![Image](./src/main/resources/dbeaver-setup.PNG)](https://ipwithease.com/three-tier-architecture-in-application/)
@@ -316,9 +404,23 @@ This test case will be created under repository test folder, for the sake of Pro
 
 [(Explanation)](https://youtu.be/Geq60OVyBPg?t=2422)
 
- <li><b>Create native query</b></li>
+  <li><b>Create native query</b></li>
 
 [Click here](https://stackoverflow.com/questions/58453768/variables-in-spring-data-jpa-native-query)
+
+  <li><b>Handle data in DB when Spring Boot starts</b></li>
+
+To retain the same data state everytime Spring boot starts, configure this in your application.properties:
+
+```
+spring.jpa.hibernate.ddl-auto=update
+```
+
+To reset or reload the data from script everytime Spring boot starts, configure this in your application.properties:
+
+```
+spring.jpa.hibernate.ddl-auto=create
+```
 
   </ul>
 </details>

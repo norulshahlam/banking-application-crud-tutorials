@@ -20,55 +20,56 @@ import java.util.List;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
-	
-	private final String name = "Norulshahlam";
-	private final String url = "www.google.com";
-	private final String email = "norulshahlam@gmail.com";
-	
+
+    private final String name = "Norulshahlam";
+    private final String url = "www.google.com";
+    private final String email = "norulshahlam@gmail.com";
+
     @Bean
     public Docket productApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-        		.apiInfo(apiInfo())
-                .select()                 
+                .apiInfo(apiInfo())
+                .select()
                 .apis(RequestHandlerSelectors.basePackage("com.shah.bankingapplicationcrud"))
+//                .paths(regex("/crud-api.*"))
                 .paths(PathSelectors.any())
                 .build()
                 .useDefaultResponseMessages(false)
                 .globalOperationParameters(operationParameters());
 
     }
-    
+
     private ApiInfo apiInfo() {
-    	
-    	return new ApiInfoBuilder()
-    			.description("Hello World")
-    			.title("REST API CRUD operations")
-    			.contact(contact())
-    			.license("License number WWE87ASR4GH")
-    			.termsOfServiceUrl("https://swagger.io/docs/specification/api-general-info/")
-    			.version("1.0")
-    			.build();
+
+        return new ApiInfoBuilder()
+                .description("Hello World")
+                .title("REST API CRUD operations")
+                .contact(contact())
+                .license("License number WWE87ASR4GH")
+                .termsOfServiceUrl("https://swagger.io/docs/specification/api-general-info/")
+                .version("1.0")
+                .build();
     }
-    
+
     private Contact contact() {
-  		return new Contact(name, url, email);
-      }
-    
-    private List<Parameter> operationParameters(){
-    	
-    	List<Parameter> headers = new ArrayList<>();
-    	
-    	headers.add(new ParameterBuilder()
-    			.name("Content-Type")
-    			.modelRef(new ModelRef("string"))
-    			.parameterType("header")
-    			.required(true)
-    			.defaultValue("application/json")
-    			.build());
-    	
-    	return headers;
+        return new Contact(name, url, email);
     }
-  
+
+    private List<Parameter> operationParameters() {
+
+        List<Parameter> headers = new ArrayList<>();
+
+        headers.add(new ParameterBuilder()
+                .name("Content-Type")
+                .modelRef(new ModelRef("string"))
+                .parameterType("header")
+                .required(true)
+                .defaultValue("application/json")
+                .build());
+
+        return headers;
+    }
+
 }
 
 	
