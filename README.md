@@ -23,13 +23,11 @@
 <details>
 <summary>Click to expand</summary><br>
   <ol>
-    <li>Jackson Annotations<br>
+    <li><b>Jackson Annotations</b><br></li>
 
 The Jackson JSON toolkit contains a set of Java annotations which you can use to influence how JSON is read into objects, or what JSON is generated from the objects. Click [HERE](http://tutorials.jenkov.com/java-json/jackson-annotations.html) for more information.
-<br>
-
-  </li>
-    <li>Creation timestamp<br></li>
+ 
+  <li><b>Creation timestamp</b><br></li>
 
 Marks a property as the creation timestamp of the containing entity. The property value will be set to the current VM date exactly once when saving the owning entity for the first time.
 
@@ -38,7 +36,7 @@ Marks a property as the creation timestamp of the containing entity. The propert
 private Date createdAt;
 ```
   
- <li>Validations</li>
+ <li><b>Validations</b></li>
 
 We assume that this is web-service where user can enter any field and value so a lot of validation is needed. Although most of the time validation will be done in front-end.
 
@@ -71,7 +69,7 @@ Controller (Handle request from external)
 *We are using [MySql](https://www.mysql.com/)  as our DB, [Docker](https://www.docker.com/) to run DB, [Dbeaver](https://dbeaver.io/) to manage DB, and [Postman](https://www.postman.com/) to run requests*
 
   <ul>
-    <li>Setting up DB using Docker</li><br>
+    <li><b>Setting up DB using Docker</b></li><br>
 
 We will create DB without having to manually create from RDBMS by utilising Spring JPA. Our table will look something like this:
 
@@ -87,7 +85,7 @@ docker run --name postgres-tutorial -e POSTGRES_PASSWORD=password -d -p 5432:543
 
 Once this is done, make sure you have the SQL file in your resources folder so Spring Boot can read the values and inserts into your DB when Spring Boot starts. So ensure this before starting your Spring Boot. Next we proced to verify the DB. There are 2 methods for this
 
-  <li>Verify database (using docker container)</li><br>
+  <li><b>Verify database (using docker container)</b></li><br>
 
 Once Spring starts, let's check our database (thru docker container) to verify if table is created and data added. Make sure the parameters entered is consistent with the variables used during docker creation.
 
@@ -118,7 +116,7 @@ Stop & remove all running proceses
 docker rm $(docker ps -a -q) -f
 ```
 
- <li>Verify database (using Dbeaver)</li><br>
+ <li><b>Verify database (using Dbeaver)</b></li><br>
 
  Database:
 
@@ -128,7 +126,7 @@ docker rm $(docker ps -a -q) -f
 
 [![Image](./src/main/resources/dbeaver-setup.PNG)](https://ipwithease.com/three-tier-architecture-in-application/)
 
-<li>Run requests using Postman</li><br>
+<li><b>Run requests using Postman</b></li><br>
 
 [View Postman collection](./src/main/resources/banking-rest-api-tutorials.postman_collection.json)
 
@@ -140,31 +138,31 @@ docker rm $(docker ps -a -q) -f
 <details>
 <summary>Click to expand</summary><br>
   <ul>
-  <li>Intro</li>
+  <li><b>Intro</b></li>
 
 During the software development process, it is inevitable to handle all kinds of exceptions. For me, at least half of the time is spent dealing with all kinds of exceptions, so there will be a lot of try {...} catch {...} finally {...} code blocks in the code, which not only has a lot of redundant code, but also affects the readability of the code.
 
-  <li>So what is it?</li>
+  <li><b>So what is it?</b></li>
 
 Spring consider exception handling a cross-cutting concern, thus it allows you to handle exceptions separately from the rest of your code. This approach truly does work great with Spring!
 
 Used for global error handling in the Spring MVC application.It also has full control over the body of the response and the status code.
 
-  <li>Types</li>
+  <li><b>Types</b></li>
 
 There are 2 types: <br>
 
   <ol>
-  <li>Custom exception</li>
+  <li><b>Custom exception</b></li>
 
 Where u throw yourself if it meets your condition and use GlobalExceptionHandler to handle [HERE](https://stackoverflow.com/questions/67090406/throw-custom-exception-with-spring-data-rest)
 
-  <li>Global exception</li>
+  <li><b>Global exception</b></li>
 
 Where it throws itself and u handle it using GlobalExceptionHandler
   </ol>
 
-  <li>Benefits</li>
+  <li><b>Benefits</b></li>
 No cluttering of your code surrounding with try-catch blocks. This will result in cleaner and manageable code. You can have more meaningful error message
         
 </ul>
@@ -176,11 +174,11 @@ No cluttering of your code surrounding with try-catch blocks. This will result i
 <summary>Click to expand</summary><br>
 
 <ul>
-  <li>Introduction</li><br>
+  <li><b>Introduction</b></li><br>
 
 Unit test refers to the test of the most basic parts of an app -> A Unit. For REST application, we create test cases starting from Repository layer, then Service layer, then Controller where the test focus on integrating different layers of the application.
 
-  <li>Code Coverage</li><br>
+  <li><b>Code Coverage</b></li><br>
 
 Code coverage describes the percentage of code covered by automated tests. in Eclipse we use [EclEmma](https://www.eclemma.org/) which is a free Java code coverage tool for Eclipse. Coverage is measured by percentage. Especially when working in enterprise, we must achieve atleast 50% total coverage
 
@@ -188,11 +186,11 @@ Code coverage describes the percentage of code covered by automated tests. in Ec
 
 To achieve a high % coverage, we need to test elements that has highest number of instruction. Also, to cover your service class is highest priority.
 
-  <li>Code quality</li><br>
+  <li><b>Code quality</b></li><br>
 
 [(SonarLint)](https://www.sonarlint.org/) is a Free and Open Source IDE extension that identifies and helps you fix quality and security issues as you code. Like a spell checker, SonarLint squiggles flaws and provides real-time feedback and clear remediation guidance to deliver clean code from the get-go.
 
-  <li>Create test case</li><br>
+  <li><b>Create test case</b></li><br>
 
 If you are using IntelliJ, simply right-click on the repo file -> new -> Junit. This will automatically generate test method. We will implement our test cases.
 
@@ -208,11 +206,11 @@ If you are using IntelliJ, simply right-click on the repo file -> new -> Junit. 
 In Repository, we dont need to test build-in methods of JPA. Only test your custom methods. Since we dont have one, lets create one (using @Query). This query will count number of country in employee table. The result will have custom fields (using projection)
 
   <ul>
-    <li>Diagram</li>
+    <li><b>Diagram</b></li>
 
 [![Image](./src/main/resources/unit-test-repository.JPG)](https://ipwithease.com/three-tier-architecture-in-application/)
 
- <li>H2 database</li><br>
+ <li><b>H2 database</b></li><br>
 
 To test repository, we can run the query against H2 database simply we dont want to store the data during testing. This can be easily done by copy-paste our main application.properties into the test folder and change the db url from mysql to h2. Schema and data will be loaded from the main resources
 
@@ -227,7 +225,7 @@ To test repository, we can run the query against H2 database simply we dont want
 Hardest unit to test.
 
   <ul>
-    <li>Using Mock</li><br>
+    <li><b>Using Mock</b></li><br>
 
 Since our repo is tested and works fine, we dont need to test the service class against repo but instead we will mock it. Basically we don't want to test the real repository when we are testing the service because we know that repository is tested and it works. So we can just mock its implementation inside of the service test.
 The benefit that we get is that our unit test is now testing is fast as we don't have to bring up the database, create table, insert a new student, drop the database, and all of that stuff that you've seen when we tested the repository which we've done earlier. Therefore anywhere that we use the repository we just `mock` it.
@@ -236,7 +234,7 @@ The benefit that we get is that our unit test is now testing is fast as we don't
 
 Besides mocking the repository, we can mock basically anything and define what it reutrn, making our work easier and faster [(more info)](https://visitmehere.wordpress.com/2019/06/07/mock-an-arraylist/). We also implement @InjectMocks simply because Service layer need Repository layer [(more info)](https://stackoverflow.com/questions/16467685/difference-between-mock-and-injectmocks).
 
-  <li>Important</li><br>
+  <li><b>Important</b></li><br>
 
 You dont need to create any real objects at all. Just create mock of any instance, method, class, anything. The goal of testing the service is to detach any real object as much as possible!
 
@@ -257,7 +255,7 @@ Unlike the Service layer where we can mock everything, here we need to use real 
 <details>
 <summary>Click to expand</summary><br>
   <ul>
-    <li>Fetch all customers with pagination</li>
+    <li><b>Fetch all customers with pagination</b></li>
   </ul>
 </details>
 
@@ -283,42 +281,39 @@ Unlike the Service layer where we can mock everything, here we need to use real 
 <details>
 <summary>Click to expand</summary><br>
  <ul>
-  <li>Know that entity having camelCase will mapped into db into under_score eg: </li>
+  <li><b>Know that entity having camelCase will mapped into db into under_score eg: </b></li>
 
 ```
 birthDate -> birth_date in Database
 ```
 
-  <li>Arrange your order of json properties. Currently the id is at the bottom. we can bring this up by adding this at class level: </li>
+  <li><b>Arrange your order of json properties. Currently the id is at the bottom. we can bring this up by adding this at class level: </b></li>
  
 ```
 @JsonPropertyOrder({"firstName","lastName"})
 ```
 From this example, firstName will be at the most top followed by lastName
-  <li>Hide json property. You can hide certain property of json. let us hide lastName by this annotation in entity:</li>
+  <li><b>Hide json property. You can hide certain property of json. let us hide lastName by this annotation in entity:</b></li>
 
 ```
 @JsonIgnore
 private String lastName;
 ```
 
-  <li> Rename json property. You can rename your json property name instead of using the default value based on variable name</li>
+  <li><b> Rename json property. You can rename your json property name instead of using the default value based on variable name</b></li>
 
 ```
 @JsonProperty("MyAwesomeFirstName")
 private String firstName;
 ```
 
-  <li>Use exception to throw validation error by means of try-catch</li>
-  <li>Implement more fields in Employee to learn pagination</li>
-   
-  <li>In Repository, we dont need to test build-in methods of JPA. Only test your custom methods</li>
-
-  <li>Entity</li>
+  <li><b>Use exception to throw validation error by means of try-catch</b></li>
+  <li><b>Implement more fields in Employee to learn pagination</b></li>
+  <li><b>Entity</b></li>
 
 Entities in JPA are nothing but POJOs representing data that can be persisted to the database. An entity represents a table stored in a database. Every instance of an entity represents a row in the table. This will be in Employee.java
 
-  <li>Prepopulate data</li>
+  <li><b>Prepopulate data</b></li>
 
 We can add values in our table in data.sql in resources folder. This values will be added when Spring starts. In certain scenario you might not able able to populate thru this approach so you have to manually add values thru test cases.
 
@@ -326,15 +321,15 @@ This test case will be created under repository test folder, for the sake of Pro
 
 [(Explanation)](https://youtu.be/Geq60OVyBPg?t=2422)
 
- <li>Create native query</li>
+ <li><b>Create native query</b></li>
 
 [Click here](https://stackoverflow.com/questions/58453768/variables-in-spring-data-jpa-native-query)
 
- <li>3 tier architecture</li>
+ <li><b>3 tier architecture</b></li>
 
 [![Image](./src/main/resources/3-tier-architecture.JPG)](https://ipwithease.com/three-tier-architecture-in-application/)
 
- <li>Layered Architecture</li>
+ <li><b>Layered Architecture</b></li>
 
 [![Image](./src/main/resources/3-layered-architecture.JPG "Deploying Spring Boot Apps to AWS using Elastic Beanstalk")](https://medium.com/java-vault/layered-architecture-b2f4ebe8d587)
 
