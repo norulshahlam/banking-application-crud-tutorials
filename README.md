@@ -5,6 +5,10 @@
 ## Architecture Diagram
 ![Image](./src/main/resources/architecture-diagram.drawio.png)
 
+## Diagram flow
+
+[![Image](./src/main/resources/3-layered-architecture.JPG)](https://medium.com/java-vault/layered-architecture-b2f4ebe8d587)
+
 ### Business features
 
 <details>
@@ -43,23 +47,13 @@ private Date createdAt;
 
 We assume that this is web-service where user can enter any field and value so a lot of validation is needed. Although most of the time validation will be done in front-end.
 
+ <li><b>Swagger Api</b><br></li>
+
+
+
   </ol>
 </details>
 
-### Diagram flow
-
-<details>
-<summary>Click to expand</summary><br>
-
- <li><b>3 tier architecture</b></li>
-
-[![Image](./src/main/resources/3-tier-architecture.JPG)](https://ipwithease.com/three-tier-architecture-in-application/)
-
- <li><b>Layered Architecture</b></li>
-
-[![Image](./src/main/resources/3-layered-architecture.JPG)](https://medium.com/java-vault/layered-architecture-b2f4ebe8d587)
-
-</details>
 
 
 ### How to start app on local
