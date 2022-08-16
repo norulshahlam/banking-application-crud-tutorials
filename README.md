@@ -2,6 +2,9 @@
 
 ## This is a simple REST API that does basic crud operations.
 
+## Architecture Diagram
+![Image](./src/main/resources/architecture-diagram.drawio.png)
+
 ### Business features
 
 <details>
@@ -43,14 +46,6 @@ We assume that this is web-service where user can enter any field and value so a
   </ol>
 </details>
 
-### Architecture Diagram
-
-<details>
-<summary>Click to expand</summary><br>
-
-[![Image](./src/main/resources/architecture-diagram.drawio.png)](https://medium.com/java-vault/layered-architecture-b2f4ebe8d587)
-
-</details>
 ### Diagram flow
 
 <details>
