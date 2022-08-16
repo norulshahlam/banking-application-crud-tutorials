@@ -137,6 +137,17 @@ For quick setup, simply add this in your property:
 
 [More info](https://howtodoinjava.com/spring-boot2/logging/console-logging-configuration/)
 
+  <li><b>Spring boot custom banner</b><br></li>
+
+Customize the default Spring Boot Banner. You can use images or plain text. To generate text, use [ASCII Text Signature Generator](https://www.kammerl.de/ascii/AsciiSignature.php)
+
+Configure your image-based banner [here](https://www.baeldung.com/spring-boot-custom-banners)  
+
+You can also color your text banner [here](https://www.baeldung.com/spring-boot-color-banner)  
+
+Result sample:
+![Image](./src/main/resources/banner-sample.PNG)
+
   </ol>
 </details>
 
