@@ -23,7 +23,7 @@
 <details>
 <summary>Click to expand</summary><br>
   <ol>
-    <li>Customize json property<br>
+    <li>Jackson Annotations<br>
 
 The Jackson JSON toolkit contains a set of Java annotations which you can use to influence how JSON is read into objects, or what JSON is generated from the objects. Click [HERE](http://tutorials.jenkov.com/java-json/jackson-annotations.html) for more information.
 <br>
@@ -62,19 +62,22 @@ Controller (Handle request from external)
 
 </details>
 
-### Run DB server
+
+### How to start app on local
 
 <details>
 <summary>Click to expand</summary><br>
 
-We will create DB without having to manually create from RDBMS by utilising Spring JPA. Our table will look something like this:
+*We are using [MySql](https://www.mysql.com/)  as our DB, [Docker](https://www.docker.com/) to run DB, [Dbeaver](https://dbeaver.io/) to manage DB, and [Postman](https://www.postman.com/) to run requests*
 
   <ul>
-    <li>We will create DB without having to manually create from RDBMS by utilising Spring JPA. Our table will look something like this:</li>
+    <li>Setting up DB using Docker</li><br>
+
+We will create DB without having to manually create from RDBMS by utilising Spring JPA. Our table will look something like this:
 
 [![Image](./src/main/resources/sql-table.png)](https://ipwithease.com/three-tier-architecture-in-application/)
 
-  <li>We will be using MySql for database creation and will be using Docker to run MySql. Lets create an instance of MySql Docker image:</li>
+Install docker in your windows. Once done, create an instance of MySql Docker image by running this commands:
 
 ```
 docker run --detach --env MYSQL_ROOT_PASSWORD=root --env MYSQL_DATABASE=mydb --env MYSQL_PASSWORD=root --env MYSQL_USER=admin --name localhost --publish 3306:3306 mysql:8.0
@@ -82,30 +85,25 @@ docker run --detach --env MYSQL_ROOT_PASSWORD=root --env MYSQL_DATABASE=mydb --e
 docker run --name postgres-tutorial -e POSTGRES_PASSWORD=password -d -p 5432:5432 postgres
 ```
 
-  </ul>
-</details>
+Once this is done, make sure you have the SQL file in your resources folder so Spring Boot can read the values and inserts into your DB when Spring Boot starts. So ensure this before starting your Spring Boot. Next we proced to verify the DB. There are 2 methods for this
 
-### Verify database
-
-<details>
-<summary>Click to expand</summary><br>
+  <li>Verify database (using docker container)</li><br>
 
 Once Spring starts, let's check our database (thru docker container) to verify if table is created and data added. Make sure the parameters entered is consistent with the variables used during docker creation.
 
-  <ul>
-  <li>Run mysql in cli using docker</li>
+Run mysql in cli using docker
 
 ```
 docker exec -it localhost bash
 ```
 
-  <li>Connect to mysql</li>
+Connect to mysql
 
 ```
 mysql -u admin -proot;
 ```
 
-  <li>Test</li>
+Test
 
 ```
 use mydb;
@@ -114,11 +112,25 @@ desc customer;
 select * from customer;
 ```
 
-  <li>Stop & remove all running proceses</li>
+Stop & remove all running proceses
 
 ```
 docker rm $(docker ps -a -q) -f
 ```
+
+ <li>Verify database (using Dbeaver)</li><br>
+
+ Database:
+
+ ```
+ spring.datasource.url=jdbc:mysql://localhost:3306/mydb?allowPublicKeyRetrieval=true&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
+ ```
+
+[![Image](./src/main/resources/dbeaver-setup.PNG)](https://ipwithease.com/three-tier-architecture-in-application/)
+
+<li>Run requests using Postman</li><br>
+
+[View Postman collection](./src/main/resources/banking-rest-api-tutorials.postman_collection.json)
 
   </ul>
 </details>
@@ -237,15 +249,6 @@ You dont need to create any real objects at all. Just create mock of any instanc
 <summary>Click to expand</summary><br>
 
 Unlike the Service layer where we can mock everything, here we need to use real object for the response. From there we will use JSONPath to match certain fields in your result set. If you are not familiar with it, you can use [(JSONPath Online Evaluator)](https://jsonpath.com/) to play around with the expressions.
-
-</details>
-
-### Postman collections
-
-<details>
-<summary>Click to expand</summary><br>
-
-[View collection](./src/main/resources/banking-rest-api-tutorials.postman_collection.json)
 
 </details>
 
