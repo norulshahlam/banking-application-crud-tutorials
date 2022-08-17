@@ -51,29 +51,6 @@ We assume that this is web-service where user can enter any field and value so a
 
 An open source project used to generate the REST API documents for RESTful web services. It provides a user interface to access our RESTful web services via the web browser.
 
-`What to implement?`
-
-Docket - Your configurations and useful information
-- Api information like name, contact, version  
-- Request header like application/json, request id, request date/time
-
-@ApiResponses
-- Describes a possible response of an operation. 
-- Defined at controller level or application level
-
-@ApiOperation
-- Describes an operation or typically a HTTP method against a specific path
-- Defined on every controller method
-
-@ApiParam
-- Describes a parameters of an API resource request
-- You give a sample value on the request parameter
-- Defined on every controller method
-
-@ApiModelProperty
-- Define your model description (value), name, data type, example values on your model
-
-
 We have one class for this config to do all the necessary configurations there. Click [here](https://stackoverflow.com/questions/70043841/swagger-2-issue-spring-boot) for any issues faced. You can access it in JSON-based or UI-based. These two have their default url. You can, of course customize this.
 
 JSON-based
@@ -135,7 +112,13 @@ For quick setup, simply add this in your property:
     spring.output.ansi.enabled=ALWAYS
     logging.pattern.console=%clr(%d{yy-MM-dd E HH:mm:ss.SSS}){blue} %clr(%-5p) %clr(${PID}){faint} %clr(---){faint} %clr([%8.15t]){cyan} %clr(%-40.40logger{0}){blue} %clr(:){red} %clr(%m){faint}%n
 
+Default console display:
+![Image](./src/main/resources/before-customize-console.PNG)
+Customized console display:
+![Image](./src/main/resources/after-customize-console.PNG)
+
 [More info](https://howtodoinjava.com/spring-boot2/logging/console-logging-configuration/)
+[More info](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.logging)
 
   <li><b>Spring boot custom banner</b><br></li>
 
@@ -240,7 +223,7 @@ During the software development process, it is inevitable to handle all kinds of
 
 Spring consider exception handling a cross-cutting concern, thus it allows you to handle exceptions separately from the rest of your code. This approach truly does work great with Spring!
 
-Used for global error handling in the Spring MVC application.It also has full control over the body of the response and the status code.
+Used for global error handling in the Spring MVC application. It also has full control over the body of the response and the status code.
 
   <li><b>Types</b></li>
 
@@ -254,9 +237,11 @@ Where u throw yourself if it meets your condition and use GlobalExceptionHandler
   <li><b>Global exception</b></li>
 
 Where it throws itself and u handle it using GlobalExceptionHandler
+
   </ol>
 
   <li><b>Benefits</b></li>
+  
 No cluttering of your code surrounding with try-catch blocks. This will result in cleaner and manageable code. You can have more meaningful error message
         
 </ul>

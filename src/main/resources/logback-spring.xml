@@ -6,7 +6,7 @@
     <!--  your console output  -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>  %green(%d{yy-MM-dd E HH:mm:ss.SSS}) %magenta([%thread]) %highlight(%-5level) %yellow(%logger{36}) - %msg%n</pattern>
+            <pattern>  %green(%d{dd-MM-yyyy E HH:mm:ss.SSS}) %magenta([%thread]) %highlight(%-5level) %yellow(%logger{36}) - %blue(%msg%n)</pattern>
         </encoder>
     </appender>
 
@@ -14,7 +14,7 @@
     <appender name="APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOGS}/logger.log</file>
         <encoder>
-            <pattern>%d{yy-MM-dd E HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>%d{dd-MM-yyyy E HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${LOGS}/archived/logger-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
