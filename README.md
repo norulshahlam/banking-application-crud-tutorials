@@ -42,7 +42,14 @@ Marks a property as the creation timestamp of the containing entity. The propert
 @CreationTimestamp
 private Date createdAt;
 ```
-  
+  <li><b>Update timestamp</b><br></li>
+
+Marks a property as the update timestamp of the containing entity. The property value will be set to the current VM date whenever the owning entity is updated
+
+```
+@UpdateTimestamp
+private Date updatedAt;
+```
   <li><b>Validations</b></li>
 
 We assume that this is web-service where user can enter any field and value so a lot of validation is needed. Although most of the time validation will be done in front-end.
@@ -96,7 +103,7 @@ How to run logic at the startup of a Spring application? There many ways to achi
 5. Constructor Injection
 6. _CommandLineRunner_
 7. _ApplicationRunner_
-8. Combining any combination above
+8. Combining any combination above  
 
 For simplicity we will demo using _CommandLineRunner_
 
@@ -241,7 +248,7 @@ Where it throws itself and u handle it using GlobalExceptionHandler
   </ol>
 
   <li><b>Benefits</b></li>
-  
+
 No cluttering of your code surrounding with try-catch blocks. This will result in cleaner and manageable code. You can have more meaningful error message
         
 </ul>
