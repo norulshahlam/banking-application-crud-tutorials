@@ -1,0 +1,37 @@
+<configuration>
+
+    <!--  where logs is saved  -->
+    <property name="LOGS" value="logs" />
+
+    <!--  your console output  -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>  %green(%d{dd-MM-yyyy E HH:mm:ss.SSS}) %magenta([%thread]) %highlight(%-5level) %yellow(%logger{36}) - %blue(%msg%n)</pattern>
+        </encoder>
+    </appender>
+
+    <!--  your saved logs  -->
+    <appender name="APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS}/logger.log</file>
+        <encoder>
+            <pattern>%d{dd-MM-yyyy E HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOGS}/archived/logger-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="APPENDER" />
+    </root>
+
+    <logger name="com.shah" level="info" additivity="false">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="APPENDER" />
+    </logger>
+</configuration>

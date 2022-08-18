@@ -1,0 +1,369 @@
+{
+	"info": {
+		"_postman_id": "c68c9738-af1f-47d7-ac2a-62ec5ce6a1dc",
+		"name": "banking-rest-api-tutorials",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10507560"
+	},
+	"item": [
+		{
+			"name": "get-all-customers",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-source-country",
+						"value": "SG",
+						"type": "text"
+					},
+					{
+						"key": "x-correlation-id",
+						"value": "{{$guid}}",
+						"type": "text"
+					},
+					{
+						"key": "x-source-date-time",
+						"value": "{{$timestamp}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:9090/api/v1/get-all-customers?page=0&size=5&field=email&query=s",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"v1",
+						"get-all-customers"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "5"
+						},
+						{
+							"key": "field",
+							"value": "email"
+						},
+						{
+							"key": "query",
+							"value": "s"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-customer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-source-country",
+						"value": "SG",
+						"type": "text"
+					},
+					{
+						"key": "x-correlation-id",
+						"value": "{{$guid}}",
+						"type": "text"
+					},
+					{
+						"key": "x-source-date-time",
+						"value": "{{$timestamp}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "  {\r\n        \"email\": \"Dolslaidng@techcrunch.com\",\r\n        \"firstName\": \"waegsegewd\",\r\n        \"lastName\": \"Dolling\",\r\n        \"age\": 24,\r\n        \"gender\": \"Female\",\r\n        \"country\": \"Japan\",\r\n        \"designation\": \"Social Worker\",\r\n        \"birthDate\": \"1968-04-24\",\r\n        \"accBalance\":\"18.50 \"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/api/v1/create-customer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"v1",
+						"create-customer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patch-customer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-source-country",
+						"value": "SG",
+						"type": "text"
+					},
+					{
+						"key": "x-correlation-id",
+						"value": "{{$guid}}",
+						"type": "text"
+					},
+					{
+						"key": "x-source-date-time",
+						"value": "{{$timestamp}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "  {\r\n        \"id\":\"668e3408-3321-4649-8776-9f83f2a6203c\",\r\n        \"email\": \"ddsd@techcrunch.com\",\r\n        \"firstName\": \"waegsegewd\",\r\n        \"lastName\": \"Doslling\",\r\n        \"age\": 293,\r\n        \"gender\": \"erg\",\r\n        \"country\": \"Japan\",\r\n        \"designation\": \"Social Worker\",\r\n        \"birthDate\": \"1968-04-24\",\r\n        \"accBalance\":\"18.50 \"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/api/v1/patch-customer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"v1",
+						"patch-customer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-one-customer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-source-country",
+						"value": "SG",
+						"type": "text"
+					},
+					{
+						"key": "x-correlation-id",
+						"value": "{{$guid}}",
+						"type": "text"
+					},
+					{
+						"key": "x-source-date-time",
+						"value": "{{$timestamp}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":\"f9bd1139-c907-11ec-b11c-0242ac110002\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/api/v1/get-one-customer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"v1",
+						"get-one-customer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "transfer-amount",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-source-country",
+						"value": "SG",
+						"type": "text"
+					},
+					{
+						"key": "x-correlation-id",
+						"value": "{{$guid}}",
+						"type": "text"
+					},
+					{
+						"key": "x-source-date-time",
+						"value": "{{$timestamp}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"payerAccountNumber\":\"ac757ede-17a6-11ed-b14c-0242ac110002\",\r\n    \"payeeAccountNumber\":\"ac6d0a4b-17a6-11ed-b14c-0242ac110002\",\r\n    \"amount\":\"2.50\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/api/v1/transfer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"v1",
+						"transfer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete-customer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-source-country",
+						"value": "SG",
+						"type": "text"
+					},
+					{
+						"key": "x-correlation-id",
+						"value": "{{$guid}}",
+						"type": "text"
+					},
+					{
+						"key": "x-source-date-time",
+						"value": "{{$timestamp}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"id\": \"a1ade791-0cf7-11ed-932d-0242ac110002\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/api/v1/delete-customer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"v1",
+						"delete-customer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "all country count",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/crud-api/employees/count/country",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"crud-api",
+						"employees",
+						"count",
+						"country"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get one country count",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9090/crud-api/employees/count/japan",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"crud-api",
+						"employees",
+						"count",
+						"japan"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
