@@ -34,11 +34,8 @@ import static com.shah.bankingapplicationcrud.constant.CommonConstants.*;
         @ApiResponse(code = 500, message = "Service Unavaliable")})
 public class CustomerController {
 
-
     @Autowired
     private final CustomerServiceImpl service;
-
-
 
     @ApiOperation(
             value = "Retrieve all customers. Optional query param to search for customer containing by first or last name",

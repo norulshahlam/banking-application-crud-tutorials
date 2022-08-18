@@ -11,7 +11,7 @@ import static com.shah.bankingapplicationcrud.constant.CommonConstants.*;
 
 public class ValidateHeaders {
 
-    public static void validateGetOneEmployee(HttpHeaders headers) {
+    public static void validateHeaders(HttpHeaders headers) {
         if (ObjectUtils.isEmpty(headers)) {
             throw new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND);
         } else if (ObjectUtils.isEmpty(headers.getFirst(X_SOURCE_COUNTRY))) {

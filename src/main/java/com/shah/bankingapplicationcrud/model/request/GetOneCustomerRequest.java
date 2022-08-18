@@ -11,6 +11,7 @@ import javax.validation.constraints.Pattern;
 @Setter
 @ToString
 @AllArgsConstructor
+@Builder
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class GetOneCustomerRequest {
