@@ -1,508 +1,529 @@
-22-08-17 Wed 20:02:55.304 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.3.Final
-22-08-17 Wed 20:02:55.317 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Starting BankingApplicationCrudApplication using Java 17.0.2 on DESKTOP-9JL74QH with PID 12244 (C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud\target\classes started by NORUL in C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud)
-22-08-17 Wed 20:02:55.319 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - No active profile set, falling back to 1 default profile: "default"
-22-08-17 Wed 20:02:55.393 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-22-08-17 Wed 20:02:55.393 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-22-08-17 Wed 20:02:56.245 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-22-08-17 Wed 20:02:56.292 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 41 ms. Found 1 JPA repository interfaces.
-22-08-17 Wed 20:02:56.898 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9090 (http)
-22-08-17 Wed 20:02:56.905 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
-22-08-17 Wed 20:02:56.905 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-22-08-17 Wed 20:02:56.906 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
-22-08-17 Wed 20:02:56.963 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-22-08-17 Wed 20:02:56.963 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1570 ms
-22-08-17 Wed 20:02:57.150 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-22-08-17 Wed 20:02:57.213 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 5.6.10.Final
-22-08-17 Wed 20:02:57.366 [restartedMain] INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-22-08-17 Wed 20:02:57.450 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-1 - maxLifetime is less than 30000ms, setting to default 1800000ms.
-22-08-17 Wed 20:02:57.451 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-1 - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
-22-08-17 Wed 20:02:57.451 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-22-08-17 Wed 20:02:57.585 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-22-08-17 Wed 20:02:57.599 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-22-08-17 Wed 20:02:58.008 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-22-08-17 Wed 20:02:58.014 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-22-08-17 Wed 20:02:58.398 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-22-08-17 Wed 20:02:58.586 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-22-08-17 Wed 20:02:58.896 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
-22-08-17 Wed 20:02:58.924 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9090 (http) with context path ''
-22-08-17 Wed 20:02:59.175 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Started BankingApplicationCrudApplication in 4.224 seconds (JVM running for 4.715)
-22-08-17 Wed 20:02:59.177 [restartedMain] INFO  c.s.b.startup.MyStartup - Application name: rest-api-tutorials just loaded!
-22-08-17 Wed 20:02:59.177 [restartedMain] INFO  c.s.b.startup.MyStartup - EXECUTING : command line runner
-22-08-17 Wed 20:02:59.178 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - App started
-22-08-17 Wed 20:04:48.077 [Thread-4] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-22-08-17 Wed 20:04:48.079 [Thread-4] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-22-08-17 Wed 20:04:48.082 [Thread-4] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-22-08-17 Wed 20:04:48.177 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Starting BankingApplicationCrudApplication using Java 17.0.2 on DESKTOP-9JL74QH with PID 12244 (C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud\target\classes started by NORUL in C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud)
-22-08-17 Wed 20:04:48.177 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - No active profile set, falling back to 1 default profile: "default"
-22-08-17 Wed 20:04:48.414 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-22-08-17 Wed 20:04:48.427 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 13 ms. Found 1 JPA repository interfaces.
-22-08-17 Wed 20:04:48.507 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9090 (http)
-22-08-17 Wed 20:04:48.507 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
-22-08-17 Wed 20:04:48.507 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-22-08-17 Wed 20:04:48.508 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
-22-08-17 Wed 20:04:48.531 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-22-08-17 Wed 20:04:48.532 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 354 ms
-22-08-17 Wed 20:04:48.557 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-22-08-17 Wed 20:04:48.561 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-2 - maxLifetime is less than 30000ms, setting to default 1800000ms.
-22-08-17 Wed 20:04:48.562 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-2 - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
-22-08-17 Wed 20:04:48.562 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
-22-08-17 Wed 20:04:48.569 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
-22-08-17 Wed 20:04:48.570 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-22-08-17 Wed 20:04:48.607 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-22-08-17 Wed 20:04:48.607 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-22-08-17 Wed 20:04:48.710 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-22-08-17 Wed 20:04:48.751 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-22-08-17 Wed 20:04:48.900 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
-22-08-17 Wed 20:04:48.902 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9090 (http) with context path ''
-22-08-17 Wed 20:04:48.967 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Started BankingApplicationCrudApplication in 0.815 seconds (JVM running for 114.507)
-22-08-17 Wed 20:04:48.968 [restartedMain] INFO  c.s.b.startup.MyStartup - Application name: rest-api-tutorials just loaded!
-22-08-17 Wed 20:04:48.968 [restartedMain] INFO  c.s.b.startup.MyStartup - EXECUTING : command line runner
-22-08-17 Wed 20:04:48.969 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-22-08-17 Wed 20:04:48.969 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - App started
-22-08-17 Wed 20:05:12.815 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-22-08-17 Wed 20:05:12.816 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
-22-08-17 Wed 20:05:12.816 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
-22-08-17 Wed 20:07:51.478 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Starting BankingApplicationCrudApplication using Java 17.0.2 on DESKTOP-9JL74QH with PID 21856 (C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud\target\classes started by NORUL in C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud)
-22-08-17 Wed 20:07:51.478 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - No active profile set, falling back to 1 default profile: "default"
-22-08-17 Wed 20:07:51.633 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-22-08-17 Wed 20:07:51.645 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 11 ms. Found 1 JPA repository interfaces.
-22-08-17 Wed 20:07:51.698 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9090 (http)
-22-08-17 Wed 20:07:51.699 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-22-08-17 Wed 20:07:51.699 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
-22-08-17 Wed 20:07:51.715 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-22-08-17 Wed 20:07:51.716 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 236 ms
-22-08-17 Wed 20:07:51.732 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-22-08-17 Wed 20:07:51.736 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-3 - maxLifetime is less than 30000ms, setting to default 1800000ms.
-22-08-17 Wed 20:07:51.736 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-3 - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
-22-08-17 Wed 20:07:51.736 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
-22-08-17 Wed 20:07:51.743 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
-22-08-17 Wed 20:07:51.743 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-22-08-17 Wed 20:07:51.772 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-22-08-17 Wed 20:07:51.773 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-22-08-17 Wed 20:07:51.849 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-22-08-17 Wed 20:07:51.891 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-22-08-17 Wed 20:07:52.013 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9090 (http) with context path ''
-22-08-17 Wed 20:07:52.065 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Started BankingApplicationCrudApplication in 0.645 seconds (JVM running for 34.645)
-22-08-17 Wed 20:07:52.066 [restartedMain] INFO  c.s.b.startup.MyStartup - Application name: rest-api-tutorials just loaded!
-22-08-17 Wed 20:07:52.066 [restartedMain] INFO  c.s.b.startup.MyStartup - EXECUTING : command line runner
-22-08-17 Wed 20:07:52.066 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-22-08-17 Wed 20:07:52.067 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - App started
-22-08-17 Wed 20:07:56.473 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-22-08-17 Wed 20:07:56.474 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown initiated...
-22-08-17 Wed 20:07:56.475 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown completed.
-22-08-17 Wed 20:07:58.235 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.3.Final
-22-08-17 Wed 20:07:58.244 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Starting BankingApplicationCrudApplication using Java 17.0.2 on DESKTOP-9JL74QH with PID 8896 (C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud\target\classes started by NORUL in C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud)
-22-08-17 Wed 20:07:58.244 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - No active profile set, falling back to 1 default profile: "default"
-22-08-17 Wed 20:07:58.274 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-22-08-17 Wed 20:07:58.274 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-22-08-17 Wed 20:07:58.846 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-22-08-17 Wed 20:07:58.896 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 43 ms. Found 1 JPA repository interfaces.
-22-08-17 Wed 20:07:59.495 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9090 (http)
-22-08-17 Wed 20:07:59.503 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
-22-08-17 Wed 20:07:59.503 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-22-08-17 Wed 20:07:59.503 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
-22-08-17 Wed 20:07:59.562 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-22-08-17 Wed 20:07:59.562 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1287 ms
-22-08-17 Wed 20:07:59.681 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-22-08-17 Wed 20:07:59.769 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 5.6.10.Final
-22-08-17 Wed 20:07:59.905 [restartedMain] INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-22-08-17 Wed 20:07:59.992 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-1 - maxLifetime is less than 30000ms, setting to default 1800000ms.
-22-08-17 Wed 20:07:59.993 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-1 - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
-22-08-17 Wed 20:07:59.993 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-22-08-17 Wed 20:08:00.085 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-22-08-17 Wed 20:08:00.096 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-22-08-17 Wed 20:08:00.496 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-22-08-17 Wed 20:08:00.502 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-22-08-17 Wed 20:08:00.931 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-22-08-17 Wed 20:08:01.124 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-22-08-17 Wed 20:08:01.384 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
-22-08-17 Wed 20:08:01.405 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9090 (http) with context path ''
-22-08-17 Wed 20:08:01.643 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Started BankingApplicationCrudApplication in 3.72 seconds (JVM running for 4.074)
-22-08-17 Wed 20:08:01.645 [restartedMain] INFO  c.s.b.startup.MyStartup - Application name: rest-api-tutorials just loaded!
-22-08-17 Wed 20:08:01.645 [restartedMain] INFO  c.s.b.startup.MyStartup - EXECUTING : command line runner
-22-08-17 Wed 20:08:01.645 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - App started
-22-08-17 Wed 20:13:55.887 [Thread-4] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-22-08-17 Wed 20:13:55.889 [Thread-4] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-22-08-17 Wed 20:13:55.893 [Thread-4] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-17-08-2022 Wed 20:13:55.973 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Starting BankingApplicationCrudApplication using Java 17.0.2 on DESKTOP-9JL74QH with PID 8896 (C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud\target\classes started by NORUL in C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud)
-17-08-2022 Wed 20:13:55.973 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - No active profile set, falling back to 1 default profile: "default"
-17-08-2022 Wed 20:13:56.149 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-17-08-2022 Wed 20:13:56.163 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 13 ms. Found 1 JPA repository interfaces.
-17-08-2022 Wed 20:13:56.224 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9090 (http)
-17-08-2022 Wed 20:13:56.225 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
-17-08-2022 Wed 20:13:56.225 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-17-08-2022 Wed 20:13:56.225 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
-17-08-2022 Wed 20:13:56.244 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-17-08-2022 Wed 20:13:56.244 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 270 ms
-17-08-2022 Wed 20:13:56.266 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-17-08-2022 Wed 20:13:56.270 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-2 - maxLifetime is less than 30000ms, setting to default 1800000ms.
-17-08-2022 Wed 20:13:56.270 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-2 - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
-17-08-2022 Wed 20:13:56.270 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
-17-08-2022 Wed 20:13:56.277 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
-17-08-2022 Wed 20:13:56.277 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-17-08-2022 Wed 20:13:56.311 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-17-08-2022 Wed 20:13:56.311 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-17-08-2022 Wed 20:13:56.410 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-17-08-2022 Wed 20:13:56.455 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-17-08-2022 Wed 20:13:56.586 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
-17-08-2022 Wed 20:13:56.588 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9090 (http) with context path ''
-17-08-2022 Wed 20:13:56.651 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Started BankingApplicationCrudApplication in 0.7 seconds (JVM running for 359.082)
-17-08-2022 Wed 20:13:56.652 [restartedMain] INFO  c.s.b.startup.MyStartup - Application name: rest-api-tutorials just loaded!
-17-08-2022 Wed 20:13:56.652 [restartedMain] INFO  c.s.b.startup.MyStartup - EXECUTING : command line runner
-17-08-2022 Wed 20:13:56.653 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-17-08-2022 Wed 20:13:56.653 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - App started
-17-08-2022 Wed 20:15:46.841 [Thread-7] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-17-08-2022 Wed 20:15:46.842 [Thread-7] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
-17-08-2022 Wed 20:15:46.843 [Thread-7] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
-17-08-2022 Wed 20:15:46.922 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Starting BankingApplicationCrudApplication using Java 17.0.2 on DESKTOP-9JL74QH with PID 8896 (C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud\target\classes started by NORUL in C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud)
-17-08-2022 Wed 20:15:46.923 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - No active profile set, falling back to 1 default profile: "default"
-17-08-2022 Wed 20:15:47.074 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-17-08-2022 Wed 20:15:47.086 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 11 ms. Found 1 JPA repository interfaces.
-17-08-2022 Wed 20:15:47.129 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9090 (http)
-17-08-2022 Wed 20:15:47.129 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
-17-08-2022 Wed 20:15:47.130 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-17-08-2022 Wed 20:15:47.130 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
-17-08-2022 Wed 20:15:47.146 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-17-08-2022 Wed 20:15:47.146 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 222 ms
-17-08-2022 Wed 20:15:47.161 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-17-08-2022 Wed 20:15:47.164 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-3 - maxLifetime is less than 30000ms, setting to default 1800000ms.
-17-08-2022 Wed 20:15:47.164 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-3 - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
-17-08-2022 Wed 20:15:47.164 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
-17-08-2022 Wed 20:15:47.170 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
-17-08-2022 Wed 20:15:47.170 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-17-08-2022 Wed 20:15:47.196 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-17-08-2022 Wed 20:15:47.196 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-17-08-2022 Wed 20:15:47.254 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-17-08-2022 Wed 20:15:47.286 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-17-08-2022 Wed 20:15:47.421 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
-17-08-2022 Wed 20:15:47.423 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9090 (http) with context path ''
-17-08-2022 Wed 20:15:47.476 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Started BankingApplicationCrudApplication in 0.572 seconds (JVM running for 469.906)
-17-08-2022 Wed 20:15:47.476 [restartedMain] INFO  c.s.b.startup.MyStartup - Application name: rest-api-tutorials just loaded!
-17-08-2022 Wed 20:15:47.476 [restartedMain] INFO  c.s.b.startup.MyStartup - EXECUTING : command line runner
-17-08-2022 Wed 20:15:47.477 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-17-08-2022 Wed 20:15:47.477 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - App started
-17-08-2022 Wed 20:16:05.299 [Thread-11] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-17-08-2022 Wed 20:16:05.299 [Thread-11] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown initiated...
-17-08-2022 Wed 20:16:05.301 [Thread-11] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown completed.
-17-08-2022 Wed 20:16:05.387 [restartedMain] ERROR o.s.boot.SpringApplication - Application run failed
-java.lang.IllegalStateException: java.lang.IllegalStateException: Logback configuration error detected: 
-ERROR in ch.qos.logback.core.pattern.parser.Compiler@2d93ba4c - There is no conversion class registered for composite conversion word [purple]
-ERROR in ch.qos.logback.core.pattern.parser.Compiler@2d93ba4c - Failed to create converter for [%purple] keyword
-	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:328)
-	at org.springframework.boot.context.logging.LoggingApplicationListener.initialize(LoggingApplicationListener.java:282)
-	at org.springframework.boot.context.logging.LoggingApplicationListener.onApplicationEnvironmentPreparedEvent(LoggingApplicationListener.java:240)
-	at org.springframework.boot.context.logging.LoggingApplicationListener.onApplicationEvent(LoggingApplicationListener.java:216)
-	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:176)
-	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:169)
-	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:143)
-	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:131)
-	at org.springframework.boot.context.event.EventPublishingRunListener.environmentPrepared(EventPublishingRunListener.java:85)
-	at org.springframework.boot.SpringApplicationRunListeners.lambda$environmentPrepared$2(SpringApplicationRunListeners.java:66)
+18-08-2022 Thu 20:18:36.456 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.3.Final
+18-08-2022 Thu 20:18:36.466 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Starting BankingApplicationCrudApplication using Java 17.0.2 on DESKTOP-9JL74QH with PID 26112 (C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud\target\classes started by NORUL in C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud)
+18-08-2022 Thu 20:18:36.467 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - No active profile set, falling back to 1 default profile: "default"
+18-08-2022 Thu 20:18:36.495 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+18-08-2022 Thu 20:18:36.496 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+18-08-2022 Thu 20:18:37.219 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+18-08-2022 Thu 20:18:37.266 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 40 ms. Found 1 JPA repository interfaces.
+18-08-2022 Thu 20:18:37.851 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9090 (http)
+18-08-2022 Thu 20:18:37.861 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
+18-08-2022 Thu 20:18:37.862 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+18-08-2022 Thu 20:18:37.862 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
+18-08-2022 Thu 20:18:37.929 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+18-08-2022 Thu 20:18:37.931 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1434 ms
+18-08-2022 Thu 20:18:38.100 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+18-08-2022 Thu 20:18:38.156 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 5.6.10.Final
+18-08-2022 Thu 20:18:38.314 [restartedMain] INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+18-08-2022 Thu 20:18:38.399 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-1 - maxLifetime is less than 30000ms, setting to default 1800000ms.
+18-08-2022 Thu 20:18:38.400 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-1 - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+18-08-2022 Thu 20:18:38.400 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+18-08-2022 Thu 20:18:38.534 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+18-08-2022 Thu 20:18:38.548 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+18-08-2022 Thu 20:18:38.970 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+18-08-2022 Thu 20:18:38.975 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+18-08-2022 Thu 20:18:39.461 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+18-08-2022 Thu 20:18:39.685 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+18-08-2022 Thu 20:18:39.964 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
+18-08-2022 Thu 20:18:39.977 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9090 (http) with context path ''
+18-08-2022 Thu 20:18:40.204 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Started BankingApplicationCrudApplication in 4.056 seconds (JVM running for 4.507)
+18-08-2022 Thu 20:18:40.206 [restartedMain] INFO  c.s.b.startup.MyStartup - Application name: rest-api-tutorials just loaded!
+18-08-2022 Thu 20:18:40.206 [restartedMain] INFO  c.s.b.startup.MyStartup - EXECUTING : command line runner
+18-08-2022 Thu 20:18:40.206 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - App started
+18-08-2022 Thu 20:28:23.493 [Thread-4] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+18-08-2022 Thu 20:28:23.494 [Thread-4] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+18-08-2022 Thu 20:28:23.497 [Thread-4] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+18-08-2022 Thu 20:28:23.606 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Starting BankingApplicationCrudApplication using Java 17.0.2 on DESKTOP-9JL74QH with PID 26112 (C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud\target\classes started by NORUL in C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud)
+18-08-2022 Thu 20:28:23.607 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - No active profile set, falling back to 1 default profile: "default"
+18-08-2022 Thu 20:28:23.893 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+18-08-2022 Thu 20:28:23.909 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 16 ms. Found 1 JPA repository interfaces.
+18-08-2022 Thu 20:28:23.965 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9090 (http)
+18-08-2022 Thu 20:28:23.966 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
+18-08-2022 Thu 20:28:23.966 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+18-08-2022 Thu 20:28:23.966 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
+18-08-2022 Thu 20:28:23.993 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+18-08-2022 Thu 20:28:23.993 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 384 ms
+18-08-2022 Thu 20:28:24.013 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+18-08-2022 Thu 20:28:24.017 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-2 - maxLifetime is less than 30000ms, setting to default 1800000ms.
+18-08-2022 Thu 20:28:24.017 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-2 - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+18-08-2022 Thu 20:28:24.017 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+18-08-2022 Thu 20:28:24.024 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+18-08-2022 Thu 20:28:24.025 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+18-08-2022 Thu 20:28:24.063 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+18-08-2022 Thu 20:28:24.064 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+18-08-2022 Thu 20:28:24.142 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+18-08-2022 Thu 20:28:24.182 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+18-08-2022 Thu 20:28:24.293 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
+18-08-2022 Thu 20:28:24.295 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9090 (http) with context path ''
+18-08-2022 Thu 20:28:24.356 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Started BankingApplicationCrudApplication in 0.782 seconds (JVM running for 588.661)
+18-08-2022 Thu 20:28:24.357 [restartedMain] INFO  c.s.b.startup.MyStartup - Application name: rest-api-tutorials just loaded!
+18-08-2022 Thu 20:28:24.357 [restartedMain] INFO  c.s.b.startup.MyStartup - EXECUTING : command line runner
+18-08-2022 Thu 20:28:24.358 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+18-08-2022 Thu 20:28:24.359 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - App started
+18-08-2022 Thu 20:52:08.431 [Thread-7] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+18-08-2022 Thu 20:52:08.432 [Thread-7] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+18-08-2022 Thu 20:52:08.433 [Thread-7] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+18-08-2022 Thu 20:52:08.518 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Starting BankingApplicationCrudApplication using Java 17.0.2 on DESKTOP-9JL74QH with PID 26112 (C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud\target\classes started by NORUL in C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud)
+18-08-2022 Thu 20:52:08.518 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - No active profile set, falling back to 1 default profile: "default"
+18-08-2022 Thu 20:52:08.687 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+18-08-2022 Thu 20:52:08.701 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 13 ms. Found 1 JPA repository interfaces.
+18-08-2022 Thu 20:52:08.744 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9090 (http)
+18-08-2022 Thu 20:52:08.744 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
+18-08-2022 Thu 20:52:08.744 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+18-08-2022 Thu 20:52:08.744 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
+18-08-2022 Thu 20:52:08.760 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+18-08-2022 Thu 20:52:08.760 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 241 ms
+18-08-2022 Thu 20:52:08.779 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+18-08-2022 Thu 20:52:08.782 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-3 - maxLifetime is less than 30000ms, setting to default 1800000ms.
+18-08-2022 Thu 20:52:08.783 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-3 - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
+18-08-2022 Thu 20:52:08.783 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
+18-08-2022 Thu 20:52:08.790 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
+18-08-2022 Thu 20:52:08.790 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+18-08-2022 Thu 20:52:08.817 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+18-08-2022 Thu 20:52:08.817 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+18-08-2022 Thu 20:52:08.873 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+18-08-2022 Thu 20:52:08.899 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+18-08-2022 Thu 20:52:09.018 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
+18-08-2022 Thu 20:52:09.021 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9090 (http) with context path ''
+18-08-2022 Thu 20:52:09.065 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Started BankingApplicationCrudApplication in 0.564 seconds (JVM running for 2013.369)
+18-08-2022 Thu 20:52:09.065 [restartedMain] INFO  c.s.b.startup.MyStartup - Application name: rest-api-tutorials just loaded!
+18-08-2022 Thu 20:52:09.065 [restartedMain] INFO  c.s.b.startup.MyStartup - EXECUTING : command line runner
+18-08-2022 Thu 20:52:09.066 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+18-08-2022 Thu 20:52:09.066 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - App started
+18-08-2022 Thu 20:52:41.060 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.3.Final
+18-08-2022 Thu 20:52:41.062 [main] INFO  c.s.b.c.CustomerControllerTest - Starting CustomerControllerTest using Java 17.0.2 on DESKTOP-9JL74QH with PID 15220 (started by NORUL in C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud)
+18-08-2022 Thu 20:52:41.062 [main] INFO  c.s.b.c.CustomerControllerTest - No active profile set, falling back to 1 default profile: "default"
+18-08-2022 Thu 20:52:41.463 [main] WARN  o.s.w.c.s.GenericWebApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'customerController' defined in file [C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud\target\classes\com\shah\bankingapplicationcrud\controller\CustomerController.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.shah.bankingapplicationcrud.impl.CustomerServiceImpl' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+18-08-2022 Thu 20:52:41.466 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+18-08-2022 Thu 20:52:41.482 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in com.shah.bankingapplicationcrud.controller.CustomerController required a bean of type 'com.shah.bankingapplicationcrud.impl.CustomerServiceImpl' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.shah.bankingapplicationcrud.impl.CustomerServiceImpl' in your configuration.
+
+18-08-2022 Thu 20:52:41.516 [main] INFO  c.s.b.c.CustomerControllerTest - Starting CustomerControllerTest using Java 17.0.2 on DESKTOP-9JL74QH with PID 15220 (started by NORUL in C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud)
+18-08-2022 Thu 20:52:41.516 [main] INFO  c.s.b.c.CustomerControllerTest - No active profile set, falling back to 1 default profile: "default"
+18-08-2022 Thu 20:52:41.614 [main] WARN  o.s.w.c.s.GenericWebApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'customerController' defined in file [C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud\target\classes\com\shah\bankingapplicationcrud\controller\CustomerController.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.shah.bankingapplicationcrud.impl.CustomerServiceImpl' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+18-08-2022 Thu 20:52:41.615 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+18-08-2022 Thu 20:52:41.617 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in com.shah.bankingapplicationcrud.controller.CustomerController required a bean of type 'com.shah.bankingapplicationcrud.impl.CustomerServiceImpl' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.shah.bankingapplicationcrud.impl.CustomerServiceImpl' in your configuration.
+
+18-08-2022 Thu 20:52:41.619 [main] ERROR o.s.test.context.TestContextManager - Caught exception while allowing TestExecutionListener [org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@2474f125] to prepare test instance [com.shah.bankingapplicationcrud.controller.CustomerControllerTest@11653e3b]
+java.lang.IllegalStateException: Failed to load ApplicationContext
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:132)
+	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:124)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.injectDependencies(DependencyInjectionTestExecutionListener.java:118)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.prepareTestInstance(DependencyInjectionTestExecutionListener.java:83)
+	at org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener.prepareTestInstance(SpringBootDependencyInjectionTestExecutionListener.java:43)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:248)
+	at org.springframework.test.context.junit.jupiter.SpringExtension.postProcessTestInstance(SpringExtension.java:138)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeTestInstancePostProcessors$8(ClassBasedTestDescriptor.java:363)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.executeAndMaskThrowable(ClassBasedTestDescriptor.java:368)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeTestInstancePostProcessors$9(ClassBasedTestDescriptor.java:363)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:179)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1625)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.StreamSpliterators$WrappingSpliterator.forEachRemaining(StreamSpliterators.java:310)
+	at java.base/java.util.stream.Streams$ConcatSpliterator.forEachRemaining(Streams.java:735)
+	at java.base/java.util.stream.Streams$ConcatSpliterator.forEachRemaining(Streams.java:734)
+	at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:762)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.invokeTestInstancePostProcessors(ClassBasedTestDescriptor.java:362)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$instantiateAndPostProcessTestInstance$6(ClassBasedTestDescriptor.java:283)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.instantiateAndPostProcessTestInstance(ClassBasedTestDescriptor.java:282)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$testInstancesProvider$4(ClassBasedTestDescriptor.java:272)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$testInstancesProvider$5(ClassBasedTestDescriptor.java:271)
+	at org.junit.jupiter.engine.execution.TestInstancesProvider.getTestInstances(TestInstancesProvider.java:31)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$prepare$0(TestMethodTestDescriptor.java:102)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.prepare(TestMethodTestDescriptor.java:101)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.prepare(TestMethodTestDescriptor.java:66)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$prepare$2(NodeTestTask.java:123)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.prepare(NodeTestTask.java:123)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:90)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at org.springframework.boot.SpringApplicationRunListeners.doWithListeners(SpringApplicationRunListeners.java:120)
-	at org.springframework.boot.SpringApplicationRunListeners.doWithListeners(SpringApplicationRunListeners.java:114)
-	at org.springframework.boot.SpringApplicationRunListeners.environmentPrepared(SpringApplicationRunListeners.java:65)
-	at org.springframework.boot.SpringApplication.prepareEnvironment(SpringApplication.java:344)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:302)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
-	at com.shah.bankingapplicationcrud.BankingApplicationCrudApplication.main(BankingApplicationCrudApplication.java:13)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
-Caused by: java.lang.IllegalStateException: Logback configuration error detected: 
-ERROR in ch.qos.logback.core.pattern.parser.Compiler@2d93ba4c - There is no conversion class registered for composite conversion word [purple]
-ERROR in ch.qos.logback.core.pattern.parser.Compiler@2d93ba4c - Failed to create converter for [%purple] keyword
-	at org.springframework.boot.logging.logback.LogbackLoggingSystem.loadConfiguration(LogbackLoggingSystem.java:179)
-	at org.springframework.boot.logging.AbstractLoggingSystem.initializeWithConventions(AbstractLoggingSystem.java:80)
-	at org.springframework.boot.logging.AbstractLoggingSystem.initialize(AbstractLoggingSystem.java:60)
-	at org.springframework.boot.logging.logback.LogbackLoggingSystem.initialize(LogbackLoggingSystem.java:132)
-	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:313)
-	... 23 common frames omitted
-17-08-2022 Wed 20:16:15.064 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Starting BankingApplicationCrudApplication using Java 17.0.2 on DESKTOP-9JL74QH with PID 8896 (C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud\target\classes started by NORUL in C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud)
-17-08-2022 Wed 20:16:15.064 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - No active profile set, falling back to 1 default profile: "default"
-17-08-2022 Wed 20:16:15.206 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-17-08-2022 Wed 20:16:15.218 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 12 ms. Found 1 JPA repository interfaces.
-17-08-2022 Wed 20:16:15.256 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9090 (http)
-17-08-2022 Wed 20:16:15.256 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
-17-08-2022 Wed 20:16:15.256 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-17-08-2022 Wed 20:16:15.257 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
-17-08-2022 Wed 20:16:15.271 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-17-08-2022 Wed 20:16:15.272 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 207 ms
-17-08-2022 Wed 20:16:15.285 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-17-08-2022 Wed 20:16:15.288 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-4 - maxLifetime is less than 30000ms, setting to default 1800000ms.
-17-08-2022 Wed 20:16:15.288 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-4 - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
-17-08-2022 Wed 20:16:15.288 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Starting...
-17-08-2022 Wed 20:16:15.294 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Start completed.
-17-08-2022 Wed 20:16:15.294 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-17-08-2022 Wed 20:16:15.319 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-17-08-2022 Wed 20:16:15.319 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-17-08-2022 Wed 20:16:15.381 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-17-08-2022 Wed 20:16:15.407 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-17-08-2022 Wed 20:16:15.508 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
-17-08-2022 Wed 20:16:15.510 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9090 (http) with context path ''
-17-08-2022 Wed 20:16:15.558 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Started BankingApplicationCrudApplication in 0.51 seconds (JVM running for 497.989)
-17-08-2022 Wed 20:16:15.559 [restartedMain] INFO  c.s.b.startup.MyStartup - Application name: rest-api-tutorials just loaded!
-17-08-2022 Wed 20:16:15.559 [restartedMain] INFO  c.s.b.startup.MyStartup - EXECUTING : command line runner
-17-08-2022 Wed 20:16:15.559 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-17-08-2022 Wed 20:16:15.559 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - App started
-17-08-2022 Wed 20:16:34.427 [Thread-15] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-17-08-2022 Wed 20:16:34.427 [Thread-15] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown initiated...
-17-08-2022 Wed 20:16:34.429 [Thread-15] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown completed.
-17-08-2022 Wed 20:16:34.482 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Starting BankingApplicationCrudApplication using Java 17.0.2 on DESKTOP-9JL74QH with PID 8896 (C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud\target\classes started by NORUL in C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud)
-17-08-2022 Wed 20:16:34.483 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - No active profile set, falling back to 1 default profile: "default"
-17-08-2022 Wed 20:16:34.631 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-17-08-2022 Wed 20:16:34.643 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 12 ms. Found 1 JPA repository interfaces.
-17-08-2022 Wed 20:16:34.686 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9090 (http)
-17-08-2022 Wed 20:16:34.687 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
-17-08-2022 Wed 20:16:34.687 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-17-08-2022 Wed 20:16:34.687 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
-17-08-2022 Wed 20:16:34.701 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-17-08-2022 Wed 20:16:34.702 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 217 ms
-17-08-2022 Wed 20:16:34.716 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-17-08-2022 Wed 20:16:34.719 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-5 - maxLifetime is less than 30000ms, setting to default 1800000ms.
-17-08-2022 Wed 20:16:34.719 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-5 - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
-17-08-2022 Wed 20:16:34.719 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Starting...
-17-08-2022 Wed 20:16:34.725 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Start completed.
-17-08-2022 Wed 20:16:34.725 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-17-08-2022 Wed 20:16:34.747 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-17-08-2022 Wed 20:16:34.748 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-17-08-2022 Wed 20:16:34.797 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-17-08-2022 Wed 20:16:34.820 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-17-08-2022 Wed 20:16:34.925 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
-17-08-2022 Wed 20:16:34.927 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9090 (http) with context path ''
-17-08-2022 Wed 20:16:34.965 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Started BankingApplicationCrudApplication in 0.498 seconds (JVM running for 517.396)
-17-08-2022 Wed 20:16:34.966 [restartedMain] INFO  c.s.b.startup.MyStartup - Application name: rest-api-tutorials just loaded!
-17-08-2022 Wed 20:16:34.966 [restartedMain] INFO  c.s.b.startup.MyStartup - EXECUTING : command line runner
-17-08-2022 Wed 20:16:34.966 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-17-08-2022 Wed 20:16:34.966 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - App started
-17-08-2022 Wed 20:18:09.853 [Thread-21] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-17-08-2022 Wed 20:18:09.853 [Thread-21] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown initiated...
-17-08-2022 Wed 20:18:09.855 [Thread-21] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-5 - Shutdown completed.
-17-08-2022 Wed 20:18:09.909 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Starting BankingApplicationCrudApplication using Java 17.0.2 on DESKTOP-9JL74QH with PID 8896 (C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud\target\classes started by NORUL in C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud)
-17-08-2022 Wed 20:18:09.909 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - No active profile set, falling back to 1 default profile: "default"
-17-08-2022 Wed 20:18:10.039 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-17-08-2022 Wed 20:18:10.049 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 9 ms. Found 1 JPA repository interfaces.
-17-08-2022 Wed 20:18:10.092 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9090 (http)
-17-08-2022 Wed 20:18:10.093 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
-17-08-2022 Wed 20:18:10.093 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-17-08-2022 Wed 20:18:10.093 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
-17-08-2022 Wed 20:18:10.108 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-17-08-2022 Wed 20:18:10.108 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 198 ms
-17-08-2022 Wed 20:18:10.123 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-17-08-2022 Wed 20:18:10.126 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-6 - maxLifetime is less than 30000ms, setting to default 1800000ms.
-17-08-2022 Wed 20:18:10.126 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-6 - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
-17-08-2022 Wed 20:18:10.126 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Starting...
-17-08-2022 Wed 20:18:10.130 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Start completed.
-17-08-2022 Wed 20:18:10.131 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-17-08-2022 Wed 20:18:10.153 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-17-08-2022 Wed 20:18:10.153 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-17-08-2022 Wed 20:18:10.205 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-17-08-2022 Wed 20:18:10.228 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-17-08-2022 Wed 20:18:10.323 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
-17-08-2022 Wed 20:18:10.325 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9090 (http) with context path ''
-17-08-2022 Wed 20:18:10.360 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Started BankingApplicationCrudApplication in 0.467 seconds (JVM running for 612.791)
-17-08-2022 Wed 20:18:10.361 [restartedMain] INFO  c.s.b.startup.MyStartup - Application name: rest-api-tutorials just loaded!
-17-08-2022 Wed 20:18:10.361 [restartedMain] INFO  c.s.b.startup.MyStartup - EXECUTING : command line runner
-17-08-2022 Wed 20:18:10.361 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-17-08-2022 Wed 20:18:10.361 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - App started
-17-08-2022 Wed 20:18:54.898 [Thread-25] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-17-08-2022 Wed 20:18:54.899 [Thread-25] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown initiated...
-17-08-2022 Wed 20:18:54.900 [Thread-25] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-6 - Shutdown completed.
-17-08-2022 Wed 20:18:54.954 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Starting BankingApplicationCrudApplication using Java 17.0.2 on DESKTOP-9JL74QH with PID 8896 (C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud\target\classes started by NORUL in C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud)
-17-08-2022 Wed 20:18:54.954 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - No active profile set, falling back to 1 default profile: "default"
-17-08-2022 Wed 20:18:55.081 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-17-08-2022 Wed 20:18:55.091 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 9 ms. Found 1 JPA repository interfaces.
-17-08-2022 Wed 20:18:55.128 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9090 (http)
-17-08-2022 Wed 20:18:55.129 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
-17-08-2022 Wed 20:18:55.129 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-17-08-2022 Wed 20:18:55.129 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
-17-08-2022 Wed 20:18:55.144 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-17-08-2022 Wed 20:18:55.144 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 189 ms
-17-08-2022 Wed 20:18:55.157 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-17-08-2022 Wed 20:18:55.160 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-7 - maxLifetime is less than 30000ms, setting to default 1800000ms.
-17-08-2022 Wed 20:18:55.160 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-7 - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
-17-08-2022 Wed 20:18:55.160 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Starting...
-17-08-2022 Wed 20:18:55.165 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Start completed.
-17-08-2022 Wed 20:18:55.165 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-17-08-2022 Wed 20:18:55.186 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-17-08-2022 Wed 20:18:55.186 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-17-08-2022 Wed 20:18:55.235 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-17-08-2022 Wed 20:18:55.257 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-17-08-2022 Wed 20:18:55.354 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
-17-08-2022 Wed 20:18:55.356 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9090 (http) with context path ''
-17-08-2022 Wed 20:18:55.389 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Started BankingApplicationCrudApplication in 0.452 seconds (JVM running for 657.82)
-17-08-2022 Wed 20:18:55.390 [restartedMain] INFO  c.s.b.startup.MyStartup - Application name: rest-api-tutorials just loaded!
-17-08-2022 Wed 20:18:55.390 [restartedMain] INFO  c.s.b.startup.MyStartup - EXECUTING : command line runner
-17-08-2022 Wed 20:18:55.390 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-17-08-2022 Wed 20:18:55.390 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - App started
-17-08-2022 Wed 20:19:54.323 [Thread-29] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-17-08-2022 Wed 20:19:54.324 [Thread-29] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Shutdown initiated...
-17-08-2022 Wed 20:19:54.325 [Thread-29] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-7 - Shutdown completed.
-17-08-2022 Wed 20:19:54.379 [restartedMain] ERROR o.s.boot.SpringApplication - Application run failed
-java.lang.IllegalStateException: java.lang.IllegalStateException: Logback configuration error detected: 
-ERROR in ch.qos.logback.core.pattern.parser.Compiler@48478868 - There is no conversion class registered for composite conversion word [faint]
-ERROR in ch.qos.logback.core.pattern.parser.Compiler@48478868 - Failed to create converter for [%faint] keyword
-	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:328)
-	at org.springframework.boot.context.logging.LoggingApplicationListener.initialize(LoggingApplicationListener.java:282)
-	at org.springframework.boot.context.logging.LoggingApplicationListener.onApplicationEnvironmentPreparedEvent(LoggingApplicationListener.java:240)
-	at org.springframework.boot.context.logging.LoggingApplicationListener.onApplicationEvent(LoggingApplicationListener.java:216)
-	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:176)
-	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:169)
-	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:143)
-	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:131)
-	at org.springframework.boot.context.event.EventPublishingRunListener.environmentPrepared(EventPublishingRunListener.java:85)
-	at org.springframework.boot.SpringApplicationRunListeners.lambda$environmentPrepared$2(SpringApplicationRunListeners.java:66)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
 	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at org.springframework.boot.SpringApplicationRunListeners.doWithListeners(SpringApplicationRunListeners.java:120)
-	at org.springframework.boot.SpringApplicationRunListeners.doWithListeners(SpringApplicationRunListeners.java:114)
-	at org.springframework.boot.SpringApplicationRunListeners.environmentPrepared(SpringApplicationRunListeners.java:65)
-	at org.springframework.boot.SpringApplication.prepareEnvironment(SpringApplication.java:344)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:302)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
-	at com.shah.bankingapplicationcrud.BankingApplicationCrudApplication.main(BankingApplicationCrudApplication.java:13)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
-Caused by: java.lang.IllegalStateException: Logback configuration error detected: 
-ERROR in ch.qos.logback.core.pattern.parser.Compiler@48478868 - There is no conversion class registered for composite conversion word [faint]
-ERROR in ch.qos.logback.core.pattern.parser.Compiler@48478868 - Failed to create converter for [%faint] keyword
-	at org.springframework.boot.logging.logback.LogbackLoggingSystem.loadConfiguration(LogbackLoggingSystem.java:179)
-	at org.springframework.boot.logging.AbstractLoggingSystem.initializeWithConventions(AbstractLoggingSystem.java:80)
-	at org.springframework.boot.logging.AbstractLoggingSystem.initialize(AbstractLoggingSystem.java:60)
-	at org.springframework.boot.logging.logback.LogbackLoggingSystem.initialize(LogbackLoggingSystem.java:132)
-	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:313)
-	... 23 common frames omitted
-17-08-2022 Wed 20:20:25.661 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Starting BankingApplicationCrudApplication using Java 17.0.2 on DESKTOP-9JL74QH with PID 8896 (C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud\target\classes started by NORUL in C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud)
-17-08-2022 Wed 20:20:25.662 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - No active profile set, falling back to 1 default profile: "default"
-17-08-2022 Wed 20:20:25.788 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-17-08-2022 Wed 20:20:25.798 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 9 ms. Found 1 JPA repository interfaces.
-17-08-2022 Wed 20:20:25.830 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9090 (http)
-17-08-2022 Wed 20:20:25.830 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
-17-08-2022 Wed 20:20:25.830 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-17-08-2022 Wed 20:20:25.830 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
-17-08-2022 Wed 20:20:25.843 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-17-08-2022 Wed 20:20:25.843 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 181 ms
-17-08-2022 Wed 20:20:25.856 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-17-08-2022 Wed 20:20:25.859 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-8 - maxLifetime is less than 30000ms, setting to default 1800000ms.
-17-08-2022 Wed 20:20:25.859 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-8 - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
-17-08-2022 Wed 20:20:25.859 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Starting...
-17-08-2022 Wed 20:20:25.865 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Start completed.
-17-08-2022 Wed 20:20:25.865 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-17-08-2022 Wed 20:20:25.885 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-17-08-2022 Wed 20:20:25.885 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-17-08-2022 Wed 20:20:25.933 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-17-08-2022 Wed 20:20:25.953 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-17-08-2022 Wed 20:20:26.043 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
-17-08-2022 Wed 20:20:26.045 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9090 (http) with context path ''
-17-08-2022 Wed 20:20:26.074 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Started BankingApplicationCrudApplication in 0.427 seconds (JVM running for 748.505)
-17-08-2022 Wed 20:20:26.075 [restartedMain] INFO  c.s.b.startup.MyStartup - Application name: rest-api-tutorials just loaded!
-17-08-2022 Wed 20:20:26.075 [restartedMain] INFO  c.s.b.startup.MyStartup - EXECUTING : command line runner
-17-08-2022 Wed 20:20:26.075 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-17-08-2022 Wed 20:20:26.075 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - App started
-17-08-2022 Wed 20:20:33.825 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-17-08-2022 Wed 20:20:33.825 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Shutdown initiated...
-17-08-2022 Wed 20:20:33.827 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-8 - Shutdown completed.
-17-08-2022 Wed 20:20:35.503 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.3.Final
-17-08-2022 Wed 20:20:35.508 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Starting BankingApplicationCrudApplication using Java 17.0.2 on DESKTOP-9JL74QH with PID 10496 (C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud\target\classes started by NORUL in C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud)
-17-08-2022 Wed 20:20:35.508 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - No active profile set, falling back to 1 default profile: "default"
-17-08-2022 Wed 20:20:35.541 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-17-08-2022 Wed 20:20:35.541 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-17-08-2022 Wed 20:20:36.125 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-17-08-2022 Wed 20:20:36.175 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 43 ms. Found 1 JPA repository interfaces.
-17-08-2022 Wed 20:20:36.722 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9090 (http)
-17-08-2022 Wed 20:20:36.730 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
-17-08-2022 Wed 20:20:36.731 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-17-08-2022 Wed 20:20:36.731 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
-17-08-2022 Wed 20:20:36.788 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-17-08-2022 Wed 20:20:36.788 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1247 ms
-17-08-2022 Wed 20:20:36.903 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-17-08-2022 Wed 20:20:36.944 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 5.6.10.Final
-17-08-2022 Wed 20:20:37.078 [restartedMain] INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-17-08-2022 Wed 20:20:37.161 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-1 - maxLifetime is less than 30000ms, setting to default 1800000ms.
-17-08-2022 Wed 20:20:37.162 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-1 - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
-17-08-2022 Wed 20:20:37.162 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-17-08-2022 Wed 20:20:37.259 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-17-08-2022 Wed 20:20:37.269 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-17-08-2022 Wed 20:20:37.632 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-17-08-2022 Wed 20:20:37.636 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-17-08-2022 Wed 20:20:38.020 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-17-08-2022 Wed 20:20:38.223 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-17-08-2022 Wed 20:20:38.519 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
-17-08-2022 Wed 20:20:38.539 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9090 (http) with context path ''
-17-08-2022 Wed 20:20:38.753 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Started BankingApplicationCrudApplication in 3.584 seconds (JVM running for 3.897)
-17-08-2022 Wed 20:20:38.755 [restartedMain] INFO  c.s.b.startup.MyStartup - Application name: rest-api-tutorials just loaded!
-17-08-2022 Wed 20:20:38.755 [restartedMain] INFO  c.s.b.startup.MyStartup - EXECUTING : command line runner
-17-08-2022 Wed 20:20:38.755 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - App started
-17-08-2022 Wed 20:21:21.055 [Thread-4] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-17-08-2022 Wed 20:21:21.057 [Thread-4] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-17-08-2022 Wed 20:21:21.062 [Thread-4] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-17-08-2022 Wed 20:21:21.146 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Starting BankingApplicationCrudApplication using Java 17.0.2 on DESKTOP-9JL74QH with PID 10496 (C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud\target\classes started by NORUL in C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud)
-17-08-2022 Wed 20:21:21.146 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - No active profile set, falling back to 1 default profile: "default"
-17-08-2022 Wed 20:21:21.319 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-17-08-2022 Wed 20:21:21.333 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 13 ms. Found 1 JPA repository interfaces.
-17-08-2022 Wed 20:21:21.395 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9090 (http)
-17-08-2022 Wed 20:21:21.396 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
-17-08-2022 Wed 20:21:21.396 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-17-08-2022 Wed 20:21:21.396 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
-17-08-2022 Wed 20:21:21.417 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-17-08-2022 Wed 20:21:21.417 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 269 ms
-17-08-2022 Wed 20:21:21.453 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-17-08-2022 Wed 20:21:21.458 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-2 - maxLifetime is less than 30000ms, setting to default 1800000ms.
-17-08-2022 Wed 20:21:21.459 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-2 - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
-17-08-2022 Wed 20:21:21.459 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
-17-08-2022 Wed 20:21:21.467 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
-17-08-2022 Wed 20:21:21.468 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-17-08-2022 Wed 20:21:21.505 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-17-08-2022 Wed 20:21:21.505 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-17-08-2022 Wed 20:21:21.607 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-17-08-2022 Wed 20:21:21.649 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-17-08-2022 Wed 20:21:21.777 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
-17-08-2022 Wed 20:21:21.779 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9090 (http) with context path ''
-17-08-2022 Wed 20:21:21.845 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Started BankingApplicationCrudApplication in 0.721 seconds (JVM running for 46.988)
-17-08-2022 Wed 20:21:21.846 [restartedMain] INFO  c.s.b.startup.MyStartup - Application name: rest-api-tutorials just loaded!
-17-08-2022 Wed 20:21:21.846 [restartedMain] INFO  c.s.b.startup.MyStartup - EXECUTING : command line runner
-17-08-2022 Wed 20:21:21.847 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
-17-08-2022 Wed 20:21:21.847 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - App started
-17-08-2022 Wed 20:21:21.991 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-17-08-2022 Wed 20:21:21.992 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
-17-08-2022 Wed 20:21:21.994 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
-17-08-2022 Wed 20:21:23.710 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.3.Final
-17-08-2022 Wed 20:21:23.716 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Starting BankingApplicationCrudApplication using Java 17.0.2 on DESKTOP-9JL74QH with PID 23484 (C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud\target\classes started by NORUL in C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud)
-17-08-2022 Wed 20:21:23.717 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - No active profile set, falling back to 1 default profile: "default"
-17-08-2022 Wed 20:21:23.748 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-17-08-2022 Wed 20:21:23.748 [restartedMain] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-17-08-2022 Wed 20:21:24.291 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-17-08-2022 Wed 20:21:24.340 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 39 ms. Found 1 JPA repository interfaces.
-17-08-2022 Wed 20:21:24.934 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9090 (http)
-17-08-2022 Wed 20:21:24.942 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
-17-08-2022 Wed 20:21:24.942 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-17-08-2022 Wed 20:21:24.942 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.65]
-17-08-2022 Wed 20:21:25.001 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-17-08-2022 Wed 20:21:25.001 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1252 ms
-17-08-2022 Wed 20:21:25.170 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-17-08-2022 Wed 20:21:25.227 [restartedMain] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 5.6.10.Final
-17-08-2022 Wed 20:21:25.392 [restartedMain] INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-17-08-2022 Wed 20:21:25.482 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-1 - maxLifetime is less than 30000ms, setting to default 1800000ms.
-17-08-2022 Wed 20:21:25.484 [restartedMain] WARN  com.zaxxer.hikari.HikariConfig - HikariPool-1 - idleTimeout has been set but has no effect because the pool is operating as a fixed size pool.
-17-08-2022 Wed 20:21:25.484 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-17-08-2022 Wed 20:21:25.596 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-17-08-2022 Wed 20:21:25.606 [restartedMain] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
-17-08-2022 Wed 20:21:25.991 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-17-08-2022 Wed 20:21:25.996 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-17-08-2022 Wed 20:21:26.355 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-17-08-2022 Wed 20:21:26.572 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
-17-08-2022 Wed 20:21:26.879 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
-17-08-2022 Wed 20:21:26.898 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9090 (http) with context path ''
-17-08-2022 Wed 20:21:27.163 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - Started BankingApplicationCrudApplication in 3.773 seconds (JVM running for 4.094)
-17-08-2022 Wed 20:21:27.165 [restartedMain] INFO  c.s.b.startup.MyStartup - Application name: rest-api-tutorials just loaded!
-17-08-2022 Wed 20:21:27.165 [restartedMain] INFO  c.s.b.startup.MyStartup - EXECUTING : command line runner
-17-08-2022 Wed 20:21:27.166 [restartedMain] INFO  c.s.b.BankingApplicationCrudApplication - App started
-17-08-2022 Wed 20:21:55.120 [http-nio-9090-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-17-08-2022 Wed 20:21:55.120 [http-nio-9090-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-17-08-2022 Wed 20:21:55.121 [http-nio-9090-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:107)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:88)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:67)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:52)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:86)
+	at org.junit.platform.launcher.core.DefaultLauncherSession$DelegatingLauncher.execute(DefaultLauncherSession.java:86)
+	at org.junit.platform.launcher.core.SessionPerRequestLauncher.execute(SessionPerRequestLauncher.java:53)
+	at com.intellij.junit5.JUnit5IdeaTestRunner.startRunnerWithArgs(JUnit5IdeaTestRunner.java:71)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater$1.execute(IdeaTestRunner.java:38)
+	at com.intellij.rt.execution.junit.TestsRepeater.repeat(TestsRepeater.java:11)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:35)
+	at com.intellij.rt.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:235)
+	at com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:54)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'customerController' defined in file [C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud\target\classes\com\shah\bankingapplicationcrud\controller\CustomerController.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.shah.bankingapplicationcrud.impl.CustomerServiceImpl' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:800)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:229)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1372)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1222)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:582)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:955)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:918)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:734)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:408)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:308)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:132)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:99)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:124)
+	... 72 common frames omitted
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.shah.bankingapplicationcrud.impl.CustomerServiceImpl' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.raiseNoMatchingBeanFound(DefaultListableBeanFactory.java:1801)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1357)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1311)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:887)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791)
+	... 90 common frames omitted
+18-08-2022 Thu 20:53:42.095 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.3.Final
+18-08-2022 Thu 20:53:42.096 [main] INFO  c.s.b.c.CustomerControllerTest - Starting CustomerControllerTest using Java 17.0.2 on DESKTOP-9JL74QH with PID 25232 (started by NORUL in C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud)
+18-08-2022 Thu 20:53:42.096 [main] INFO  c.s.b.c.CustomerControllerTest - No active profile set, falling back to 1 default profile: "default"
+18-08-2022 Thu 20:53:42.503 [main] WARN  o.s.w.c.s.GenericWebApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'customerController' defined in file [C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud\target\classes\com\shah\bankingapplicationcrud\controller\CustomerController.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.shah.bankingapplicationcrud.impl.CustomerServiceImpl' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+18-08-2022 Thu 20:53:42.507 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+18-08-2022 Thu 20:53:42.521 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in com.shah.bankingapplicationcrud.controller.CustomerController required a bean of type 'com.shah.bankingapplicationcrud.impl.CustomerServiceImpl' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.shah.bankingapplicationcrud.impl.CustomerServiceImpl' in your configuration.
+
+18-08-2022 Thu 20:53:42.555 [main] INFO  c.s.b.c.CustomerControllerTest - Starting CustomerControllerTest using Java 17.0.2 on DESKTOP-9JL74QH with PID 25232 (started by NORUL in C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud)
+18-08-2022 Thu 20:53:42.555 [main] INFO  c.s.b.c.CustomerControllerTest - No active profile set, falling back to 1 default profile: "default"
+18-08-2022 Thu 20:53:42.656 [main] WARN  o.s.w.c.s.GenericWebApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'customerController' defined in file [C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud\target\classes\com\shah\bankingapplicationcrud\controller\CustomerController.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.shah.bankingapplicationcrud.impl.CustomerServiceImpl' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+18-08-2022 Thu 20:53:42.657 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+18-08-2022 Thu 20:53:42.658 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in com.shah.bankingapplicationcrud.controller.CustomerController required a bean of type 'com.shah.bankingapplicationcrud.impl.CustomerServiceImpl' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.shah.bankingapplicationcrud.impl.CustomerServiceImpl' in your configuration.
+
+18-08-2022 Thu 20:53:42.660 [main] ERROR o.s.test.context.TestContextManager - Caught exception while allowing TestExecutionListener [org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@2474f125] to prepare test instance [com.shah.bankingapplicationcrud.controller.CustomerControllerTest@11653e3b]
+java.lang.IllegalStateException: Failed to load ApplicationContext
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:132)
+	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:124)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.injectDependencies(DependencyInjectionTestExecutionListener.java:118)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.prepareTestInstance(DependencyInjectionTestExecutionListener.java:83)
+	at org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener.prepareTestInstance(SpringBootDependencyInjectionTestExecutionListener.java:43)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:248)
+	at org.springframework.test.context.junit.jupiter.SpringExtension.postProcessTestInstance(SpringExtension.java:138)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeTestInstancePostProcessors$8(ClassBasedTestDescriptor.java:363)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.executeAndMaskThrowable(ClassBasedTestDescriptor.java:368)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeTestInstancePostProcessors$9(ClassBasedTestDescriptor.java:363)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:179)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1625)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.StreamSpliterators$WrappingSpliterator.forEachRemaining(StreamSpliterators.java:310)
+	at java.base/java.util.stream.Streams$ConcatSpliterator.forEachRemaining(Streams.java:735)
+	at java.base/java.util.stream.Streams$ConcatSpliterator.forEachRemaining(Streams.java:734)
+	at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:762)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.invokeTestInstancePostProcessors(ClassBasedTestDescriptor.java:362)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$instantiateAndPostProcessTestInstance$6(ClassBasedTestDescriptor.java:283)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.instantiateAndPostProcessTestInstance(ClassBasedTestDescriptor.java:282)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$testInstancesProvider$4(ClassBasedTestDescriptor.java:272)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$testInstancesProvider$5(ClassBasedTestDescriptor.java:271)
+	at org.junit.jupiter.engine.execution.TestInstancesProvider.getTestInstances(TestInstancesProvider.java:31)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$prepare$0(TestMethodTestDescriptor.java:102)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.prepare(TestMethodTestDescriptor.java:101)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.prepare(TestMethodTestDescriptor.java:66)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$prepare$2(NodeTestTask.java:123)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.prepare(NodeTestTask.java:123)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:90)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:107)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:88)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:67)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:52)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:86)
+	at org.junit.platform.launcher.core.DefaultLauncherSession$DelegatingLauncher.execute(DefaultLauncherSession.java:86)
+	at org.junit.platform.launcher.core.SessionPerRequestLauncher.execute(SessionPerRequestLauncher.java:53)
+	at com.intellij.junit5.JUnit5IdeaTestRunner.startRunnerWithArgs(JUnit5IdeaTestRunner.java:71)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater$1.execute(IdeaTestRunner.java:38)
+	at com.intellij.rt.execution.junit.TestsRepeater.repeat(TestsRepeater.java:11)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:35)
+	at com.intellij.rt.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:235)
+	at com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:54)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'customerController' defined in file [C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud\target\classes\com\shah\bankingapplicationcrud\controller\CustomerController.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.shah.bankingapplicationcrud.impl.CustomerServiceImpl' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:800)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:229)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1372)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1222)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:582)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:955)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:918)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:734)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:408)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:308)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:132)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:99)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:124)
+	... 72 common frames omitted
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.shah.bankingapplicationcrud.impl.CustomerServiceImpl' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.raiseNoMatchingBeanFound(DefaultListableBeanFactory.java:1801)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1357)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1311)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:887)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791)
+	... 90 common frames omitted
+18-08-2022 Thu 20:54:21.633 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 6.2.3.Final
+18-08-2022 Thu 20:54:21.634 [main] INFO  c.s.b.c.CustomerControllerTest - Starting CustomerControllerTest using Java 17.0.2 on DESKTOP-9JL74QH with PID 28316 (started by NORUL in C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud)
+18-08-2022 Thu 20:54:21.634 [main] INFO  c.s.b.c.CustomerControllerTest - No active profile set, falling back to 1 default profile: "default"
+18-08-2022 Thu 20:54:22.028 [main] WARN  o.s.w.c.s.GenericWebApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'customerController' defined in file [C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud\target\classes\com\shah\bankingapplicationcrud\controller\CustomerController.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.shah.bankingapplicationcrud.impl.CustomerServiceImpl' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+18-08-2022 Thu 20:54:22.031 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+18-08-2022 Thu 20:54:22.047 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in com.shah.bankingapplicationcrud.controller.CustomerController required a bean of type 'com.shah.bankingapplicationcrud.impl.CustomerServiceImpl' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.shah.bankingapplicationcrud.impl.CustomerServiceImpl' in your configuration.
+
+18-08-2022 Thu 20:54:22.075 [main] INFO  c.s.b.c.CustomerControllerTest - Starting CustomerControllerTest using Java 17.0.2 on DESKTOP-9JL74QH with PID 28316 (started by NORUL in C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud)
+18-08-2022 Thu 20:54:22.075 [main] INFO  c.s.b.c.CustomerControllerTest - No active profile set, falling back to 1 default profile: "default"
+18-08-2022 Thu 20:54:22.184 [main] WARN  o.s.w.c.s.GenericWebApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'customerController' defined in file [C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud\target\classes\com\shah\bankingapplicationcrud\controller\CustomerController.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.shah.bankingapplicationcrud.impl.CustomerServiceImpl' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+18-08-2022 Thu 20:54:22.185 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+18-08-2022 Thu 20:54:22.187 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in com.shah.bankingapplicationcrud.controller.CustomerController required a bean of type 'com.shah.bankingapplicationcrud.impl.CustomerServiceImpl' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.shah.bankingapplicationcrud.impl.CustomerServiceImpl' in your configuration.
+
+18-08-2022 Thu 20:54:22.189 [main] ERROR o.s.test.context.TestContextManager - Caught exception while allowing TestExecutionListener [org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@2474f125] to prepare test instance [com.shah.bankingapplicationcrud.controller.CustomerControllerTest@11653e3b]
+java.lang.IllegalStateException: Failed to load ApplicationContext
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:132)
+	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:124)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.injectDependencies(DependencyInjectionTestExecutionListener.java:118)
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.prepareTestInstance(DependencyInjectionTestExecutionListener.java:83)
+	at org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener.prepareTestInstance(SpringBootDependencyInjectionTestExecutionListener.java:43)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:248)
+	at org.springframework.test.context.junit.jupiter.SpringExtension.postProcessTestInstance(SpringExtension.java:138)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeTestInstancePostProcessors$8(ClassBasedTestDescriptor.java:363)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.executeAndMaskThrowable(ClassBasedTestDescriptor.java:368)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeTestInstancePostProcessors$9(ClassBasedTestDescriptor.java:363)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:179)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1625)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.StreamSpliterators$WrappingSpliterator.forEachRemaining(StreamSpliterators.java:310)
+	at java.base/java.util.stream.Streams$ConcatSpliterator.forEachRemaining(Streams.java:735)
+	at java.base/java.util.stream.Streams$ConcatSpliterator.forEachRemaining(Streams.java:734)
+	at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:762)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.invokeTestInstancePostProcessors(ClassBasedTestDescriptor.java:362)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$instantiateAndPostProcessTestInstance$6(ClassBasedTestDescriptor.java:283)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.instantiateAndPostProcessTestInstance(ClassBasedTestDescriptor.java:282)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$testInstancesProvider$4(ClassBasedTestDescriptor.java:272)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$testInstancesProvider$5(ClassBasedTestDescriptor.java:271)
+	at org.junit.jupiter.engine.execution.TestInstancesProvider.getTestInstances(TestInstancesProvider.java:31)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$prepare$0(TestMethodTestDescriptor.java:102)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.prepare(TestMethodTestDescriptor.java:101)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.prepare(TestMethodTestDescriptor.java:66)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$prepare$2(NodeTestTask.java:123)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.prepare(NodeTestTask.java:123)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:90)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:107)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:88)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:67)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:52)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:86)
+	at org.junit.platform.launcher.core.DefaultLauncherSession$DelegatingLauncher.execute(DefaultLauncherSession.java:86)
+	at org.junit.platform.launcher.core.SessionPerRequestLauncher.execute(SessionPerRequestLauncher.java:53)
+	at com.intellij.junit5.JUnit5IdeaTestRunner.startRunnerWithArgs(JUnit5IdeaTestRunner.java:71)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater$1.execute(IdeaTestRunner.java:38)
+	at com.intellij.rt.execution.junit.TestsRepeater.repeat(TestsRepeater.java:11)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:35)
+	at com.intellij.rt.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:235)
+	at com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:54)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'customerController' defined in file [C:\Users\NORUL\Documents\IdeaProjects\banking-application-crud\target\classes\com\shah\bankingapplicationcrud\controller\CustomerController.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.shah.bankingapplicationcrud.impl.CustomerServiceImpl' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:800)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:229)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1372)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1222)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:582)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:955)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:918)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:734)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:408)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:308)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:132)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:99)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:124)
+	... 72 common frames omitted
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.shah.bankingapplicationcrud.impl.CustomerServiceImpl' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.raiseNoMatchingBeanFound(DefaultListableBeanFactory.java:1801)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1357)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1311)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:887)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791)
+	... 90 common frames omitted

@@ -76,10 +76,10 @@ public class CustomerController {
 
     @ApiOperation(value = "Patch customer", response = CreateOneCustomerResponse.class, tags = "Add customer")
     @PostMapping(PATCH_CUSTOMER)
-    public ResponseEntity<CreateOneCustomerResponse> patchOneCustomer(
+    public ResponseEntity<CreateOneCustomerResponse> updateOneCustomer(
             @Valid @RequestBody PatchCustomerRequest createCustomerRequest,
             @RequestHeader HttpHeaders headers) {
-        return ResponseEntity.ok(service.patchOneCustomer(createCustomerRequest, headers));
+        return ResponseEntity.ok(service.updateOneCustomer(createCustomerRequest, headers));
     }
 
     @ApiOperation(

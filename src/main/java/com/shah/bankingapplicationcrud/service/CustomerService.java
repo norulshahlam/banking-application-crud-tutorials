@@ -14,7 +14,7 @@ public interface CustomerService {
 
     CreateOneCustomerResponse createOneCustomer(CreateCustomerRequest createCustomerRequest, HttpHeaders headers);
 
-    CreateOneCustomerResponse patchOneCustomer(PatchCustomerRequest createCustomerRequest, HttpHeaders headers);
+    CreateOneCustomerResponse updateOneCustomer(PatchCustomerRequest createCustomerRequest, HttpHeaders headers);
 
     DeleteOneCustomerResponse deleteOneCustomer(GetOneCustomerRequest request, HttpHeaders headers);
 

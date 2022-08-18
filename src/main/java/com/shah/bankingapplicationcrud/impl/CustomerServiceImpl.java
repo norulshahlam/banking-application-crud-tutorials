@@ -152,7 +152,7 @@ public class CustomerServiceImpl implements CustomerService {
      */
 
     @Override
-    public CreateOneCustomerResponse patchOneCustomer(PatchCustomerRequest request, HttpHeaders headers) {
+    public CreateOneCustomerResponse updateOneCustomer(PatchCustomerRequest request, HttpHeaders headers) {
         log.info("Editing one customer...");
         try {
             validateGetOneEmployee(headers);
