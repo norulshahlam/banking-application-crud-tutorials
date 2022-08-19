@@ -12,7 +12,6 @@ import com.shah.bankingapplicationcrud.service.CustomerService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
@@ -88,7 +87,7 @@ public class CustomerServiceImpl implements CustomerService {
 
             System.out.println(customers);
 
-            if (ObjectUtils.isNotEmpty(customers)) {
+            if (customers.stream().findAny().isPresent()) {
                 log.info("current customers displayed: {}, total customers found: {}", customers.getSize(), customers.getTotalElements());
                 return SearchCustomerResponse.success(customers);
             }
