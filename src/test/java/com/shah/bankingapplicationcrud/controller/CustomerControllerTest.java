@@ -22,6 +22,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import static com.shah.bankingapplicationcrud.constant.CommonConstants.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.openMocks;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -41,7 +42,7 @@ class CustomerControllerTest {
 
     @BeforeEach
     void setUp() {
-
+        openMocks(this);
 //        headers.add(X_SOURCE_COUNTRY,SG);
 //        headers.add(X_CORRELATION_ID,RANDOM_UUID);
 //        headers.add(X_SOURCE_DATE_TIME, LocalDate.now().toString());
@@ -54,7 +55,7 @@ class CustomerControllerTest {
     @Test
     void getOneCustomer() throws Exception {
         GetOneCustomerResponse response = GetOneCustomerResponse.success(customer);
-        GetOneCustomerRequest request = GetOneCustomerRequest.builder().id(RANDOM_UUID).build();
+        GetOneCustomerRequest request = GetOneCustomerRequest.builder().id(RANDOM_UUID1).build();
         when(service.getOneCustomer(any(GetOneCustomerRequest.class), any(HttpHeaders.class))).thenReturn(response);
         String requestPayload = objectMapper.writeValueAsString(request);
 

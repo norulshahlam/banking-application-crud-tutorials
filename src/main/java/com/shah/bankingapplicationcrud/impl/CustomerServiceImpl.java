@@ -77,7 +77,8 @@ public class CustomerServiceImpl implements CustomerService {
 
             if (StringUtils.isNotBlank(name))
                 log.info("Performing search like by firstname or lastname by keyword: {}", name);
-            else log.info("Getting all customers");
+            else
+                log.info("Getting all customers");
 
             Page<Customer> customers = custRepo.findAll(
                     where(firstNameLike(name)

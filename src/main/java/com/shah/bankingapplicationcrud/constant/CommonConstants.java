@@ -10,7 +10,8 @@ public class CommonConstants {
     public static final String X_CORRELATION_ID = "x-correlation-id";
     public static final String X_SOURCE_DATE_TIME = "x-source-date-time";
     public static final String SG = "SG";
-    public static final String RANDOM_UUID = UUID.randomUUID().toString();
+    public static final String RANDOM_UUID1 = UUID.randomUUID().toString();
+    public static final String RANDOM_UUID2 = UUID.randomUUID().toString();
 
     public static final String DELETE_CUSTOMER = "/delete-customer";
     public static final String PATCH_CUSTOMER = "/patch-customer";
