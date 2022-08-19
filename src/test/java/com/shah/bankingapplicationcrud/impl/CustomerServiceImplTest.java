@@ -3,6 +3,7 @@ package com.shah.bankingapplicationcrud.impl;
 import com.shah.bankingapplicationcrud.model.entity.Customer;
 import com.shah.bankingapplicationcrud.model.request.GetOneCustomerRequest;
 import com.shah.bankingapplicationcrud.model.response.GetOneCustomerResponse;
+import com.shah.bankingapplicationcrud.model.response.SearchCustomerResponse;
 import com.shah.bankingapplicationcrud.repository.CustomerRepository;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,10 +14,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpHeaders;
 
-import java.awt.print.Pageable;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
@@ -25,12 +26,10 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import static com.shah.bankingapplicationcrud.constant.CommonConstants.*;
 import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.CUSTOMER_NOT_FOUND;
-import static com.shah.bankingapplicationcrud.repository.CustomerRepository.lastNameLike;
 import static java.util.Optional.of;
 import static java.util.UUID.fromString;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 import static org.springframework.test.util.ReflectionTestUtils.setField;
@@ -75,17 +74,32 @@ class CustomerServiceImplTest {
                 .build();
     }
 
-
     @Test
-    void getAllCustomersOrSearchByLastAndFirstName() {
+    void getAllCustomersOrSearchByLastAndFirstName_found() {
         Page<Customer> pagedCustomers = new PageImpl<>(List.of(customer));
-        when(custRepo.findAll(Specification.where(CustomerRepository.firstNameLike(anyString()).or(lastNameLike(anyString()))), (org.springframework.data.domain.Pageable) any(Pageable.class))).thenReturn(pagedCustomers);
-        service.getAllCustomersOrSearchByLastAndFirstName(headers,"",1,1,"");
+        when(custRepo.findAll(
+                any(Specification.class),
+                any(Pageable.class)))
+                .thenReturn(pagedCustomers);
 
+        SearchCustomerResponse response = service.getAllCustomersOrSearchByLastAndFirstName(headers, "bob", 1, 1, "email");
+
+        assertThat(response.getCustomers().get().findFirst().get()).isEqualTo(customer);
+    }
+    @Test
+    void getAllCustomersOrSearchByLastAndFirstName_not_found() {
+        when(custRepo.findAll(
+                any(Specification.class),
+                any(Pageable.class)))
+                .thenReturn(Page.empty());
+
+        SearchCustomerResponse response = service.getAllCustomersOrSearchByLastAndFirstName(headers, "bob", 1, 1, "email");
+
+        assertThat(response.getCustomers().get().findFirst()).isEmpty();
     }
 
     @Test
-    void getOneCustomer_success() {
+    void getOneCustomer_customer_found() {
         when(custRepo.findById(any(UUID.class))).thenReturn(of(customer));
         GetOneCustomerRequest request = GetOneCustomerRequest.builder().id(RANDOM_UUID1).build();
         GetOneCustomerResponse oneCustomer = service.getOneCustomer(request, headers);
@@ -94,7 +108,7 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void getOneCustomer_failed() {
+    void getOneCustomer_customer_not_found() {
         GetOneCustomerRequest request = GetOneCustomerRequest.builder().id(RANDOM_UUID1).build();
         GetOneCustomerResponse oneCustomer = service.getOneCustomer(request, headers);
         assertThat(oneCustomer.getStatus()).isEqualTo(FAIL);
