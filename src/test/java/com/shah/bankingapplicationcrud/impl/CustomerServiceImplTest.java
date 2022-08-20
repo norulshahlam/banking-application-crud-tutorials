@@ -189,10 +189,10 @@ class CustomerServiceImplTest {
         //INITIALIZE PAYER
         Customer payer = customer;
 
+        // SUCCESS
         when(custRepo.findById(fromString(RANDOM_UUID1))).thenReturn(Optional.of(payer));
         when(custRepo.findById(fromString(RANDOM_UUID2))).thenReturn(Optional.of(payee));
         when(custRepo.saveAll(of(payee, payer))).thenReturn(of(payee, payer));
-
         TransferAmountResponse response = service.transferAmount(request, headers);
         assertThat(response.getStatus()).isEqualTo(SUCCESS);
 
