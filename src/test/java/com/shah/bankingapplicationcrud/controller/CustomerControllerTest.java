@@ -15,11 +15,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.sql.Date;
-import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static com.shah.bankingapplicationcrud.constant.CommonConstants.*;
+import static com.shah.bankingapplicationcrud.model.request.GetOneCustomerRequest.builder;
+import static com.shah.bankingapplicationcrud.model.response.GetOneCustomerResponse.success;
+import static com.shah.bankingapplicationcrud.service.Initializer.initCustomers;
+import static com.shah.bankingapplicationcrud.service.Initializer.initializeHeader;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
@@ -38,36 +40,29 @@ class CustomerControllerTest {
     @MockBean
     private CustomerServiceImpl service;
     private Customer customer;
-    private HttpHeaders headers = new HttpHeaders();;
+    private HttpHeaders headers = new HttpHeaders();
 
     @BeforeEach
     void setUp() {
         openMocks(this);
-//        headers.add(X_SOURCE_COUNTRY,SG);
-//        headers.add(X_CORRELATION_ID,RANDOM_UUID);
-//        headers.add(X_SOURCE_DATE_TIME, LocalDate.now().toString());
-
-        customer.builder().email(randomString() + "@email.com").firstName(randomString())
-                .lastName(randomString()).gender("male").age(randomInt()).country("Singapore")
-                .birthDate(new Date(1987 - 03 - 29)).accountNumber(UUID.randomUUID()).build();
+        headers = initializeHeader();
+        customer = initCustomers();
     }
 
     @Test
     void getOneCustomer() throws Exception {
-        GetOneCustomerResponse response = GetOneCustomerResponse.success(customer);
-        GetOneCustomerRequest request = GetOneCustomerRequest.builder().id(RANDOM_UUID1).build();
+        GetOneCustomerResponse response = success(customer);
+        GetOneCustomerRequest request = builder().id(RANDOM_UUID1).build();
         when(service.getOneCustomer(any(GetOneCustomerRequest.class), any(HttpHeaders.class))).thenReturn(response);
         String requestPayload = objectMapper.writeValueAsString(request);
 
-        this.mockMvc.perform(post(GET_ONE_CUSTOMER)
+        this.mockMvc.perform(post(CONTEXT_API_V1 + GET_ONE_CUSTOMER)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestPayload)
-                        .headers(headers)
-                        )
+                        .headers(headers))
                 .andDo(print())
-
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.customer.id")
+                .andExpect(jsonPath("$.customer.accBalance")
                         .value(response.getCustomer().getAccBalance().toString()));
 
     }

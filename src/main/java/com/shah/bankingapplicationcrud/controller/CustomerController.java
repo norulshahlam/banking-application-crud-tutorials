@@ -22,7 +22,7 @@ import javax.validation.Valid;
 import static com.shah.bankingapplicationcrud.constant.CommonConstants.*;
 
 
-@RequestMapping("/api/v1")
+@RequestMapping(CONTEXT_API_V1)
 @Data
 @RestController
 @Validated
@@ -33,6 +33,7 @@ import static com.shah.bankingapplicationcrud.constant.CommonConstants.*;
         @ApiResponse(code = 400, message = "Bad Request"),
         @ApiResponse(code = 500, message = "Service Unavaliable")})
 public class CustomerController {
+
 
     @Autowired
     private final CustomerServiceImpl service;

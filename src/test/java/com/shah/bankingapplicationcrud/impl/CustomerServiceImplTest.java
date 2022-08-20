@@ -20,15 +20,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpHeaders;
 
-import java.sql.Date;
-import java.time.LocalDate;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static com.shah.bankingapplicationcrud.constant.CommonConstants.*;
 import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.*;
+import static com.shah.bankingapplicationcrud.service.Initializer.initCustomers;
+import static com.shah.bankingapplicationcrud.service.Initializer.initializeHeader;
 import static java.math.BigDecimal.valueOf;
 import static java.util.List.of;
 import static java.util.UUID.fromString;
@@ -49,36 +48,14 @@ class CustomerServiceImplTest {
     private CustomerServiceImpl service;
 
     private Customer customer = null;
-    private final HttpHeaders headers = new HttpHeaders();
+    private HttpHeaders headers = new HttpHeaders();
 
     @BeforeEach
     void setUp() {
         openMocks(this);
         setField(service, "custRepo", custRepo);
-
-        initHeaders();
-        initCustomers();
-    }
-
-    void initHeaders() {
-        headers.add(X_SOURCE_COUNTRY, SG);
-        headers.add(X_CORRELATION_ID, RANDOM_UUID1);
-        headers.add(X_SOURCE_DATE_TIME, LocalDate.now().toString());
-    }
-
-    void initCustomers() {
-        customer = Customer.builder()
-                .email("norulshahlam@gmail.com")
-                .firstName("norulshahlam")
-                .lastName("bin mohsen")
-                .gender("male")
-                .age(21)
-                .country("Singapore")
-                .birthDate(new Date(2000 - 3 - 29))
-                .accountNumber(fromString(RANDOM_UUID1))
-                .accBalance(valueOf(10.50))
-                .updatedAt(ZonedDateTime.now())
-                .build();
+        headers = initializeHeader();
+        customer = initCustomers();
     }
 
     @Test

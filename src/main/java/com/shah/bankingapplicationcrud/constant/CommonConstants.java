@@ -13,6 +13,7 @@ public class CommonConstants {
     public static final String RANDOM_UUID1 = UUID.randomUUID().toString();
     public static final String RANDOM_UUID2 = UUID.randomUUID().toString();
 
+    public static final String CONTEXT_API_V1 = "/api/v1";
     public static final String DELETE_CUSTOMER = "/delete-customer";
     public static final String PATCH_CUSTOMER = "/patch-customer";
     public static final String CREATE_CUSTOMER = "/create-customer";
