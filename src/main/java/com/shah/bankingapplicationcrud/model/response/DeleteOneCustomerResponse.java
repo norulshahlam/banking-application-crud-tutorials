@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.UUID;
 
@@ -14,6 +15,7 @@ import static com.shah.bankingapplicationcrud.constant.CommonConstants.SUCCESS;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Slf4j
 public class DeleteOneCustomerResponse {
 
     @Schema(description = "Possible value: \n" +
@@ -28,10 +30,12 @@ public class DeleteOneCustomerResponse {
     private CrudError error;
 
     public static DeleteOneCustomerResponse success(UUID id) {
+        log.info("Delete customer SUCCESS...");
         return new DeleteOneCustomerResponse(SUCCESS, id, null);
     }
 
     public static DeleteOneCustomerResponse fail(UUID id, CrudError error) {
+        log.info("Delete customer FAIL...");
         return new DeleteOneCustomerResponse(FAIL, id, error);
     }
 

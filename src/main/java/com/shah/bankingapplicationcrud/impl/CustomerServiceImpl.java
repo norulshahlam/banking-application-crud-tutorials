@@ -59,10 +59,10 @@ public class CustomerServiceImpl implements CustomerService {
      * Fetch all customers. If empty will throw exception. Optional query param to search for customer containing by first or last name
      *
      * @param headers request headers coming from client
-     * @param name name of field
-     * @param page page number to display
-     * @param size number of items to display in each page
-     * @param field the parameter to search from eg by firstName, email, etc
+     * @param name    name of field
+     * @param page    page number to display
+     * @param size    number of items to display in each page
+     * @param field   the parameter to search from eg by firstName, email, etc
      * @return
      */
 
@@ -136,10 +136,10 @@ public class CustomerServiceImpl implements CustomerService {
             validateHeaders(headers);
             Customer customer = new Customer();
             copyProperties(request, customer);
-            return success(custRepo.save(customer));
+            Customer savedCustomer = custRepo.save(customer);
+            return success(savedCustomer);
 
         } catch (CrudException e) {
-            log.error("Creating one customer failed...");
             return CreateOneCustomerResponse.fail(null, constructErrorForCrudException(e));
         }
     }
@@ -186,13 +186,11 @@ public class CustomerServiceImpl implements CustomerService {
         UUID id = fromString(request.getId());
         try {
             validateHeaders(headers);
-
             Customer customer = custRepo.findById(id).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND));
             ;
 
             log.info("Customer found: \n {} \n Deleting customer...", customer);
             custRepo.deleteById(id);
-            log.info("Delete customer success...");
             return DeleteOneCustomerResponse.success(id);
 
         } catch (CrudException e) {
@@ -223,7 +221,7 @@ public class CustomerServiceImpl implements CustomerService {
             validateHeaders(headers);
 
             // 1. check if payer acc exists
-            Customer payer = custRepo.findById(fromString(request.getPayerAccountNumber())).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, PAYEE_ACCOUNT_NOT_FOUND));
+            Customer payer = custRepo.findById(fromString(request.getPayerAccountNumber())).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, PAYER_ACCOUNT_NOT_FOUND));
             log.info("Payer found: {}", payer);
 
             // 2. check if payer bal is more than transfer amount
@@ -231,7 +229,7 @@ public class CustomerServiceImpl implements CustomerService {
                 throw new CrudException(AC_BAD_REQUEST, INSUFFICIENT_AMOUNT);
 
             // 3. check if payee acc exists
-            Customer payee = custRepo.findById(fromString(request.getPayeeAccountNumber())).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, PAYER_ACCOUNT_NOT_FOUND));
+            Customer payee = custRepo.findById(fromString(request.getPayeeAccountNumber())).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, PAYEE_ACCOUNT_NOT_FOUND));
             log.info("Payee found: {}", payee);
 
             // 4. transfer
@@ -240,8 +238,7 @@ public class CustomerServiceImpl implements CustomerService {
             log.info("Transfer success");
 
             // 5. update both accounts to db
-            Iterable<Customer> updatedAccs = of(payee, payer);
-            Iterable<Customer> customers = custRepo.saveAll(updatedAccs);
+            Iterable<Customer> customers = custRepo.saveAll(of(payee, payer));
             log.info("Customers updated: {}", customers);
 
             // 6. create object for response
@@ -262,7 +259,6 @@ public class CustomerServiceImpl implements CustomerService {
 
         } catch (CrudException e) {
             log.error("Transfer operation failed...");
-
             return fail(data, constructErrorForCrudException(e));
         }
     }
@@ -276,7 +272,7 @@ public class CustomerServiceImpl implements CustomerService {
      */
 
 
-    public static String[] getNullPropertyNames(Object source) {
+    private String[] getNullPropertyNames(Object source) {
         final BeanWrapper wrappedSource = new BeanWrapperImpl(source);
         return Stream.of(wrappedSource.getPropertyDescriptors()).map(FeatureDescriptor::getName).filter(propertyName -> wrappedSource.getPropertyValue(propertyName) == null).toArray(String[]::new);
     }

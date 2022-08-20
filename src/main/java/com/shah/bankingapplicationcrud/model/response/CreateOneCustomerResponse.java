@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import static com.shah.bankingapplicationcrud.constant.CommonConstants.FAIL;
 import static com.shah.bankingapplicationcrud.constant.CommonConstants.SUCCESS;
@@ -14,6 +15,7 @@ import static com.shah.bankingapplicationcrud.constant.CommonConstants.SUCCESS;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Slf4j
 public class CreateOneCustomerResponse {
 
     @Schema(description = "Possible value: \n" +
@@ -27,10 +29,12 @@ public class CreateOneCustomerResponse {
     private CrudError error;
 
     public static CreateOneCustomerResponse success(Customer customer) {
+        log.info("Create / update one customer SUCCESS...");
         return new CreateOneCustomerResponse(SUCCESS, customer, null);
     }
 
     public static CreateOneCustomerResponse fail(Customer customer, CrudError error) {
+        log.error("Create / update one customer FAIL...");
         return new CreateOneCustomerResponse(FAIL, customer, error);
     }
 
