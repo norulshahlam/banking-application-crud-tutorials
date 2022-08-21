@@ -261,14 +261,12 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
-
     /**
      * For ignoring empty fields during copy property
      *
      * @param source
      * @return
      */
-
 
     private String[] getNullPropertyNames(Object source) {
         final BeanWrapper wrappedSource = new BeanWrapperImpl(source);
