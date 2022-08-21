@@ -26,8 +26,7 @@ import java.util.UUID;
 
 import static com.shah.bankingapplicationcrud.constant.CommonConstants.*;
 import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.*;
-import static com.shah.bankingapplicationcrud.service.Initializer.initCustomers;
-import static com.shah.bankingapplicationcrud.service.Initializer.initializeHeader;
+import static com.shah.bankingapplicationcrud.service.Initializer.*;
 import static java.math.BigDecimal.valueOf;
 import static java.util.List.of;
 import static java.util.UUID.fromString;
@@ -154,11 +153,7 @@ class CustomerServiceImplTest {
 
     @Test
     void transferAmount() {
-        TransferRequest request = TransferRequest.builder()
-                .payerAccountNumber(RANDOM_UUID1)
-                .payeeAccountNumber(RANDOM_UUID2)
-                .amount(valueOf(1.50))
-                .build();
+        TransferRequest request = initTransferAmount();
 
         //INITIALIZE PAYEE
         Customer payee = customer;

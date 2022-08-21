@@ -3,6 +3,7 @@ package com.shah.bankingapplicationcrud.model.response;
 import com.shah.bankingapplicationcrud.exception.CrudError;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import static com.shah.bankingapplicationcrud.constant.CommonConstants.SUCCESS;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class TransferAmountResponse {
 
     @Schema(description = "Possible value: \n" +

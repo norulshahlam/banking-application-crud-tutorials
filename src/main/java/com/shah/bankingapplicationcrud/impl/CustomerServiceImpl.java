@@ -186,15 +186,13 @@ public class CustomerServiceImpl implements CustomerService {
         UUID id = fromString(request.getId());
         try {
             validateHeaders(headers);
-            Customer customer = custRepo.findById(id).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND));
-            ;
+            Customer customer = custRepo.findById(id).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND));           ;
 
             log.info("Customer found: \n {} \n Deleting customer...", customer);
             custRepo.deleteById(id);
             return DeleteOneCustomerResponse.success(id);
 
         } catch (CrudException e) {
-            log.error("Delete customer failed...");
             return fail(id, constructErrorForCrudException(e));
         }
     }
