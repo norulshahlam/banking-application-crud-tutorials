@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
 import static com.shah.bankingapplicationcrud.constant.CommonConstants.*;
+import static com.shah.bankingapplicationcrud.model.entity.Customer.builder;
 import static java.math.BigDecimal.valueOf;
 import static java.util.UUID.fromString;
 
@@ -24,11 +25,11 @@ public class Initializer {
     }
 
     public static Customer initCustomers() {
-        return customer = Customer.builder()
+        return customer = builder()
                 .email("norulshahlam@gmail.com")
                 .firstName("norulshahlam")
                 .lastName("bin mohsen")
-                .gender("male")
+                .gender("Male")
                 .age(21)
                 .country("Singapore")
                 .birthDate(new Date(2000 - 3 - 29))

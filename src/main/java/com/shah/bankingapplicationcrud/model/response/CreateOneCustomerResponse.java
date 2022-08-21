@@ -1,5 +1,6 @@
 package com.shah.bankingapplicationcrud.model.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.shah.bankingapplicationcrud.exception.CrudError;
 import com.shah.bankingapplicationcrud.model.entity.Customer;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -24,6 +25,7 @@ public class CreateOneCustomerResponse {
     private String status;
 
     @Schema(description = "Details of customer")
+    @JsonProperty("data")
     private Customer customer;
 
     private CrudError error;

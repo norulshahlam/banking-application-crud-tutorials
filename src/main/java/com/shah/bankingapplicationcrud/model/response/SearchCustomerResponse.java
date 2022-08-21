@@ -1,5 +1,6 @@
 package com.shah.bankingapplicationcrud.model.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.shah.bankingapplicationcrud.exception.CrudError;
 import com.shah.bankingapplicationcrud.model.entity.Customer;
@@ -23,10 +24,10 @@ public class SearchCustomerResponse {
     private String status;
 
     @Schema(description = "Details of all customer")
+    @JsonProperty("data")
     private Page<Customer> customers;
     @Schema(description = "Details of error")
     private CrudError error;
-
 
     public static SearchCustomerResponse success(Page<Customer> customers) {
         return new SearchCustomerResponse(SUCCESS, customers, null);
