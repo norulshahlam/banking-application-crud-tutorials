@@ -12,17 +12,14 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
 import static com.shah.bankingapplicationcrud.constant.CommonConstants.*;
-import static com.shah.bankingapplicationcrud.model.entity.Customer.builder;
 import static java.math.BigDecimal.valueOf;
 import static java.time.ZonedDateTime.now;
 import static java.util.UUID.fromString;
 
 public class Initializer {
 
-    private static Customer customer = null;
-    private static HttpHeaders headers = new HttpHeaders();
-
     public static HttpHeaders initializeHeader() {
+        HttpHeaders headers = new HttpHeaders();
         headers.add(X_SOURCE_COUNTRY, SG);
         headers.add(X_CORRELATION_ID, RANDOM_UUID1);
         headers.add(X_SOURCE_DATE_TIME, LocalDate.now().toString());
@@ -30,7 +27,7 @@ public class Initializer {
     }
 
     public static Customer initCustomers() {
-        return customer = builder()
+        return Customer.builder()
                 .email("norulshahlam@gmail.com")
                 .firstName("norulshahlam")
                 .lastName("bin mohsen")
