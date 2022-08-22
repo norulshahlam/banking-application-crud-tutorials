@@ -17,7 +17,7 @@ import static com.shah.bankingapplicationcrud.constant.CommonConstants.SUCCESS;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonPropertyOrder({"status","recordCount"})
+@JsonPropertyOrder({"status", "recordCount"})
 public class SearchCustomerResponse {
 
     @Schema(description = "Possible value: \n" + " + SUCCESS\n" + " + FAILED\n")

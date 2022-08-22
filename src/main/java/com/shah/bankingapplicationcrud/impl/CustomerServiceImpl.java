@@ -70,10 +70,10 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             validateHeaders(headers);
             Pageable pageRequest = of(page, size).withSort(by(ASC, field));
-            /*
+            /**
              to test below jpa query
              select * from customers where last_name like '%s%' or first_name like '%s%';
-             */
+             **/
 
             if (StringUtils.isNotBlank(name))
                 log.info("Performing search like by firstname or lastname by keyword: {}", name);
@@ -84,8 +84,6 @@ public class CustomerServiceImpl implements CustomerService {
                     where(firstNameLike(name)
                             .or(lastNameLike(name))),
                     pageRequest);
-
-            System.out.println(customers);
 
             if (customers.stream().findAny().isPresent()) {
                 log.info("current customers displayed: {}, total customers found: {}", customers.getSize(), customers.getTotalElements());
@@ -186,7 +184,7 @@ public class CustomerServiceImpl implements CustomerService {
         UUID id = fromString(request.getId());
         try {
             validateHeaders(headers);
-            Customer customer = custRepo.findById(id).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND));           ;
+            Customer customer = custRepo.findById(id).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND));
 
             log.info("Customer found: \n {} \n Deleting customer...", customer);
             custRepo.deleteById(id);
@@ -223,7 +221,7 @@ public class CustomerServiceImpl implements CustomerService {
             log.info("Payer found: {}", payer);
 
             // 2. check if payer bal is more than transfer amount
-            if (payer.getAccBalance().compareTo(request.getAmount()) == -1)
+            if (payer.getAccBalance().compareTo(request.getAmount()) < 0)
                 throw new CrudException(AC_BAD_REQUEST, INSUFFICIENT_AMOUNT);
 
             // 3. check if payee acc exists

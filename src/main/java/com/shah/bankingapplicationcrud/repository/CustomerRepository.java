@@ -26,5 +26,4 @@ public interface CustomerRepository extends PagingAndSortingRepository<Customer,
     }
 
 
-
 }

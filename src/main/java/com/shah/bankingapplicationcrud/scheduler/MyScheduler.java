@@ -18,18 +18,18 @@ import static net.redhogs.cronparser.CronExpressionDescriptor.getDescription;
 @EnableScheduling
 public class MyScheduler {
 
-	@Value("${scheduled.period.in-cron}")
-	private String scheduledPeriodInCron;
+    @Value("${scheduled.period.in-cron}")
+    private String scheduledPeriodInCron;
 
-	@Scheduled(cron = "${scheduled.period.in-cron}")
-	public void scheduler() throws ParseException {
+    @Scheduled(cron = "${scheduled.period.in-cron}")
+    public void scheduler() throws ParseException {
 
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		Date date = new Date();
-		String dateTimeFormatted = dateFormat.format(date);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        String dateTimeFormatted = dateFormat.format(date);
 
-		String interval = getDescription(scheduledPeriodInCron);
+        String interval = getDescription(scheduledPeriodInCron);
 
-		log.info("Scheduler triggered for " + interval + " on " + dateTimeFormatted);
-	}
+        log.info("Scheduler triggered for " + interval + " on " + dateTimeFormatted);
+    }
 }
