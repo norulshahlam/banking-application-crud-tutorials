@@ -34,7 +34,7 @@ public class Initializer {
                 .gender("Male")
                 .age(21)
                 .country("Singapore")
-                .birthDate(new Date(2000 - 3 - 29))
+                .birthDate(new Date(2000 - 3L - 29))
                 .accountNumber(fromString(RANDOM_UUID1))
                 .accBalance(valueOf(10.50))
                 .updatedAt(now())
