@@ -25,6 +25,8 @@ import java.util.stream.Stream;
 
 import static com.shah.bankingapplicationcrud.exception.CrudError.constructErrorForCrudException;
 import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.*;
+import static com.shah.bankingapplicationcrud.model.response.CustomerResponse.failureResponse;
+import static com.shah.bankingapplicationcrud.model.response.CustomerResponse.successResponse;
 import static com.shah.bankingapplicationcrud.repository.CustomerRepository.firstNameLike;
 import static com.shah.bankingapplicationcrud.repository.CustomerRepository.lastNameLike;
 import static com.shah.bankingapplicationcrud.validation.ValidateHeaders.validateHeaders;
@@ -78,12 +80,12 @@ public class CustomerServiceImpl implements CustomerService {
 
             if (customers.stream().findAny().isPresent()) {
                 log.info("current customers displayed: {}, total customers found: {}", customers.getSize(), customers.getTotalElements());
-                return CustomerResponse.successResponse(customers);
+                return successResponse(customers);
             }
             throw new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND);
         } catch (CrudException e) {
             log.error("Customer: {} not found...", name);
-            return CustomerResponse.failureResponse((constructErrorForCrudException(e)));
+            return failureResponse((constructErrorForCrudException(e)));
         }
 
     }
@@ -96,17 +98,17 @@ public class CustomerServiceImpl implements CustomerService {
      * @return
      */
     @Override
-    public CustomerResponse<Customer> getOneCustomer(GetOneCustomerRequest request, HttpHeaders headers) {
+    public CustomerResponse getOneCustomer(GetOneCustomerRequest request, HttpHeaders headers) {
         log.info("Fetching customer...");
         try {
             validateHeaders(headers);
             Customer customer = custRepo.findById(request.getAccountNumber()).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND));
             log.info("Fetch customer success...");
-            return CustomerResponse.successResponse(customer);
+            return successResponse(customer);
 
         } catch (CrudException e) {
             log.error("Fetch customer failed...");
-            return CustomerResponse.failureResponse(constructErrorForCrudException(e));
+            return failureResponse(constructErrorForCrudException(e));
         }
     }
 
@@ -126,10 +128,10 @@ public class CustomerServiceImpl implements CustomerService {
             Customer customer = new Customer();
             copyProperties(request, customer);
             Customer savedCustomer = custRepo.save(customer);
-            return CustomerResponse.successResponse(savedCustomer);
+            return successResponse(savedCustomer);
 
         } catch (CrudException e) {
-            return CustomerResponse.failureResponse(constructErrorForCrudException(e));
+            return failureResponse(constructErrorForCrudException(e));
         }
     }
 
@@ -148,15 +150,15 @@ public class CustomerServiceImpl implements CustomerService {
         log.info("Editing one customer...");
         try {
             validateHeaders(headers);
-            if (isEmpty(request.getId())) throw new CrudException(AC_BAD_REQUEST, EMPTY_ID);
+            if (isEmpty(request.getAccountNumber())) throw new CrudException(AC_BAD_REQUEST, EMPTY_ID);
 
-            Customer customer = custRepo.findById(request.getId()).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND));
+            Customer customer = custRepo.findById(request.getAccountNumber()).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND));
             copyProperties(request, customer, getNullPropertyNames(request));
-            return CustomerResponse.successResponse(custRepo.save(customer));
+            return successResponse(custRepo.save(customer));
 
 
         } catch (CrudException e) {
-            return CustomerResponse.failureResponse(constructErrorForCrudException(e));
+            return failureResponse(constructErrorForCrudException(e));
         }
     }
 
@@ -179,10 +181,10 @@ public class CustomerServiceImpl implements CustomerService {
 
             log.info("Customer with account number {} found! Deleting customer...", customer.getAccountNumber());
             custRepo.deleteById(id);
-            return CustomerResponse.successResponse(id);
+            return successResponse(id);
 
         } catch (CrudException e) {
-            return CustomerResponse.failureResponse(constructErrorForCrudException(e));
+            return failureResponse(constructErrorForCrudException(e));
         }
     }
 
@@ -208,6 +210,10 @@ public class CustomerServiceImpl implements CustomerService {
             // 2. check if payer bal is more than transfer amount
             if (payer.getAccBalance().compareTo(request.getAmount()) < 0)
                 throw new CrudException(AC_BAD_REQUEST, INSUFFICIENT_AMOUNT);
+
+            // 2. check if payer account number is same as payee account number
+            if (request.getPayeeAccountNumber().compareTo(request.getPayerAccountNumber())==0)
+                throw new CrudException(AC_BAD_REQUEST, SAME_ACCOUNT_NUMBER);
 
             // 3. check if payee acc exists
             Customer payee = custRepo.findById(request.getPayeeAccountNumber()).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, PAYEE_ACCOUNT_NOT_FOUND));
@@ -236,11 +242,11 @@ public class CustomerServiceImpl implements CustomerService {
                     .amount(request.getAmount())
                     .build();
 
-            return CustomerResponse.successResponse(data);
+            return successResponse(data);
 
         } catch (CrudException e) {
             log.error("Transfer operation failed...");
-            return CustomerResponse.failureResponse(constructErrorForCrudException(e));
+            return failureResponse(constructErrorForCrudException(e));
         }
     }
 

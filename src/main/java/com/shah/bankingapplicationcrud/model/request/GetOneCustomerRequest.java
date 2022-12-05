@@ -4,18 +4,17 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
-@Getter
-@Setter
-@ToString
+@Data
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class GetOneCustomerRequest {
 
-    @NonNull
+    @NotNull(message = "accountNumber can not be null")
     @ApiModelProperty(value = "Customer account number", required = true, example = "f9bd1139-c907-11ec-b11c-0242ac110002")
     private UUID accountNumber;
 }

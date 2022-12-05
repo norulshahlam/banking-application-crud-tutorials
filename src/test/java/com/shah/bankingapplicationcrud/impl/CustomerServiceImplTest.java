@@ -92,7 +92,7 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void getOneCustomer_customer_not_found() {
+    void getOneCustomer_customer_NOT_found() {
         GetOneCustomerRequest request = GetOneCustomerRequest.builder().accountNumber(RANDOM_UUID1).build();
         CustomerResponse<Customer> response = service.getOneCustomer(request, headers);
         assertThat(response.getStatus()).isEqualTo(FAILURE);
@@ -119,19 +119,19 @@ class CustomerServiceImplTest {
     void updateOneCustomer_success() {
         PatchCustomerRequest request = PatchCustomerRequest.builder().build();
         copyProperties(customer, request);
-        request.setId(RANDOM_UUID1);
+        request.setAccountNumber(RANDOM_UUID1);
         when(custRepo.findById(any())).thenReturn(Optional.of(customer));
         CustomerResponse<Customer> response = service.updateOneCustomer(request, headers);
         assertThat(response.getStatus()).isEqualTo(SUCCESS);
     }
 
     @Test
-    void updateOneCustomer_fail() {
+    void updateOneCustomer_fail_CUSTOMER_NOT_FOUND() {
         PatchCustomerRequest request = PatchCustomerRequest.builder().build();
         copyProperties(customer, request);
         CustomerResponse<Customer> response = service.updateOneCustomer(request, headers);
         assertThat(response.getStatus()).isEqualTo(FAILURE);
-        assertThat(response.getError().getErrorCode()).isEqualTo(EMPTY_ID.getCode());
+        assertThat(response.getError().getErrorCode()).isEqualTo(CUSTOMER_NOT_FOUND.getCode());
     }
 
     @Test
@@ -143,7 +143,7 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void deleteOneCustomer_fail() {
+    void deleteOneCustomer_fail_CUSTOMER_NOT_FOUND() {
         GetOneCustomerRequest request = GetOneCustomerRequest.builder().accountNumber(RANDOM_UUID1).build();
         CustomerResponse<UUID> response = service.deleteOneCustomer(request, headers);
         assertThat(response.getStatus()).isEqualTo(FAILURE);

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Data
@@ -13,6 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class PatchCustomerRequest extends  CreateCustomerRequest {
 
-    private UUID id;
+    @NotNull(message = "accountNumber can not be null")
+    private UUID accountNumber;
 
 }

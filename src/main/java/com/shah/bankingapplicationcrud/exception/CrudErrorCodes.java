@@ -38,8 +38,8 @@ public enum CrudErrorCodes implements ErrorCode {
     EMPTY_ID("20008"),
     INSUFFICIENT_AMOUNT("20009"),
     PAYEE_ACCOUNT_NOT_FOUND("20010"),
-    PAYER_ACCOUNT_NOT_FOUND("20011");
-
+    PAYER_ACCOUNT_NOT_FOUND("20011"),
+    SAME_ACCOUNT_NUMBER("20012");
 
     private static final Map<String, String> errorDescription = new HashMap<>();
 
@@ -66,6 +66,8 @@ public enum CrudErrorCodes implements ErrorCode {
         errorDescription.put("20009", "Insufficient amount");
         errorDescription.put("20010", "Payee account not found");
         errorDescription.put("20011", "Payer account not found");
+        errorDescription.put("20012", "Payer account number is the same as payee account number");
+
     }
 
     private final String appCode = "CRUD";

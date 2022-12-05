@@ -181,7 +181,7 @@ class CustomerControllerTest {
     @Test
     void updateOneCustomer_success() throws Exception {
         CustomerResponse<Customer> response = CustomerResponse.successResponse(customer);
-        CreateCustomerRequest request = CreateCustomerRequest.builder().build();
+        PatchCustomerRequest request = PatchCustomerRequest.builder().build();
         copyProperties(customer, request);
         when(service.updateOneCustomer(any(PatchCustomerRequest.class), any(HttpHeaders.class))).thenReturn(response);
         requestPayload = objectMapper.writeValueAsString(request);
@@ -201,7 +201,7 @@ class CustomerControllerTest {
     void updateOneCustomer_customer_not_found() throws Exception {
         CrudException e = new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND);
         CustomerResponse<Customer> response = CustomerResponse.failureResponse(constructErrorForCrudException(e));
-        CreateCustomerRequest request = CreateCustomerRequest.builder().build();
+        PatchCustomerRequest request = PatchCustomerRequest.builder().build();
         customer.setAccountNumber(UUID.randomUUID());
         copyProperties(customer, request);
         when(service.updateOneCustomer(any(PatchCustomerRequest.class), any(HttpHeaders.class))).thenReturn(response);
