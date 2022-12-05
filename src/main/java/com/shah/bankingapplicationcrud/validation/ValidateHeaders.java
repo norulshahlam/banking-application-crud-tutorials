@@ -11,6 +11,9 @@ import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.*;
 
 public class ValidateHeaders {
 
+    private ValidateHeaders() {
+    }
+
     public static void validateHeaders(HttpHeaders headers) {
         if (ObjectUtils.isEmpty(headers)) {
             throw new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND);

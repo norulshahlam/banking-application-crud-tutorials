@@ -1,10 +1,8 @@
 package com.shah.bankingapplicationcrud.controller;
 
 import com.shah.bankingapplicationcrud.impl.CustomerServiceImpl;
-import com.shah.bankingapplicationcrud.model.request.CreateCustomerRequest;
-import com.shah.bankingapplicationcrud.model.request.GetOneCustomerRequest;
-import com.shah.bankingapplicationcrud.model.request.PatchCustomerRequest;
-import com.shah.bankingapplicationcrud.model.request.TransferRequest;
+import com.shah.bankingapplicationcrud.model.entity.Customer;
+import com.shah.bankingapplicationcrud.model.request.*;
 import com.shah.bankingapplicationcrud.model.response.*;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -12,12 +10,15 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import java.util.UUID;
 
 import static com.shah.bankingapplicationcrud.constant.CommonConstants.*;
 
@@ -40,10 +41,10 @@ public class CustomerController {
 
     @ApiOperation(
             value = "Retrieve all customers. Optional query param to search for customer containing by first or last name",
-            response = SearchCustomerResponse.class,
+            response = CustomerResponse.class,
             tags = "Retrieve all customers. Optional query param to search for customer containing by first or last name")
     @PostMapping(GET_ALL_CUSTOMERS)
-    public ResponseEntity<SearchCustomerResponse> searchCustomersByName(
+    public ResponseEntity<CustomerResponse<Page<Customer>>> searchCustomersByName(
             @RequestHeader HttpHeaders headers,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
@@ -54,27 +55,29 @@ public class CustomerController {
 
     @ApiOperation(
             value = "Retrieve one customer",
-            response = GetOneCustomerResponse.class,
+            response = CustomerResponse.class,
             tags = "Retrieve one customer")
     @PostMapping(GET_ONE_CUSTOMER)
-    public ResponseEntity<GetOneCustomerResponse> getOneCustomer(
+    public ResponseEntity<CustomerResponse<Customer>> getOneCustomer(
             @ApiParam(defaultValue = "001d846e-4488-4ecc-84c2-9b6f1d130711")
             @Valid @RequestBody GetOneCustomerRequest request,
             @RequestHeader HttpHeaders headers) {
         return ResponseEntity.ok(service.getOneCustomer(request, headers));
     }
 
-    @ApiOperation(value = "Add customer", response = CreateOneCustomerResponse.class, tags = "Add customer")
+    @ApiOperation(value = "Add customer",
+            response = CustomerResponse.class,
+            tags = "Add customer")
     @PostMapping(CREATE_CUSTOMER)
-    public ResponseEntity<CreateOneCustomerResponse> createOneCustomer(
+    public ResponseEntity<CustomerResponse<Customer>> createOneCustomer(
             @Valid @RequestBody CreateCustomerRequest createCustomerRequest,
             @RequestHeader HttpHeaders headers) {
         return ResponseEntity.ok(service.createOneCustomer(createCustomerRequest, headers));
     }
 
-    @ApiOperation(value = "Patch customer", response = CreateOneCustomerResponse.class, tags = "Add customer")
+    @ApiOperation(value = "Patch customer", response = CustomerResponse.class, tags = "Add customer")
     @PostMapping(PATCH_CUSTOMER)
-    public ResponseEntity<CreateOneCustomerResponse> updateOneCustomer(
+    public ResponseEntity<CustomerResponse<Customer>> updateOneCustomer(
             @Valid @RequestBody PatchCustomerRequest createCustomerRequest,
             @RequestHeader HttpHeaders headers) {
         return ResponseEntity.ok(service.updateOneCustomer(createCustomerRequest, headers));
@@ -82,10 +85,10 @@ public class CustomerController {
 
     @ApiOperation(
             value = "Retrieve one customer",
-            response = DeleteOneCustomerResponse.class,
+            response = CustomerResponse.class,
             tags = "Retrieve one customer")
     @PostMapping(DELETE_CUSTOMER)
-    public ResponseEntity<DeleteOneCustomerResponse> deleteOneCustomer(
+    public ResponseEntity<CustomerResponse<UUID>> deleteOneCustomer(
             @ApiParam(defaultValue = "001d846e-4488-4ecc-84c2-9b6f1d130711")
             @Valid @RequestBody GetOneCustomerRequest request,
             @RequestHeader HttpHeaders headers) {
@@ -94,10 +97,10 @@ public class CustomerController {
 
     @ApiOperation(
             value = "Transfer amount",
-            response = TransferAmountResponse.class,
+            response = CustomerResponse.class,
             tags = "Transfer amount")
     @PostMapping(TRANSFER)
-    public ResponseEntity<TransferAmountResponse> transferAmount(
+    public ResponseEntity<CustomerResponse<TransferResponseDto>> transferAmount(
             @Valid @RequestBody TransferRequest request,
             @RequestHeader HttpHeaders headers) {
         return ResponseEntity.ok(service.transferAmount(request, headers));

@@ -1,4 +1,4 @@
-package com.dxc.bookstoreapi.model;
+package com.shah.bankingapplicationcrud.model.enums;
 
 public enum ResponseStatus {
     SUCCESS,

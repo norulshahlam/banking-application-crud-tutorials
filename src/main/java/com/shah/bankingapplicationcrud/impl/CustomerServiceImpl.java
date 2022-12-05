@@ -2,11 +2,8 @@ package com.shah.bankingapplicationcrud.impl;
 
 import com.shah.bankingapplicationcrud.exception.CrudException;
 import com.shah.bankingapplicationcrud.model.entity.Customer;
-import com.shah.bankingapplicationcrud.model.request.CreateCustomerRequest;
-import com.shah.bankingapplicationcrud.model.request.GetOneCustomerRequest;
-import com.shah.bankingapplicationcrud.model.request.PatchCustomerRequest;
-import com.shah.bankingapplicationcrud.model.request.TransferRequest;
-import com.shah.bankingapplicationcrud.model.response.*;
+import com.shah.bankingapplicationcrud.model.request.*;
+import com.shah.bankingapplicationcrud.model.response.CustomerResponse;
 import com.shah.bankingapplicationcrud.repository.CustomerRepository;
 import com.shah.bankingapplicationcrud.service.CustomerService;
 import lombok.Data;
@@ -28,16 +25,10 @@ import java.util.stream.Stream;
 
 import static com.shah.bankingapplicationcrud.exception.CrudError.constructErrorForCrudException;
 import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.*;
-import static com.shah.bankingapplicationcrud.model.response.CreateOneCustomerResponse.success;
-import static com.shah.bankingapplicationcrud.model.response.DeleteOneCustomerResponse.fail;
-import static com.shah.bankingapplicationcrud.model.response.SearchCustomerResponse.fail;
-import static com.shah.bankingapplicationcrud.model.response.TransferAmountResponse.fail;
-import static com.shah.bankingapplicationcrud.model.response.TransferAmountResponse.success;
 import static com.shah.bankingapplicationcrud.repository.CustomerRepository.firstNameLike;
 import static com.shah.bankingapplicationcrud.repository.CustomerRepository.lastNameLike;
 import static com.shah.bankingapplicationcrud.validation.ValidateHeaders.validateHeaders;
 import static java.util.List.of;
-import static java.util.UUID.fromString;
 import static org.apache.commons.lang3.ObjectUtils.isEmpty;
 import static org.springframework.beans.BeanUtils.copyProperties;
 import static org.springframework.data.domain.PageRequest.of;
@@ -66,7 +57,7 @@ public class CustomerServiceImpl implements CustomerService {
      * @return
      */
 
-    public SearchCustomerResponse getAllCustomersOrSearchByLastAndFirstName(HttpHeaders headers, String name, int page, int size, String field) {
+    public CustomerResponse<Page<Customer>> getAllCustomersOrSearchByLastAndFirstName(HttpHeaders headers, String name, int page, int size, String field) {
         try {
             validateHeaders(headers);
             Pageable pageRequest = of(page, size).withSort(by(ASC, field));
@@ -87,12 +78,12 @@ public class CustomerServiceImpl implements CustomerService {
 
             if (customers.stream().findAny().isPresent()) {
                 log.info("current customers displayed: {}, total customers found: {}", customers.getSize(), customers.getTotalElements());
-                return SearchCustomerResponse.success(customers);
+                return CustomerResponse.successResponse(customers);
             }
             throw new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND);
         } catch (CrudException e) {
             log.error("Customer: {} not found...", name);
-            return fail(constructErrorForCrudException(e));
+            return CustomerResponse.failureResponse((constructErrorForCrudException(e)));
         }
 
     }
@@ -105,17 +96,17 @@ public class CustomerServiceImpl implements CustomerService {
      * @return
      */
     @Override
-    public GetOneCustomerResponse getOneCustomer(GetOneCustomerRequest request, HttpHeaders headers) {
+    public CustomerResponse<Customer> getOneCustomer(GetOneCustomerRequest request, HttpHeaders headers) {
         log.info("Fetching customer...");
         try {
             validateHeaders(headers);
-            Customer customer = custRepo.findById(fromString(request.getId())).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND));
+            Customer customer = custRepo.findById(request.getAccountNumber()).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND));
             log.info("Fetch customer success...");
-            return GetOneCustomerResponse.success(customer);
+            return CustomerResponse.successResponse(customer);
 
         } catch (CrudException e) {
             log.error("Fetch customer failed...");
-            return GetOneCustomerResponse.fail(null, constructErrorForCrudException(e));
+            return CustomerResponse.failureResponse(constructErrorForCrudException(e));
         }
     }
 
@@ -128,17 +119,17 @@ public class CustomerServiceImpl implements CustomerService {
      */
 
     @Override
-    public CreateOneCustomerResponse createOneCustomer(CreateCustomerRequest request, HttpHeaders headers) {
+    public CustomerResponse<Customer> createOneCustomer(CreateCustomerRequest request, HttpHeaders headers) {
         log.info("Creating one customer...");
         try {
             validateHeaders(headers);
             Customer customer = new Customer();
             copyProperties(request, customer);
             Customer savedCustomer = custRepo.save(customer);
-            return success(savedCustomer);
+            return CustomerResponse.successResponse(savedCustomer);
 
         } catch (CrudException e) {
-            return CreateOneCustomerResponse.fail(null, constructErrorForCrudException(e));
+            return CustomerResponse.failureResponse(constructErrorForCrudException(e));
         }
     }
 
@@ -153,7 +144,7 @@ public class CustomerServiceImpl implements CustomerService {
      */
 
     @Override
-    public CreateOneCustomerResponse updateOneCustomer(PatchCustomerRequest request, HttpHeaders headers) {
+    public CustomerResponse<Customer> updateOneCustomer(PatchCustomerRequest request, HttpHeaders headers) {
         log.info("Editing one customer...");
         try {
             validateHeaders(headers);
@@ -161,11 +152,11 @@ public class CustomerServiceImpl implements CustomerService {
 
             Customer customer = custRepo.findById(request.getId()).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND));
             copyProperties(request, customer, getNullPropertyNames(request));
-            return success(custRepo.save(customer));
+            return CustomerResponse.successResponse(custRepo.save(customer));
 
 
         } catch (CrudException e) {
-            return CreateOneCustomerResponse.fail(null, constructErrorForCrudException(e));
+            return CustomerResponse.failureResponse(constructErrorForCrudException(e));
         }
     }
 
@@ -179,19 +170,19 @@ public class CustomerServiceImpl implements CustomerService {
      */
 
     @Override
-    public DeleteOneCustomerResponse deleteOneCustomer(GetOneCustomerRequest request, HttpHeaders headers) {
+    public CustomerResponse<UUID> deleteOneCustomer(GetOneCustomerRequest request, HttpHeaders headers) {
         log.info("Check if customer exists...");
-        UUID id = fromString(request.getId());
+        UUID id = request.getAccountNumber();
         try {
             validateHeaders(headers);
             Customer customer = custRepo.findById(id).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND));
 
-            log.info("Customer found: \n {} \n Deleting customer...", customer);
+            log.info("Customer with account number {} found! Deleting customer...", customer.getAccountNumber());
             custRepo.deleteById(id);
-            return DeleteOneCustomerResponse.success(id);
+            return CustomerResponse.successResponse(id);
 
         } catch (CrudException e) {
-            return fail(id, constructErrorForCrudException(e));
+            return CustomerResponse.failureResponse(constructErrorForCrudException(e));
         }
     }
 
@@ -204,20 +195,14 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Transactional
     @Override
-    public TransferAmountResponse transferAmount(TransferRequest request, HttpHeaders headers) {
-        String senderId = request.getPayerAccountNumber();
-
-        TransferResponseDto data = TransferResponseDto.builder()
-                .payerAccountNumber(senderId)
-                .payeeAccountNumber(request.getPayeeAccountNumber())
-                .amount(request.getAmount())
-                .build();
+    public CustomerResponse<TransferResponseDto> transferAmount(TransferRequest request, HttpHeaders headers) {
+        UUID senderId = request.getPayerAccountNumber();
 
         try {
             validateHeaders(headers);
 
             // 1. check if payer acc exists
-            Customer payer = custRepo.findById(fromString(request.getPayerAccountNumber())).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, PAYER_ACCOUNT_NOT_FOUND));
+            Customer payer = custRepo.findById(request.getPayerAccountNumber()).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, PAYER_ACCOUNT_NOT_FOUND));
             log.info("Payer found: {}", payer);
 
             // 2. check if payer bal is more than transfer amount
@@ -225,7 +210,7 @@ public class CustomerServiceImpl implements CustomerService {
                 throw new CrudException(AC_BAD_REQUEST, INSUFFICIENT_AMOUNT);
 
             // 3. check if payee acc exists
-            Customer payee = custRepo.findById(fromString(request.getPayeeAccountNumber())).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, PAYEE_ACCOUNT_NOT_FOUND));
+            Customer payee = custRepo.findById(request.getPayeeAccountNumber()).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, PAYEE_ACCOUNT_NOT_FOUND));
             log.info("Payee found: {}", payee);
 
             // 4. transfer
@@ -238,7 +223,7 @@ public class CustomerServiceImpl implements CustomerService {
             log.info("Customers updated: {}", customers);
 
             // 6. create object for response
-            data = TransferResponseDto.builder()
+            TransferResponseDto data = TransferResponseDto.builder()
                     .payerAccountNumber(senderId)
                     .payerFirstName(payer.getFirstName())
                     .payerOldAccBal(payer.getAccBalance().add(request.getAmount()))
@@ -251,11 +236,11 @@ public class CustomerServiceImpl implements CustomerService {
                     .amount(request.getAmount())
                     .build();
 
-            return success(data);
+            return CustomerResponse.successResponse(data);
 
         } catch (CrudException e) {
             log.error("Transfer operation failed...");
-            return fail(data, constructErrorForCrudException(e));
+            return CustomerResponse.failureResponse(constructErrorForCrudException(e));
         }
     }
 

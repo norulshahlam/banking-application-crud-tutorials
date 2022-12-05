@@ -1,13 +1,11 @@
-package com.shah.bankingapplicationcrud.model.response;
+package com.shah.bankingapplicationcrud.model.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -15,12 +13,12 @@ import java.time.ZonedDateTime;
 @Builder
 public class TransferResponseDto {
 
-    private String payerAccountNumber;
+    private UUID payerAccountNumber;
     private String payerFirstName;
     private BigDecimal payerOldAccBal;
     private BigDecimal payerNewAccBal;
 
-    private String payeeAccountNumber;
+    private UUID payeeAccountNumber;
     private String payeeFirstName;
     private BigDecimal payeeOldAccBal;
     private BigDecimal payeeNewAccBal;

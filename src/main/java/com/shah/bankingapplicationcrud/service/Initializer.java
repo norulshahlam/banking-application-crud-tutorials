@@ -2,7 +2,7 @@ package com.shah.bankingapplicationcrud.service;
 
 import com.shah.bankingapplicationcrud.model.entity.Customer;
 import com.shah.bankingapplicationcrud.model.request.TransferRequest;
-import com.shah.bankingapplicationcrud.model.response.TransferResponseDto;
+import com.shah.bankingapplicationcrud.model.request.TransferResponseDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -14,14 +14,16 @@ import java.time.ZonedDateTime;
 import static com.shah.bankingapplicationcrud.constant.CommonConstants.*;
 import static java.math.BigDecimal.valueOf;
 import static java.time.ZonedDateTime.now;
-import static java.util.UUID.fromString;
 
 public class Initializer {
+
+    private Initializer() {
+    }
 
     public static HttpHeaders initializeHeader() {
         HttpHeaders headers = new HttpHeaders();
         headers.add(X_SOURCE_COUNTRY, SG);
-        headers.add(X_CORRELATION_ID, RANDOM_UUID1);
+        headers.add(X_CORRELATION_ID, RANDOM_UUID1.toString());
         headers.add(X_SOURCE_DATE_TIME, LocalDate.now().toString());
         return headers;
     }
@@ -35,7 +37,7 @@ public class Initializer {
                 .age(21)
                 .country("Singapore")
                 .birthDate(new Date(2000 - 3L - 29))
-                .accountNumber(fromString(RANDOM_UUID1))
+                .accountNumber(RANDOM_UUID1)
                 .accBalance(valueOf(10.50))
                 .updatedAt(now())
                 .build();

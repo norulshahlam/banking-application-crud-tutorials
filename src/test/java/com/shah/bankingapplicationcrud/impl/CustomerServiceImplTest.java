@@ -2,11 +2,8 @@ package com.shah.bankingapplicationcrud.impl;
 
 import com.shah.bankingapplicationcrud.exception.CrudException;
 import com.shah.bankingapplicationcrud.model.entity.Customer;
-import com.shah.bankingapplicationcrud.model.request.CreateCustomerRequest;
-import com.shah.bankingapplicationcrud.model.request.GetOneCustomerRequest;
-import com.shah.bankingapplicationcrud.model.request.PatchCustomerRequest;
-import com.shah.bankingapplicationcrud.model.request.TransferRequest;
-import com.shah.bankingapplicationcrud.model.response.*;
+import com.shah.bankingapplicationcrud.model.request.*;
+import com.shah.bankingapplicationcrud.model.response.CustomerResponse;
 import com.shah.bankingapplicationcrud.repository.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,12 +21,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.shah.bankingapplicationcrud.constant.CommonConstants.*;
+import static com.shah.bankingapplicationcrud.constant.CommonConstants.RANDOM_UUID1;
+import static com.shah.bankingapplicationcrud.constant.CommonConstants.RANDOM_UUID2;
 import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.*;
+import static com.shah.bankingapplicationcrud.model.enums.ResponseStatus.FAILURE;
+import static com.shah.bankingapplicationcrud.model.enums.ResponseStatus.SUCCESS;
 import static com.shah.bankingapplicationcrud.service.Initializer.*;
 import static java.math.BigDecimal.valueOf;
 import static java.util.List.of;
-import static java.util.UUID.fromString;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -65,9 +64,9 @@ class CustomerServiceImplTest {
                 any(Pageable.class)))
                 .thenReturn(pagedCustomers);
 
-        SearchCustomerResponse response = service.getAllCustomersOrSearchByLastAndFirstName(headers, "bob", 1, 1, "email");
+        CustomerResponse<Page<Customer>> response = service.getAllCustomersOrSearchByLastAndFirstName(headers, "bob", 1, 1, "email");
 
-        assertThat(response.getCustomers().get().findFirst().get()).isEqualTo(customer);
+        assertThat(response.getData().get().findFirst()).contains(customer);
     }
 
     @Test
@@ -77,26 +76,26 @@ class CustomerServiceImplTest {
                 any(Pageable.class)))
                 .thenReturn(new PageImpl<>(of()));
 
-        SearchCustomerResponse response = service.getAllCustomersOrSearchByLastAndFirstName(headers, "", 1, 1, "email");
+        CustomerResponse<Page<Customer>> response = service.getAllCustomersOrSearchByLastAndFirstName(headers, "", 1, 1, "email");
 
-        assertThat(response.getStatus()).isEqualTo(FAIL);
+        assertThat(response.getStatus()).isEqualTo(FAILURE);
         assertThat(response.getError().getErrorCode()).isEqualTo(CUSTOMER_NOT_FOUND.getCode());
     }
 
     @Test
     void getOneCustomer_customer_found() {
         when(custRepo.findById(any(UUID.class))).thenReturn(Optional.of(customer));
-        GetOneCustomerRequest request = GetOneCustomerRequest.builder().id(RANDOM_UUID1).build();
-        GetOneCustomerResponse oneCustomer = service.getOneCustomer(request, headers);
+        GetOneCustomerRequest request = GetOneCustomerRequest.builder().accountNumber(RANDOM_UUID1).build();
+        CustomerResponse<Customer> oneCustomer = service.getOneCustomer(request, headers);
         assertThat(oneCustomer).isNotNull();
         assertThat(oneCustomer.getStatus()).isEqualTo(SUCCESS);
     }
 
     @Test
     void getOneCustomer_customer_not_found() {
-        GetOneCustomerRequest request = GetOneCustomerRequest.builder().id(RANDOM_UUID1).build();
-        GetOneCustomerResponse response = service.getOneCustomer(request, headers);
-        assertThat(response.getStatus()).isEqualTo(FAIL);
+        GetOneCustomerRequest request = GetOneCustomerRequest.builder().accountNumber(RANDOM_UUID1).build();
+        CustomerResponse<Customer> response = service.getOneCustomer(request, headers);
+        assertThat(response.getStatus()).isEqualTo(FAILURE);
         assertThat(response.getError().getErrorCode()).isEqualTo(CUSTOMER_NOT_FOUND.getCode());
     }
 
@@ -106,13 +105,13 @@ class CustomerServiceImplTest {
         CreateCustomerRequest request = CreateCustomerRequest.builder().build();
         copyProperties(customer, request);
 
-        CreateOneCustomerResponse response = service.createOneCustomer(request, headers);
+        CustomerResponse<Customer> response = service.createOneCustomer(request, headers);
         assertThat(response.getStatus()).isEqualTo(SUCCESS);
 
         //createOneCustomer_FAILED
         when(custRepo.save(any())).thenThrow(new CrudException(AC_BAD_REQUEST, AC_INTERNAL_SERVER_ERROR));
         response = service.createOneCustomer(request, headers);
-        assertThat(response.getStatus()).isEqualTo(FAIL);
+        assertThat(response.getStatus()).isEqualTo(FAILURE);
         assertThat(response.getError().getErrorCode()).isEqualTo(AC_INTERNAL_SERVER_ERROR.getCode());
     }
 
@@ -120,9 +119,9 @@ class CustomerServiceImplTest {
     void updateOneCustomer_success() {
         PatchCustomerRequest request = PatchCustomerRequest.builder().build();
         copyProperties(customer, request);
-        request.setId(fromString(RANDOM_UUID1));
+        request.setId(RANDOM_UUID1);
         when(custRepo.findById(any())).thenReturn(Optional.of(customer));
-        CreateOneCustomerResponse response = service.updateOneCustomer(request, headers);
+        CustomerResponse<Customer> response = service.updateOneCustomer(request, headers);
         assertThat(response.getStatus()).isEqualTo(SUCCESS);
     }
 
@@ -130,24 +129,24 @@ class CustomerServiceImplTest {
     void updateOneCustomer_fail() {
         PatchCustomerRequest request = PatchCustomerRequest.builder().build();
         copyProperties(customer, request);
-        CreateOneCustomerResponse response = service.updateOneCustomer(request, headers);
-        assertThat(response.getStatus()).isEqualTo(FAIL);
+        CustomerResponse<Customer> response = service.updateOneCustomer(request, headers);
+        assertThat(response.getStatus()).isEqualTo(FAILURE);
         assertThat(response.getError().getErrorCode()).isEqualTo(EMPTY_ID.getCode());
     }
 
     @Test
     void deleteOneCustomer_success() {
-        GetOneCustomerRequest request = GetOneCustomerRequest.builder().id(RANDOM_UUID1).build();
+        GetOneCustomerRequest request = GetOneCustomerRequest.builder().accountNumber(RANDOM_UUID1).build();
         when(custRepo.findById(any())).thenReturn(Optional.of(customer));
-        DeleteOneCustomerResponse response = service.deleteOneCustomer(request, headers);
+        CustomerResponse<UUID> response = service.deleteOneCustomer(request, headers);
         assertThat(response.getStatus()).isEqualTo(SUCCESS);
     }
 
     @Test
     void deleteOneCustomer_fail() {
-        GetOneCustomerRequest request = GetOneCustomerRequest.builder().id(RANDOM_UUID1).build();
-        DeleteOneCustomerResponse response = service.deleteOneCustomer(request, headers);
-        assertThat(response.getStatus()).isEqualTo(FAIL);
+        GetOneCustomerRequest request = GetOneCustomerRequest.builder().accountNumber(RANDOM_UUID1).build();
+        CustomerResponse<UUID> response = service.deleteOneCustomer(request, headers);
+        assertThat(response.getStatus()).isEqualTo(FAILURE);
         assertThat(response.getError().getErrorCode()).isEqualTo(CUSTOMER_NOT_FOUND.getCode());
     }
 
@@ -162,28 +161,28 @@ class CustomerServiceImplTest {
         Customer payer = customer;
 
         // SUCCESS
-        when(custRepo.findById(fromString(RANDOM_UUID1))).thenReturn(Optional.of(payer));
-        when(custRepo.findById(fromString(RANDOM_UUID2))).thenReturn(Optional.of(payee));
+        when(custRepo.findById(RANDOM_UUID1)).thenReturn(Optional.of(payer));
+        when(custRepo.findById(RANDOM_UUID2)).thenReturn(Optional.of(payee));
         when(custRepo.saveAll(of(payee, payer))).thenReturn(of(payee, payer));
-        TransferAmountResponse response = service.transferAmount(request, headers);
+        CustomerResponse<TransferResponseDto> response = service.transferAmount(request, headers);
         assertThat(response.getStatus()).isEqualTo(SUCCESS);
 
         // PAYEE NOT FOUND
-        when(custRepo.findById(fromString(RANDOM_UUID2))).thenReturn(Optional.empty());
+        when(custRepo.findById(RANDOM_UUID2)).thenReturn(Optional.empty());
         response = service.transferAmount(request, headers);
-        assertThat(response.getStatus()).isEqualTo(FAIL);
+        assertThat(response.getStatus()).isEqualTo(FAILURE);
         assertThat(response.getError().getErrorCode()).isEqualTo(PAYEE_ACCOUNT_NOT_FOUND.getCode());
 
         // INSUFFICIENT BALANCE
         request.setAmount(valueOf(1000.50));
         response = service.transferAmount(request, headers);
-        assertThat(response.getStatus()).isEqualTo(FAIL);
+        assertThat(response.getStatus()).isEqualTo(FAILURE);
         assertThat(response.getError().getErrorCode()).isEqualTo(INSUFFICIENT_AMOUNT.getCode());
 
         // PAYER NOT FOUND
-        when(custRepo.findById(fromString(RANDOM_UUID1))).thenReturn(Optional.empty());
+        when(custRepo.findById(RANDOM_UUID1)).thenReturn(Optional.empty());
         response = service.transferAmount(request, headers);
-        assertThat(response.getStatus()).isEqualTo(FAIL);
+        assertThat(response.getStatus()).isEqualTo(FAILURE);
         assertThat(response.getError().getErrorCode()).isEqualTo(PAYER_ACCOUNT_NOT_FOUND.getCode());
     }
 }

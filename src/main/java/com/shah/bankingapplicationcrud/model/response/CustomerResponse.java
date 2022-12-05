@@ -1,20 +1,37 @@
 package com.shah.bankingapplicationcrud.model.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.shah.bankingapplicationcrud.exception.CrudError;
+import com.shah.bankingapplicationcrud.model.enums.ResponseStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CustomerResponse {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class CustomerResponse<T> {
 
     @Schema(description = "Possible value: \n" +
             " + SUCCESS\n" +
-            " + FAILED\n")
-    private String status;
-    
+            " + FAILURE\n")
+    @NonNull
+    ResponseStatus status;
+    private T data;
+    private CrudError error;
+
+    public static <T> CustomerResponse successResponse(T data) {
+        return CustomerResponse.builder()
+                .status(ResponseStatus.SUCCESS)
+                .data(data)
+                .build();
+    }
+    public static CustomerResponse failureResponse(CrudError error) {
+        return CustomerResponse.builder()
+                .status(ResponseStatus.FAILURE)
+                .error(error)
+                .build();
+    }
+
 }

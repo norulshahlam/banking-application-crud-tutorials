@@ -5,11 +5,8 @@ import com.shah.bankingapplicationcrud.exception.CrudError;
 import com.shah.bankingapplicationcrud.exception.CrudException;
 import com.shah.bankingapplicationcrud.impl.CustomerServiceImpl;
 import com.shah.bankingapplicationcrud.model.entity.Customer;
-import com.shah.bankingapplicationcrud.model.request.CreateCustomerRequest;
-import com.shah.bankingapplicationcrud.model.request.GetOneCustomerRequest;
-import com.shah.bankingapplicationcrud.model.request.PatchCustomerRequest;
-import com.shah.bankingapplicationcrud.model.request.TransferRequest;
-import com.shah.bankingapplicationcrud.model.response.*;
+import com.shah.bankingapplicationcrud.model.request.*;
+import com.shah.bankingapplicationcrud.model.response.CustomerResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +27,8 @@ import java.util.UUID;
 import static com.shah.bankingapplicationcrud.constant.CommonConstants.*;
 import static com.shah.bankingapplicationcrud.exception.CrudError.constructErrorForCrudException;
 import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.*;
+import static com.shah.bankingapplicationcrud.model.enums.ResponseStatus.FAILURE;
 import static com.shah.bankingapplicationcrud.model.request.GetOneCustomerRequest.builder;
-import static com.shah.bankingapplicationcrud.model.response.DeleteOneCustomerResponse.fail;
-import static com.shah.bankingapplicationcrud.model.response.GetOneCustomerResponse.success;
-import static com.shah.bankingapplicationcrud.model.response.SearchCustomerResponse.success;
-import static com.shah.bankingapplicationcrud.model.response.TransferAmountResponse.fail;
 import static com.shah.bankingapplicationcrud.service.Initializer.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.*;
@@ -70,8 +64,8 @@ class CustomerControllerTest {
 
     @Test
     void getOneCustomer_success() throws Exception {
-        GetOneCustomerResponse response = success(customer);
-        GetOneCustomerRequest request = builder().id(RANDOM_UUID1).build();
+        CustomerResponse<Customer> response = CustomerResponse.successResponse(customer);
+        GetOneCustomerRequest request = builder().accountNumber(RANDOM_UUID1).build();
         when(service.getOneCustomer(any(GetOneCustomerRequest.class), any(HttpHeaders.class))).thenReturn(response);
         requestPayload = objectMapper.writeValueAsString(request);
 
@@ -83,16 +77,16 @@ class CustomerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(SUCCESS))
                 .andExpect(jsonPath("$.data.accBalance")
-                        .value(response.getCustomer().getAccBalance().toString()));
+                        .value(response.getData().getAccBalance().toString()));
 
     }
 
     @Test
     void getOneCustomer_customer_not_found() throws Exception {
         CrudException e = new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND);
-        GetOneCustomerResponse response = GetOneCustomerResponse.fail(null, constructErrorForCrudException(e));
+        CustomerResponse<Customer> response = CustomerResponse.failureResponse(constructErrorForCrudException(e));
 
-        GetOneCustomerRequest request = builder().id(RANDOM_UUID1).build();
+        GetOneCustomerRequest request = builder().accountNumber(RANDOM_UUID1).build();
         when(service.getOneCustomer(any(GetOneCustomerRequest.class), any(HttpHeaders.class))).thenReturn(response);
         requestPayload = objectMapper.writeValueAsString(request);
 
@@ -102,7 +96,7 @@ class CustomerControllerTest {
                         .headers(headers))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.status").value(FAIL))
+                .andExpect(jsonPath("$.status").value(FAILURE.name()))
                 .andExpect(jsonPath("$.error")
                         .isNotEmpty());
 
@@ -111,7 +105,7 @@ class CustomerControllerTest {
     @Test
     void searchCustomersByName_success() throws Exception {
         Page<Customer> pagedCustomers = new PageImpl<>(List.of(customer, customer, customer));
-        SearchCustomerResponse response = success(pagedCustomers);
+        CustomerResponse<Page<Customer>> response = CustomerResponse.successResponse(pagedCustomers);
         when(service.getAllCustomersOrSearchByLastAndFirstName(any(HttpHeaders.class), anyString(), anyInt(), anyInt(), anyString())).thenReturn(response);
 
         mockMvc.perform(post(CONTEXT_API_V1 + GET_ALL_CUSTOMERS)
@@ -128,7 +122,7 @@ class CustomerControllerTest {
     @Test
     void searchCustomersByName_customer_not_found() throws Exception {
         CrudException e = new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND);
-        SearchCustomerResponse response = SearchCustomerResponse.fail(constructErrorForCrudException(e));
+        CustomerResponse<Page<Customer>> response = CustomerResponse.failureResponse((constructErrorForCrudException(e)));
         when(service.getAllCustomersOrSearchByLastAndFirstName(any(HttpHeaders.class), anyString(), anyInt(), anyInt(), anyString())).thenReturn(response);
 
         mockMvc.perform(post(CONTEXT_API_V1 + GET_ALL_CUSTOMERS)
@@ -139,12 +133,12 @@ class CustomerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.error.errorCode")
                         .isNotEmpty())
-                .andExpect(jsonPath("$.status").value(FAIL));
+                .andExpect(jsonPath("$.status").value(FAILURE.name()));
     }
 
     @Test
     void createOneCustomer_success() throws Exception {
-        CreateOneCustomerResponse response = CreateOneCustomerResponse.success(customer);
+        CustomerResponse<Customer> response = CustomerResponse.successResponse(customer);
         CreateCustomerRequest request = CreateCustomerRequest.builder().build();
         copyProperties(customer, request);
         requestPayload = objectMapper.writeValueAsString(request);
@@ -163,7 +157,7 @@ class CustomerControllerTest {
 
     @Test
     void createOneCustomer_failed_validation() throws Exception {
-        CreateOneCustomerResponse response = CreateOneCustomerResponse.success(customer);
+        CustomerResponse<Customer> response = CustomerResponse.successResponse(customer);
         CreateCustomerRequest request = CreateCustomerRequest.builder().build();
         customer.setGender("invalid gender");
         copyProperties(customer, request);
@@ -186,7 +180,7 @@ class CustomerControllerTest {
 
     @Test
     void updateOneCustomer_success() throws Exception {
-        CreateOneCustomerResponse response = CreateOneCustomerResponse.success(customer);
+        CustomerResponse<Customer> response = CustomerResponse.successResponse(customer);
         CreateCustomerRequest request = CreateCustomerRequest.builder().build();
         copyProperties(customer, request);
         when(service.updateOneCustomer(any(PatchCustomerRequest.class), any(HttpHeaders.class))).thenReturn(response);
@@ -206,7 +200,7 @@ class CustomerControllerTest {
     @Test
     void updateOneCustomer_customer_not_found() throws Exception {
         CrudException e = new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND);
-        CreateOneCustomerResponse response = CreateOneCustomerResponse.fail(customer, constructErrorForCrudException(e));
+        CustomerResponse<Customer> response = CustomerResponse.failureResponse(constructErrorForCrudException(e));
         CreateCustomerRequest request = CreateCustomerRequest.builder().build();
         customer.setAccountNumber(UUID.randomUUID());
         copyProperties(customer, request);
@@ -221,14 +215,14 @@ class CustomerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.error")
                         .isNotEmpty())
-                .andExpect(jsonPath("$.status").value(FAIL));
+                .andExpect(jsonPath("$.status").value(FAILURE.name()));
     }
 
     @Test
     void deleteOneCustomer_success() throws Exception {
-        UUID id = UUID.fromString(RANDOM_UUID1);
-        GetOneCustomerRequest request = builder().id(RANDOM_UUID1).build();
-        DeleteOneCustomerResponse response = DeleteOneCustomerResponse.success(id);
+        UUID id = RANDOM_UUID1;
+        GetOneCustomerRequest request = builder().accountNumber(RANDOM_UUID1).build();
+        CustomerResponse<UUID> response = CustomerResponse.successResponse(id);
         requestPayload = objectMapper.writeValueAsString(request);
         when(service.deleteOneCustomer(any(), any(HttpHeaders.class))).thenReturn(response);
 
@@ -238,17 +232,17 @@ class CustomerControllerTest {
                         .headers(headers))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.error")
-                        .isEmpty())
+                .andExpect(jsonPath("$.data")
+                        .isNotEmpty())
                 .andExpect(jsonPath("$.status").value(SUCCESS));
     }
 
     @Test
     void deleteOneCustomer_customer_not_found() throws Exception {
-        UUID id = UUID.fromString(RANDOM_UUID1);
+        UUID id = RANDOM_UUID1;
         CrudException e = new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND);
-        GetOneCustomerRequest request = builder().id(RANDOM_UUID1).build();
-        DeleteOneCustomerResponse response = fail(id, constructErrorForCrudException(e));
+        GetOneCustomerRequest request = builder().accountNumber(RANDOM_UUID1).build();
+        CustomerResponse<UUID> response = CustomerResponse.failureResponse(constructErrorForCrudException(e));
         requestPayload = objectMapper.writeValueAsString(request);
         when(service.deleteOneCustomer(any(), any(HttpHeaders.class))).thenReturn(response);
 
@@ -260,14 +254,14 @@ class CustomerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.error.errorCode")
                         .value("CRUD-20001"))
-                .andExpect(jsonPath("$.status").value(FAIL));
+                .andExpect(jsonPath("$.status").value(FAILURE.name()));
     }
 
     @Test
     void transferAmount_success() throws Exception {
         TransferRequest request = initTransferAmount();
         TransferResponseDto data = initTransferResponseDto();
-        TransferAmountResponse response = TransferAmountResponse.success(data);
+        CustomerResponse<TransferResponseDto> response = CustomerResponse.successResponse(data);
         requestPayload = objectMapper.writeValueAsString(request);
         when(service.transferAmount(any(TransferRequest.class), any(HttpHeaders.class))).thenReturn(response);
 
@@ -277,8 +271,8 @@ class CustomerControllerTest {
                         .headers(headers))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.error")
-                        .isEmpty())
+                .andExpect(jsonPath("$.data")
+                        .isNotEmpty())
                 .andExpect(jsonPath("$.status").value(SUCCESS));
     }
 
@@ -287,7 +281,7 @@ class CustomerControllerTest {
         CrudException e = new CrudException(AC_BAD_REQUEST, INSUFFICIENT_AMOUNT);
         TransferRequest request = initTransferAmount();
         TransferResponseDto data = initTransferResponseDto();
-        TransferAmountResponse response = fail(data, CrudError.constructErrorForCrudException(e));
+        CustomerResponse<TransferResponseDto> response = CustomerResponse.failureResponse(CrudError.constructErrorForCrudException(e));
         requestPayload = objectMapper.writeValueAsString(request);
         when(service.transferAmount(any(TransferRequest.class), any(HttpHeaders.class))).thenReturn(response);
 
@@ -299,7 +293,7 @@ class CustomerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.error")
                         .isNotEmpty())
-                .andExpect(jsonPath("$.status").value(FAIL));
+                .andExpect(jsonPath("$.status").value(FAILURE.name()));
     }
 
 }

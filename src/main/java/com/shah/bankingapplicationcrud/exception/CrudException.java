@@ -19,7 +19,7 @@ public class CrudException extends BaseException {
      * - msErrorCode and msErrorDesc : is used by MS side investigation/troubleshooting
      * - errorInfo : currently in AC we are not using, keeping this for future use
      **/
-    private transient ErrorCode errorCode;
+    private transient  ErrorCode errorCode;
     private String errorDesc;
     private transient ErrorCode msErrorCode;
     private String msErrorDesc;

@@ -32,6 +32,8 @@ import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.*;
 @Slf4j
 public class GlobalExceptionHandler {
 
+    public static final String ERROR_DETAIL = "requestUrl : {}, occurred an error : {}, e detail : {}";
+
     /**
      * to handle MethodArgumentNotValidException when validating request body from client input
      *
@@ -54,7 +56,7 @@ public class GlobalExceptionHandler {
         for (ObjectError error : e.getBindingResult().getGlobalErrors()) {
             cause.add(error.getDefaultMessage());
         }
-        log.error("requestUrl : {}, occurred an error : {}, e detail : {}", requestURL, cause, e);
+        log.error(ERROR_DETAIL, requestURL, cause, e);
         String collect = String.join(", ", cause);
 
         return ResponseEntity.ok(message(AC_BAD_REQUEST, collect));
@@ -123,7 +125,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseEntity<Object> handlePropertyReferenceException(HttpServletRequest req, PropertyReferenceException e) {
         String cause = e.getMessage();
-        log.error("requestUrl : {}, occurred an error : {}, e detail : {}", req.getRequestURI(), cause, e);
+        log.error(ERROR_DETAIL, req.getRequestURI(), cause, e);
         return ResponseEntity.ok(message(AC_BAD_REQUEST, cause));
     }
 
@@ -140,7 +142,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseEntity<Object> handleBaseException(HttpServletRequest req, Exception e) {
         String cause = e.getMessage();
-        log.error("requestUrl : {}, occurred an error : {}, e detail : {}", req.getRequestURI(), cause, e);
+        log.error(ERROR_DETAIL, req.getRequestURI(), cause, e);
         return ResponseEntity.ok(message(AC_INTERNAL_SERVER_ERROR, cause));
     }
 }

@@ -1,10 +1,11 @@
 package com.shah.bankingapplicationcrud.model.request;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -12,8 +13,10 @@ import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.sql.Date;
 
-@Builder
+@SuperBuilder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CreateCustomerRequest {
 
     @ApiModelProperty(notes = "Email address",
@@ -50,7 +53,6 @@ public class CreateCustomerRequest {
     @NotNull(message = "Country cannot be empty")
     private String country;
 
-    @JsonProperty("Job Scope")
     @ApiModelProperty(example = "Cleaner")
     private String designation;
 
