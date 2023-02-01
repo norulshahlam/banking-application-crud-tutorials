@@ -19,6 +19,7 @@ logs/
 *.iws
 *.iml
 *.ipr
+/.mvn/**
 
 ### NetBeans ###
 /nbproject/private/
@@ -32,3 +33,5 @@ build/
 
 ### VS Code ###
 .vscode/
+mvnw
+mvnw.cmd
