@@ -59,7 +59,8 @@ public class CustomerServiceImpl implements CustomerService {
      * @return
      */
 
-    public CustomerResponse<Page<Customer>> getAllCustomersOrSearchByLastAndFirstName(HttpHeaders headers, String name, int page, int size, String field) {
+    public CustomerResponse<Page<Customer>> getAllCustomersOrSearchByLastAndFirstName(
+            HttpHeaders headers, String name, int page, int size, String field) {
         try {
             validateHeaders(headers);
             Pageable pageRequest = of(page, size).withSort(by(ASC, field));
