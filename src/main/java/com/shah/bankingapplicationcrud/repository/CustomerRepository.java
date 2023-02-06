@@ -16,14 +16,12 @@ public interface CustomerRepository extends PagingAndSortingRepository<Customer,
     Optional<Customer> findById(UUID id);
 
     static Specification<Customer> firstNameLike(String name) {
-        return ((root, query, criteriaBuilder) -> criteriaBuilder.like(
+        return ((root, query, builder) -> builder.like(
                 root.get("firstName"), "%" + name + "%"));
     }
 
     static Specification<Customer> lastNameLike(String name) {
-        return ((root, query, criteriaBuilder) -> criteriaBuilder.like(
+        return ((root, query, builder) -> builder.like(
                 root.get("lastName"), "%" + name + "%"));
     }
-
-
 }
