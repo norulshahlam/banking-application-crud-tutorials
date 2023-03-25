@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,9 +76,9 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseEntity<Object> handleConstraintViolationException(HttpServletRequest req, ConstraintViolationException e) {
 
-        List<String> cause = e.getConstraintViolations().stream().map(violation -> violation.getPropertyPath().toString() + ": " + violation.getMessage()).collect(Collectors.toList());
-        log.error("requestUrl : {}, occurred an error : {}, exception detail : {}", req.getRequestURI(), cause, e);
-        String collect = String.join(", ", cause);
+        List<String> errorMessages = e.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
+        log.error("requestUrl : {}, occurred an error : {}, exception detail : {}", req.getRequestURI(), errorMessages, e);
+        String collect = String.join(", ", errorMessages);
         return ResponseEntity.ok(message(CONSTRAINT_VIOLATION_EXCEPTION, collect));
     }
 
