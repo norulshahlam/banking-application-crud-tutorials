@@ -59,6 +59,7 @@ public class CustomerServiceImpl implements CustomerService {
      * @return
      */
 
+    @Override
     public CustomerResponse<Page<Customer>> getAllCustomersOrSearchByLastAndFirstName(
             HttpHeaders headers, String name, int page, int size, String field) {
         try {
