@@ -5,12 +5,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import static org.springframework.boot.SpringApplication.run;
 
+/**
+ * @author NORUL
+ */
 @SpringBootApplication
 @Slf4j
-public class BankingApplicationCrudApplication {
+public class Application {
 
     public static void main(String[] args) {
-        run(BankingApplicationCrudApplication.class, args);
+        run(Application.class, args);
         log.info("App started");
     }
 }
