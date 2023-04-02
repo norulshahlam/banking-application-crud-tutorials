@@ -94,14 +94,14 @@ write a scheduler on the Spring applications. You can set the interval using cro
 
 Cron Expression
 
-It is always an advantage to know what your cron expression value is by using CronParser
+It is always an advantage to know what your cron expression value is by using CronParser library
 
-<!-- https://mvnrepository.com/artifact/net.redhogs.cronparser/cron-parser-spring -->
-  <dependency>
-      <groupId>net.redhogs.cronparser</groupId>
-      <artifactId>cron-parser-spring</artifactId>
-      <version>3.5</version>
-  </dependency>
+    <!-- https://mvnrepository.com/artifact/net.redhogs.cronparser/cron-parser-spring -->
+    <dependency>
+          <groupId>net.redhogs.cronparser</groupId>
+          <artifactId>cron-parser-spring</artifactId>
+          <version>3.5</version>
+    </dependency>
 
 Not sure what expression to use? Click [here](https://www.freeformatter.com/cron-expression-generator-quartz.html) to
 generate expression online
