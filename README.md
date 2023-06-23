@@ -180,22 +180,20 @@ Result sample:
 
 <li><b>Global exception - @ControllerAdvice</b></li><br>
 
-<details>
-<summary>Click to expand</summary><br>
-  <ul>
-  <li><b>Intro</b></li>
+<b>Intro</b>
 
 During the software development process, it is inevitable to handle all kinds of exceptions. For me, at least half of
 the time is spent dealing with all kinds of exceptions, so there will be a lot of try {...} catch {...} finally {...}
 code blocks in the code, which not only has a lot of redundant code, but also affects the readability of the code.
 
+<details>
+<summary>More info</summary><br>
+  <ul>
   <li><b>So what is it?</b></li>
 
-Spring consider exception handling a cross-cutting concern, thus it allows you to handle exceptions separately from the
-rest of your code. This approach truly does work great with Spring!
+Spring consider exception handling a cross-cutting concern, thus it allows you to handle exceptions separately from the rest of your code. This approach truly does work great with Spring!
 
-Used for global error handling in the Spring MVC application. It also has full control over the body of the response and
-the status code.
+Used for global error handling in the Spring MVC application. It also has full control over the body of the response and the status code.
 
   <li><b>Types</b></li>
 
