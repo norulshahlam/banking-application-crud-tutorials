@@ -215,8 +215,7 @@ Where it throws itself and u handle it using GlobalExceptionHandler
 
   <li><b>Benefits</b></li>
 
-No cluttering of your code surrounding with try-catch blocks. This will result in cleaner and manageable code. You can
-have more meaningful error message
+No cluttering of your code surrounding with try-catch blocks. This will result in cleaner and manageable code. You can have more meaningful error message
 
 </ul>
 </details><br>
@@ -229,13 +228,8 @@ Entities in JPA are nothing but POJOs representing data that can be persisted to
 
 We can add values in our table in data.sql in resources folder. This values will be added when Spring starts. In certain scenario you might not able able to populate thru this approach so you have to manually add values thru test cases.
 
-This test case will be created under repository test folder, for the sake of Project Structure Best Practices. But first we need to create repository, then generate test case through it, run Spring, then run this test.
+This test case will be created under repository test folder, for the sake of Project Structure Best Practices. But first we need to create repository, then generate test case through it, run Spring, then run this test. [(More info)](https://youtu.be/Geq60OVyBPg?t=2422)
 
-[(Explanation)](https://youtu.be/Geq60OVyBPg?t=2422)
-
-  <li><b>Create native query</b></li>
-
-[More info](https://stackoverflow.com/questions/58453768/variables-in-spring-data-jpa-native-query)
 
   <li><b>Handle data in DB when Spring Boot starts</b></li><br>
 
@@ -250,6 +244,8 @@ To reset or reload the data from script everytime Spring boot starts, configure 
 ```
 spring.jpa.hibernate.ddl-auto=create
 ```
+
+[Source](https://www.baeldung.com/spring-boot-data-sql-and-schema-sql)
 
   </ol>
 </details>
@@ -460,5 +456,7 @@ use [(JSONPath Online Evaluator)](https://jsonpath.com/) to play around with the
 [Show query with values](https://stackoverflow.com/questions/46083329/no-converter-found-capable-of-converting-from-type-to-type)
 [Custom fields using projection](https://stackoverflow.com/questions/1710476/how-to-print-a-query-string-with-parameter-values-when-using-hibernate
 )
+[Show query with values](https://stackoverflow.com/questions/46083329/no-converter-found-capable-of-converting-from-type-to-type)
+[Create native query](https://stackoverflow.com/questions/58453768/variables-in-spring-data-jpa-native-query)
 
 </details>
