@@ -65,15 +65,16 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             validateHeaders(headers);
             Pageable pageRequest = of(page, size).withSort(by(ASC, field));
-            /**
+            /** TODO
              to test below jpa query
              select * from customers where last_name like '%s%' or first_name like '%s%';
              **/
 
-            if (StringUtils.isNotBlank(name))
+            if (StringUtils.isNotBlank(name)) {
                 log.info("Performing search like by firstname or lastname by keyword: {}", name);
-            else
+            } else {
                 log.info("Getting all customers");
+            }
 
             Page<Customer> customers = custRepo.findAll(
                     where(firstNameLike(name)
@@ -214,7 +215,7 @@ public class CustomerServiceImpl implements CustomerService {
                 throw new CrudException(AC_BAD_REQUEST, INSUFFICIENT_AMOUNT);
 
             // 2. check if payer account number is same as payee account number
-            if (request.getPayeeAccountNumber().compareTo(request.getPayerAccountNumber())==0)
+            if (request.getPayeeAccountNumber().compareTo(request.getPayerAccountNumber()) == 0)
                 throw new CrudException(AC_BAD_REQUEST, SAME_ACCOUNT_NUMBER);
 
             // 3. check if payee acc exists

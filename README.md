@@ -30,14 +30,16 @@
 
 <details>
 <summary>Click to expand</summary><br>
-  <ol>
-    <li><b>Jackson Annotations</b><br></li>
 
-The Jackson JSON toolkit contains a set of Java annotations which you can use to influence how JSON is read into
-objects, or what JSON is generated from the objects.
-Click [HERE](http://tutorials.jenkov.com/java-json/jackson-annotations.html) for more information.
+<ol>
+<li><b>Jackson Annotations</b></li><br>
 
-  <li><b>Creation timestamp</b><br></li>
+The Jackson JSON toolkit contains a set of Java annotations which you can use to influence how JSON is read into objects, or what JSON is generated from the objects. Click [HERE](http://tutorials.jenkov.com/java-json/jackson-annotations.html) for more information. <br>
+
+<details><br>
+<summary>Click to expand annotations example</summary>
+
+<b>Creation timestamp</b>
 
 Marks a property as the creation timestamp of the containing entity. The property value will be set to the current VM
 date exactly once when saving the owning entity for the first time.
@@ -47,8 +49,7 @@ date exactly once when saving the owning entity for the first time.
 private Date createdAt;
 ```
 
-  <li><b>Update timestamp</b><br></li>
-
+<b>Update timestamp</b>
 Marks a property as the update timestamp of the containing entity. The property value will be set to the current VM date
 whenever the owning entity is updated
 
@@ -57,19 +58,45 @@ whenever the owning entity is updated
 private Date updatedAt;
 ```
 
-  <li><b>Validations</b></li>
+<b>Know that entity having camelCase will mapped into db into under_score eg: </b>
 
-We assume that this is web-service where user can enter any field and value so a lot of validation is needed. Although
-most of the time validation will be done in front-end.
+```
+birthDate -> birth_date in Database
+```
 
-  <li><b>Swagger Api</b><br></li>
+<b>Arrange your order of json properties. Currently the id is at the bottom. we can bring this up by adding this at class level: </b>
 
-An open source project used to generate the REST API documents for RESTful web services. It provides a user interface to
-access our RESTful web services via the web browser.
+```
+@JsonPropertyOrder({"firstName","lastName"})
+```
 
-We have one class for this config to do all the necessary configurations there.
-Click [here](https://stackoverflow.com/questions/70043841/swagger-2-issue-spring-boot) for any issues faced. You can
-access it in JSON-based or UI-based. These two have their default url. You can, of course customize this.
+From this example, firstName will be at the most top followed by lastName
+
+<b>Hide json property. You can hide certain property of json. let us hide lastName by this annotation in entity:</b>
+
+```
+@JsonIgnore
+private String lastName;
+```
+
+<b> Rename json property. You can rename your json property name instead of using the default value based on variable name</b>
+
+```
+@JsonProperty("MyAwesomeFirstName")
+private String firstName;
+```
+
+  </ul>
+</details><br>
+<li><b>Validations</b></li><br>
+
+We assume that this is web-service where user can enter any field and value so a lot of validation is needed. Although most of the time validation will be done in front-end. Click [here](https://reflectoring.io/bean-validation-with-spring-boot/) for more information.
+
+<li><b>Swagger Api</b></li><br>
+
+An open source project used to generate the REST API documents for RESTful web services. It provides a user interface to access our RESTful web services via the web browser.
+
+We have one class for this config to do all the necessary configurations there. Click [here](https://stackoverflow.com/questions/70043841/swagger-2-issue-spring-boot) for any issues faced. You can access it in JSON-based or UI-based. These two have their default url. You can, of course customize this.
 
 JSON-based
 
@@ -79,10 +106,9 @@ UI-based
 
     http://localhost:9090/swagger-ui.html
 
-  <li><b>Scheduler</b><br></li>
+<li><b>Scheduler</b></li><br>
 
-Scheduling is a process of executing the tasks for the specific time period. Spring Boot provides a good support to
-write a scheduler on the Spring applications. You can set the interval using cron or time units eg
+Scheduling is a process of executing the tasks for the specific time period. Spring Boot provides a good support to write a scheduler on the Spring applications. You can set the interval using cron or time units eg
 
 ```
 @Scheduled(fixedDelay = 1000)
@@ -92,7 +118,10 @@ write a scheduler on the Spring applications. You can set the interval using cro
 @Scheduled(cron = "0 15 10 15 * ?", zone = "Europe/Paris")
 ```
 
-Cron Expression
+<details><br>
+<summary>Click to expand Cron Expression</summary>
+
+<b>Cron Expression</b><br>
 
 It is always an advantage to know what your cron expression value is by using CronParser library
 
@@ -103,10 +132,10 @@ It is always an advantage to know what your cron expression value is by using Cr
           <version>3.5</version>
     </dependency>
 
-Not sure what expression to use? Click [here](https://www.freeformatter.com/cron-expression-generator-quartz.html) to
-generate expression online
+Not sure what expression to use? Click [here](https://www.freeformatter.com/cron-expression-generator-quartz.html) to generate expression online
+</details><br>
 
-  <li><b>Initializer</b><br></li>
+<li><b>Initializer</b></li><br>
 
 How to run logic at the startup of a Spring application? There many ways to achieve this:
 
@@ -117,20 +146,19 @@ How to run logic at the startup of a Spring application? There many ways to achi
 5. Constructor Injection
 6. _CommandLineRunner_
 7. _ApplicationRunner_
-8. Combining any combination above
+8. Combining any combination above  
 
-For simplicity we will demo using _CommandLineRunner_
+For simplicity we will use _CommandLineRunner_ for this project.  
 
-Spring Boot provides a _CommandLineRunner_ interface with a callback _run()_ method. This method will be called after
-the Spring application context is instantiated. [More info](https://www.baeldung.com/spring-boot-console-app)
+Spring Boot provides a _CommandLineRunner_ interface with a callback _run()_ method. This method will be called after the Spring application context is instantiated. [More info](https://www.baeldung.com/spring-boot-console-app)
 
-  <li><b>Console appenders</b><br></li>
+<li><b>Console appenders</b></li><br>
 
 The console log can be customized to suit your preferences. we can customize the date format or what to display.
 
 For quick setup, simply add this in your property:
 
-    spring.main.banner-mode=off 
+    spring.main.banner-mode=off
     spring.output.ansi.enabled=ALWAYS
     logging.pattern.console=%clr(%d{yy-MM-dd E HH:mm:ss.SSS}){blue} %clr(%-5p) %clr(${PID}){faint} %clr(---){faint} %clr([%8.15t]){cyan} %clr(%-40.40logger{0}){blue} %clr(:){red} %clr(%m){faint}%n
 
@@ -142,101 +170,15 @@ Customized console display:
 [More info](https://howtodoinjava.com/spring-boot2/logging/console-logging-configuration/)
 [More info](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.logging)
 
-  <li><b>Spring boot custom banner</b><br></li>
+<li><b>Spring boot custom banner</b></li><br>
 
 Customize the default Spring Boot Banner. You can use images or plain text. To generate text,
-use [ASCII Text Signature Generator](https://www.kammerl.de/ascii/AsciiSignature.php)
-
-Configure your image-based banner [here](https://www.baeldung.com/spring-boot-custom-banners)
-
-You can also color your text banner [here](https://www.baeldung.com/spring-boot-color-banner)
+use [ASCII Text Signature Generator](https://www.kammerl.de/ascii/AsciiSignature.php). Configure your image-based banner [here](https://www.baeldung.com/spring-boot-custom-banners). Color your text banner [here](https://www.baeldung.com/spring-boot-color-banner)
 
 Result sample:
 ![Image](./src/main/resources/banner-sample.PNG)
 
-  </ol>
-</details>
-
-### How to start app on local
-
-<details>
-<summary>Click to expand</summary><br>
-
-*We are using [MySql](https://www.mysql.com/)  as our DB, [Docker](https://www.docker.com/) to run
-DB, [Dbeaver](https://dbeaver.io/) to manage DB, and [Postman](https://www.postman.com/) to run requests*
-
-  <ul>
-    <li><b>Setting up DB using Docker</b></li><br>
-
-We will create DB without having to manually create from RDBMS by utilising Spring JPA. Our table will look something
-like this:
-
-[![Image](./src/main/resources/sql-table.png)](https://ipwithease.com/three-tier-architecture-in-application/)
-
-Install docker in your windows. Once done, create an instance of MySql Docker image by running this commands:
-
-```
-docker run --detach --env MYSQL_ROOT_PASSWORD=root --env MYSQL_DATABASE=mydb --env MYSQL_PASSWORD=root --env MYSQL_USER=admin --name localhost --publish 3306:3306 mysql:8.0
-
-docker run --name postgres-tutorial -e POSTGRES_PASSWORD=password -d -p 5432:5432 postgres
-```
-
-Once this is done, make sure you have the SQL file in your resources folder so Spring Boot can read the values and
-inserts into your DB when Spring Boot starts. So ensure this before starting your Spring Boot. Next we proced to verify
-the DB. There are 2 methods for this
-
-  <li><b>Verify database (using docker container)</b></li><br>
-
-Once Spring starts, let's check our database (thru docker container) to verify if table is created and data added. Make
-sure the parameters entered is consistent with the variables used during docker creation.
-
-Run mysql in cli using docker
-
-```
-docker exec -it localhost bash
-```
-
-Connect to mysql
-
-```
-mysql -u admin -proot;
-```
-
-Test
-
-```
-use mydb;
-show tables;
-desc customer;
-select * from customer;
-```
-
-Stop & remove all running proceses
-
-```
-docker rm $(docker ps -a -q) -f
-```
-
- <li><b>Verify database (using Dbeaver)</b></li><br>
-
-Download Dbeaver [here](https://dbeaver.io/download/). Open and create new database connection.
-
-Database input field:
-
- ```
- mydb?allowPublicKeyRetrieval=true&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
- ```
-
-[![Image](./src/main/resources/dbeaver-setup.PNG)](https://ipwithease.com/three-tier-architecture-in-application/)
-
-<li><b>Run requests using Postman</b></li><br>
-
-[View Postman collection](./src/main/resources/banking-rest-api-tutorials.postman_collection.json)
-
-  </ul>
-</details>
-
-### Global exception - @ControllerAdvice
+<li><b>Global exception - @ControllerAdvice</b></li><br>
 
 <details>
 <summary>Click to expand</summary><br>
@@ -277,6 +219,115 @@ No cluttering of your code surrounding with try-catch blocks. This will result i
 have more meaningful error message
 
 </ul>
+</details><br>
+
+ <li><b>Entity</b></li><br>
+
+Entities in JPA are nothing but POJOs representing data that can be persisted to the database. An entity represents a table stored in a database. Every instance of an entity represents a row in the table. This will be in Employee.java
+
+  <li><b>Prepopulate data</b></li><br>
+
+We can add values in our table in data.sql in resources folder. This values will be added when Spring starts. In certain scenario you might not able able to populate thru this approach so you have to manually add values thru test cases.
+
+This test case will be created under repository test folder, for the sake of Project Structure Best Practices. But first we need to create repository, then generate test case through it, run Spring, then run this test.
+
+[(Explanation)](https://youtu.be/Geq60OVyBPg?t=2422)
+
+  <li><b>Create native query</b></li>
+
+[More info](https://stackoverflow.com/questions/58453768/variables-in-spring-data-jpa-native-query)
+
+  <li><b>Handle data in DB when Spring Boot starts</b></li><br>
+
+To retain the same data state everytime Spring boot starts, configure this in your application.properties:
+
+```
+spring.jpa.hibernate.ddl-auto=update
+```
+
+To reset or reload the data from script everytime Spring boot starts, configure this in your application.properties:
+
+```
+spring.jpa.hibernate.ddl-auto=create
+```
+
+  </ol>
+</details>
+
+### How to start app on local
+
+<details>
+<summary>Click to expand</summary><br>
+
+_We are using [MySql](https://www.mysql.com/) as our DB, [Docker](https://www.docker.com/) to run
+DB, [Dbeaver](https://dbeaver.io/) to manage DB, and [Postman](https://www.postman.com/) to run requests_
+
+  <ul>
+    <li><b>Setting up DB using Docker</b></li><br>
+
+We will create DB without having to manually create from RDBMS by utilising Spring JPA. Our table will look something like this:
+
+[![Image](./src/main/resources/sql-table.png)](https://ipwithease.com/three-tier-architecture-in-application/)
+
+Install docker in your windows. Once done, create an instance of MySql Docker image by running this commands:
+
+```
+docker run --detach --env MYSQL_ROOT_PASSWORD=root --env MYSQL_DATABASE=mydb --env MYSQL_PASSWORD=root --env MYSQL_USER=admin --name localhost --publish 3306:3306 mysql:8.0
+
+docker run --name postgres-tutorial -e POSTGRES_PASSWORD=password -d -p 5432:5432 postgres
+```
+
+Once this is done, make sure you have the SQL file in your resources folder so Spring Boot can read the values and inserts into your DB when Spring Boot starts. So ensure this before starting your Spring Boot. Next we proced to verify the DB. There are 2 methods for this
+
+  <li><b>Verify database (using docker container)</b></li><br>
+
+Once Spring starts, let's check our database (thru docker container) to verify if table is created and data added. Make
+sure the parameters entered is consistent with the variables used during docker creation.
+
+Run mysql in cli using docker
+
+```
+docker exec -it localhost bash
+```
+
+Connect to mysql
+
+```
+mysql -u admin -proot;
+```
+
+Test
+
+```
+use mydb;
+show tables;
+desc customer;
+select * from customer;
+```
+
+Stop & remove all running proceses
+
+```
+docker rm $(docker ps -a -q) -f
+```
+
+ <li><b>Verify database (using Dbeaver)</b></li><br>
+
+Download Dbeaver [here](https://dbeaver.io/download/). Open and create new database connection.
+
+Database input field:
+
+```
+mydb?allowPublicKeyRetrieval=true&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
+```
+
+[![Image](./src/main/resources/dbeaver-setup.PNG)](https://ipwithease.com/three-tier-architecture-in-application/)
+
+<li><b>Run requests using Postman</b></li><br>
+
+[View Postman collection](./src/main/resources/banking-rest-api-tutorials.postman_collection.json)
+
+  </ul>
 </details>
 
 ### Unit Testing
@@ -313,9 +364,6 @@ and clear remediation guidance to deliver clean code from the get-go.
 If you are using IntelliJ, simply right-click on the repo file -> new -> Junit. This will automatically generate test
 method. We will implement our test cases.
 
-</ul>
-
-</details>
 
 ### Unit Test - Repository
 
@@ -382,13 +430,17 @@ will use JSONPath to match certain fields in your result set. If you are not fam
 use [(JSONPath Online Evaluator)](https://jsonpath.com/) to play around with the expressions.
 
 </details>
+</ul>
+
+</details>
+
 
 ### Sample
 
 <details>
 <summary>Click to expand</summary><br>
   <ul>
-    <li><b>Fetch all customers with pagination</b></li>
+    <li><b>Sample</b></li>
   </ul>
 </details>
 
@@ -405,76 +457,8 @@ use [(JSONPath Online Evaluator)](https://jsonpath.com/) to play around with the
 [How to validate patch method using ValidatorFactory](https://stackoverflow.com/questions/56139024/how-to-automatically-add-bean-validation-when-partially-updating-patch-spring-bo)  
 [Structuring Your Code](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.structuring-your-code)  
 [If you have issue packaging to jar](https://stackoverflow.com/questions/35394885/lombok-not-compiling-in-maven)  
-[Custom fields using projection](https://stackoverflow.com/questions/46083329/no-converter-found-capable-of-converting-from-type-to-type)
+[Show query with values](https://stackoverflow.com/questions/46083329/no-converter-found-capable-of-converting-from-type-to-type)
+[Custom fields using projection](https://stackoverflow.com/questions/1710476/how-to-print-a-query-string-with-parameter-values-when-using-hibernate
+)
 
-</details>
-
-### For recap
-
-<details>
-<summary>Click to expand</summary><br>
- <ul>
-  <li><b>Know that entity having camelCase will mapped into db into under_score eg: </b></li>
-
-```
-birthDate -> birth_date in Database
-```
-
-  <li><b>Arrange your order of json properties. Currently the id is at the bottom. we can bring this up by adding this at class level: </b></li>
-
-```
-@JsonPropertyOrder({"firstName","lastName"})
-```
-
-From this example, firstName will be at the most top followed by lastName
-  <li><b>Hide json property. You can hide certain property of json. let us hide lastName by this annotation in entity:</b></li>
-
-```
-@JsonIgnore
-private String lastName;
-```
-
-  <li><b> Rename json property. You can rename your json property name instead of using the default value based on variable name</b></li>
-
-```
-@JsonProperty("MyAwesomeFirstName")
-private String firstName;
-```
-
-  <li><b>Use exception to throw validation error by means of try-catch</b></li>
-  <li><b>Implement more fields in Employee to learn pagination</b></li>
-  <li><b>Entity</b></li>
-
-Entities in JPA are nothing but POJOs representing data that can be persisted to the database. An entity represents a
-table stored in a database. Every instance of an entity represents a row in the table. This will be in Employee.java
-
-  <li><b>Prepopulate data</b></li>
-
-We can add values in our table in data.sql in resources folder. This values will be added when Spring starts. In certain
-scenario you might not able able to populate thru this approach so you have to manually add values thru test cases.
-
-This test case will be created under repository test folder, for the sake of Project Structure Best Practices. But first
-we need to create repository, then generate test case through it, run Spring, then run this test.
-
-[(Explanation)](https://youtu.be/Geq60OVyBPg?t=2422)
-
-  <li><b>Create native query</b></li>
-
-[Click here](https://stackoverflow.com/questions/58453768/variables-in-spring-data-jpa-native-query)
-
-  <li><b>Handle data in DB when Spring Boot starts</b></li>
-
-To retain the same data state everytime Spring boot starts, configure this in your application.properties:
-
-```
-spring.jpa.hibernate.ddl-auto=update
-```
-
-To reset or reload the data from script everytime Spring boot starts, configure this in your application.properties:
-
-```
-spring.jpa.hibernate.ddl-auto=create
-```
-
-  </ul>
 </details>
