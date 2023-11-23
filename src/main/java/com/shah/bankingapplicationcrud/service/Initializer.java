@@ -71,7 +71,7 @@ public class Initializer {
                 .payeeOldAccBal(valueOf(1.50))
                 .payeeNewAccBal(valueOf(1.50))
                 .transactionDate(ZonedDateTime.now())
-                .amount(valueOf(1.50))
+                .amountTransferred(valueOf(1.50))
                 .build();
     }
 

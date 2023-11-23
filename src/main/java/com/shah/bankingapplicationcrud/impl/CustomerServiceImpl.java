@@ -26,7 +26,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import static com.shah.bankingapplicationcrud.constant.ExceptionConstants.CUSTOMER_EMAIL_ALREADY_EXISTS;
+import static com.shah.bankingapplicationcrud.constant.ExceptionConstants.*;
 import static com.shah.bankingapplicationcrud.constant.ExceptionConstants.CUSTOMER_NOT_FOUND;
 import static com.shah.bankingapplicationcrud.exception.CrudError.constructErrorForCrudException;
 import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.*;
@@ -36,7 +36,6 @@ import static com.shah.bankingapplicationcrud.repository.CustomerRepository.firs
 import static com.shah.bankingapplicationcrud.repository.CustomerRepository.lastNameLike;
 import static com.shah.bankingapplicationcrud.validation.ValidateHeaders.validateHeaders;
 import static java.util.List.of;
-import static org.apache.commons.lang3.ObjectUtils.isEmpty;
 import static org.springframework.beans.BeanUtils.copyProperties;
 import static org.springframework.data.domain.PageRequest.of;
 import static org.springframework.data.domain.Sort.Direction.ASC;
@@ -48,6 +47,7 @@ import static org.springframework.data.jpa.domain.Specification.where;
 @Slf4j
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
+
 
 
     @Autowired
@@ -152,18 +152,12 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public BankingResponse<Customer> updateOneCustomer(PatchCustomerRequest request, HttpHeaders headers) {
         log.info("Editing one customer...");
-        try {
-            validateHeaders(headers);
-            if (isEmpty(request.getAccountNumber())) throw new CrudException(AC_BAD_REQUEST, EMPTY_ID);
+        validateHeaders(headers);
 
-            Customer customer = repository.findById(request.getAccountNumber()).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, CrudErrorCodes.CUSTOMER_NOT_FOUND));
-            copyProperties(request, customer, getNullPropertyNames(request));
-            return successResponse(repository.save(customer));
-
-
-        } catch (CrudException e) {
-            return failureResponse(constructErrorForCrudException(e));
-        }
+        Customer customer = repository.findById(request.getAccountNumber()).orElseThrow(
+                () -> new BankingException(CUSTOMER_NOT_FOUND));
+        copyProperties(request, customer, getNullPropertyNames(request));
+        return successResponse(repository.save(customer));
     }
 
     /**
@@ -178,18 +172,16 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public BankingResponse<UUID> deleteOneCustomer(GetOneCustomerRequest request, HttpHeaders headers) {
         log.info("Check if customer exists...");
+        validateHeaders(headers);
         UUID id = request.getAccountNumber();
-        try {
-            validateHeaders(headers);
-            Customer customer = repository.findById(id).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, CrudErrorCodes.CUSTOMER_NOT_FOUND));
 
-            log.info("Customer with account number {} found! Deleting customer...", customer.getAccountNumber());
-            repository.deleteById(id);
-            return successResponse(id);
+        Customer customer = repository.findById(request.getAccountNumber()).orElseThrow(
+                () -> new BankingException(CUSTOMER_NOT_FOUND));
 
-        } catch (CrudException e) {
-            return failureResponse(constructErrorForCrudException(e));
-        }
+        log.info("Customer with account number {} found! Deleting customer...", customer.getAccountNumber());
+        repository.deleteById(id);
+        return successResponse(id);
+
     }
 
     /**
@@ -202,58 +194,52 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional
     @Override
     public BankingResponse<TransferResponseDto> transferAmount(TransferRequest request, HttpHeaders headers) {
+        validateHeaders(headers);
         UUID senderId = request.getPayerAccountNumber();
 
-        try {
-            validateHeaders(headers);
+        // 1. check if payer acc exists
+        Customer payer = repository.findById(request.getPayerAccountNumber()).orElseThrow(
+                () -> new BankingException(CUSTOMER_NOT_FOUND));
+        log.info("Payer found: {}", payer);
 
-            // 1. check if payer acc exists
-            Customer payer = repository.findById(request.getPayerAccountNumber()).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, PAYER_ACCOUNT_NOT_FOUND));
-            log.info("Payer found: {}", payer);
+        // 2. check if payer bal is more than transfer amount
+        if (payer.getAccBalance().compareTo(request.getAmount()) < 0) {
+            throw new BankingException(INSUFFICIENT_AMOUNT_FOR_PAYER);        }
 
-            // 2. check if payer bal is more than transfer amount
-            if (payer.getAccBalance().compareTo(request.getAmount()) < 0) {
-                throw new CrudException(AC_BAD_REQUEST, INSUFFICIENT_AMOUNT);
-            }
-
-            // 2. check if payer account number is same as payee account number
-            if (request.getPayeeAccountNumber().compareTo(request.getPayerAccountNumber()) == 0) {
-                throw new CrudException(AC_BAD_REQUEST, SAME_ACCOUNT_NUMBER);
-            }
-
-            // 3. check if payee acc exists
-            Customer payee = repository.findById(request.getPayeeAccountNumber()).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, PAYEE_ACCOUNT_NOT_FOUND));
-            log.info("Payee found: {}", payee);
-
-            // 4. transfer
-            payee.setAccBalance(payee.getAccBalance().add(request.getAmount()));
-            payer.setAccBalance(payer.getAccBalance().subtract(request.getAmount()));
-            log.info("Transfer success");
-
-            // 5. update both accounts to db
-            Iterable<Customer> customers = repository.saveAll(of(payee, payer));
-            log.info("Customers updated: {}", customers);
-
-            // 6. create object for response
-            TransferResponseDto data = TransferResponseDto.builder()
-                    .payerAccountNumber(senderId)
-                    .payerFirstName(payer.getFirstName())
-                    .payerOldAccBal(payer.getAccBalance().add(request.getAmount()))
-                    .payerNewAccBal(payer.getAccBalance())
-                    .payeeAccountNumber(request.getPayeeAccountNumber())
-                    .payeeFirstName(payee.getFirstName())
-                    .payeeOldAccBal(payee.getAccBalance().subtract(request.getAmount()))
-                    .payeeNewAccBal(payee.getAccBalance())
-                    .transactionDate(customers.iterator().next().getUpdatedAt())
-                    .amount(request.getAmount())
-                    .build();
-
-            return successResponse(data);
-
-        } catch (CrudException e) {
-            log.error("Transfer operation failed...");
-            return failureResponse(constructErrorForCrudException(e));
+        // 2. check if payer account number is same as payee account number
+        if (request.getPayeeAccountNumber().compareTo(request.getPayerAccountNumber()) == 0) {
+            throw new BankingException(PAYER_AND_PAYEE_ACCOUNT_NUMBERS_ARE_THE_SAME);
         }
+
+        // 3. check if payee acc exists
+        Customer payee = repository.findById(request.getPayeeAccountNumber()).orElseThrow(
+                () -> new BankingException(CUSTOMER_NOT_FOUND));
+        log.info("Payee found: {}", payee);
+
+        // 4. transfer
+        payee.setAccBalance(payee.getAccBalance().add(request.getAmount()));
+        payer.setAccBalance(payer.getAccBalance().subtract(request.getAmount()));
+        log.info("Transfer success");
+
+        // 5. update both accounts to db
+        Iterable<Customer> customers = repository.saveAll(of(payee, payer));
+        log.info("Customers updated: {}", customers);
+
+        // 6. create object for response
+        TransferResponseDto data = TransferResponseDto.builder()
+                .payerAccountNumber(senderId)
+                .payerFirstName(payer.getFirstName())
+                .payerOldAccBal(payer.getAccBalance().add(request.getAmount()))
+                .payerNewAccBal(payer.getAccBalance())
+                .payeeAccountNumber(request.getPayeeAccountNumber())
+                .payeeFirstName(payee.getFirstName())
+                .payeeOldAccBal(payee.getAccBalance().subtract(request.getAmount()))
+                .payeeNewAccBal(payee.getAccBalance())
+                .transactionDate(customers.iterator().next().getUpdatedAt())
+                .amountTransferred(request.getAmount())
+                .build();
+
+        return successResponse(data);
     }
 
     /**

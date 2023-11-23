@@ -23,7 +23,7 @@ public class TransferResponseDto {
     private BigDecimal payeeOldAccBal;
     private BigDecimal payeeNewAccBal;
 
-    private BigDecimal amount;
+    private BigDecimal amountTransferred;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private ZonedDateTime transactionDate;
 }

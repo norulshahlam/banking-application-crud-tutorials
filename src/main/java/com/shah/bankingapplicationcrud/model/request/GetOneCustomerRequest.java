@@ -15,6 +15,9 @@ import java.util.UUID;
 public class GetOneCustomerRequest {
 
     @NotNull(message = "accountNumber can not be null")
-    @ApiModelProperty(value = "Customer account number", required = true, example = "f9bd1139-c907-11ec-b11c-0242ac110002")
+    @ApiModelProperty(
+            value = "Customer account number",
+            required = true,
+            example = "f9bd1139-c907-11ec-b11c-0242ac110002")
     private UUID accountNumber;
 }

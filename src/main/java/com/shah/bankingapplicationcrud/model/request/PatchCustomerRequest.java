@@ -12,7 +12,7 @@ import java.util.UUID;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PatchCustomerRequest extends  CreateCustomerRequest {
+public class PatchCustomerRequest extends CreateCustomerRequest {
 
     @NotNull(message = "accountNumber can not be null")
     private UUID accountNumber;
