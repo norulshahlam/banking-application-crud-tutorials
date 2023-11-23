@@ -28,10 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.shah.bankingapplicationcrud.advice.Message.message;
-import static com.shah.bankingapplicationcrud.constant.ExceptionConstants.CONSTRAINT_VIOLATION_EXCEPTION;
 import static com.shah.bankingapplicationcrud.constant.ExceptionConstants.*;
-import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.*;
 
 @RestControllerAdvice
 @Slf4j
@@ -48,7 +45,7 @@ public class GlobalExceptionHandler {
      * @return
      */
 
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({MethodArgumentNotValidException.class})
     @ResponseBody
     public ResponseEntity<BankingResponse> handleMethodArgumentNotValidException(HttpServletRequest req, MethodArgumentNotValidException e) {
@@ -75,7 +72,7 @@ public class GlobalExceptionHandler {
      * @return
      */
 
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({ConstraintViolationException.class})
     @ResponseBody
     public ResponseEntity<BankingResponse> handleConstraintViolationException(HttpServletRequest req, ConstraintViolationException e) {
@@ -94,7 +91,7 @@ public class GlobalExceptionHandler {
      * @return
      */
 
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({DataIntegrityViolationException.class})
     @ResponseBody
     public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException exception) {
@@ -107,23 +104,6 @@ public class GlobalExceptionHandler {
 
 
     /**
-     * For handling CannotCreateTransactionException happened during database connectivity exception
-     *
-     * @param exception
-     * @return
-     */
-
-    @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler({CannotCreateTransactionException.class})
-    @ResponseBody
-    public ResponseEntity<BankingResponse> handleCannotCreateTransactionException(CannotCreateTransactionException exception) {
-        String cause = exception.getCause().getCause().getMessage();
-
-        BankingResponse response = BankingResponse.failureResponse(cause, "JPA connection error");
-        return ResponseEntity.ok(response);
-    }
-
-    /**
      * When sort by field but the field property is not found
      *
      * @param req
@@ -131,14 +111,23 @@ public class GlobalExceptionHandler {
      * @return
      */
 
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({PropertyReferenceException.class})
     @ResponseBody
-    public ResponseEntity<Object> handlePropertyReferenceException(HttpServletRequest req, PropertyReferenceException e) {
+    public ResponseEntity<BankingResponse> handlePropertyReferenceException(HttpServletRequest req, PropertyReferenceException e) {
         String cause = e.getMessage();
         log.error(ERROR_DETAIL, req.getRequestURI(), cause, e);
-        return ResponseEntity.ok(message(AC_BAD_REQUEST, cause));
+        BankingResponse response = BankingResponse.failureResponse(cause, FIELD_PROPERTY_NOT_FOUND);
+        return ResponseEntity.ok(response);
     }
+
+    /**
+     * User defined exception
+     *
+     * @param req
+     * @param e
+     * @return
+     */
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({BankingException.class})
@@ -151,6 +140,24 @@ public class GlobalExceptionHandler {
         return ResponseEntity.ok(response);
     }
 
+
+    /**
+     * For handling CannotCreateTransactionException happened during database connectivity exception
+     *
+     * @param exception
+     * @return
+     */
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler({CannotCreateTransactionException.class})
+    @ResponseBody
+    public ResponseEntity<BankingResponse> handleCannotCreateTransactionException(CannotCreateTransactionException exception) {
+        String cause = exception.getCause().getCause().getMessage();
+
+        BankingResponse response = BankingResponse.failureResponse(cause, JPA_CONNECTION_ERROR);
+        return ResponseEntity.ok(response);
+    }
+
     /**
      * For all other unexpected exceptions
      *
@@ -159,13 +166,15 @@ public class GlobalExceptionHandler {
      * @return
      */
 
-    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({Exception.class})
     @ResponseBody
     public ResponseEntity<Object> handleBaseException(HttpServletRequest req, Exception e) {
         String cause = e.getMessage();
         log.error(ERROR_DETAIL, req.getRequestURI(), cause, e);
-        return ResponseEntity.ok(message(AC_INTERNAL_SERVER_ERROR, cause));
+
+        BankingResponse response = BankingResponse.failureResponse(cause);
+        return ResponseEntity.ok(response);
     }
 }
 

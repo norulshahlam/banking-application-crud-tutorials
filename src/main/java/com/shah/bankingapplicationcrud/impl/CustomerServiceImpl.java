@@ -49,7 +49,6 @@ import static org.springframework.data.jpa.domain.Specification.where;
 public class CustomerServiceImpl implements CustomerService {
 
 
-
     @Autowired
     private final CustomerRepository repository;
 
@@ -154,8 +153,7 @@ public class CustomerServiceImpl implements CustomerService {
         log.info("Editing one customer...");
         validateHeaders(headers);
 
-        Customer customer = repository.findById(request.getAccountNumber()).orElseThrow(
-                () -> new BankingException(CUSTOMER_NOT_FOUND));
+        Customer customer = repository.findById(request.getAccountNumber()).orElseThrow(() -> new BankingException(CUSTOMER_NOT_FOUND));
         copyProperties(request, customer, getNullPropertyNames(request));
         return successResponse(repository.save(customer));
     }
@@ -175,8 +173,7 @@ public class CustomerServiceImpl implements CustomerService {
         validateHeaders(headers);
         UUID id = request.getAccountNumber();
 
-        Customer customer = repository.findById(request.getAccountNumber()).orElseThrow(
-                () -> new BankingException(CUSTOMER_NOT_FOUND));
+        Customer customer = repository.findById(request.getAccountNumber()).orElseThrow(() -> new BankingException(CUSTOMER_NOT_FOUND));
 
         log.info("Customer with account number {} found! Deleting customer...", customer.getAccountNumber());
         repository.deleteById(id);
@@ -198,13 +195,13 @@ public class CustomerServiceImpl implements CustomerService {
         UUID senderId = request.getPayerAccountNumber();
 
         // 1. check if payer acc exists
-        Customer payer = repository.findById(request.getPayerAccountNumber()).orElseThrow(
-                () -> new BankingException(CUSTOMER_NOT_FOUND));
+        Customer payer = repository.findById(request.getPayerAccountNumber()).orElseThrow(() -> new BankingException(PAYER_NOT_FOUND));
         log.info("Payer found: {}", payer);
 
         // 2. check if payer bal is more than transfer amount
         if (payer.getAccBalance().compareTo(request.getAmount()) < 0) {
-            throw new BankingException(INSUFFICIENT_AMOUNT_FOR_PAYER);        }
+            throw new BankingException(INSUFFICIENT_AMOUNT_FOR_PAYER);
+        }
 
         // 2. check if payer account number is same as payee account number
         if (request.getPayeeAccountNumber().compareTo(request.getPayerAccountNumber()) == 0) {
@@ -212,8 +209,7 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
         // 3. check if payee acc exists
-        Customer payee = repository.findById(request.getPayeeAccountNumber()).orElseThrow(
-                () -> new BankingException(CUSTOMER_NOT_FOUND));
+        Customer payee = repository.findById(request.getPayeeAccountNumber()).orElseThrow(() -> new BankingException(PAYEE_NOT_FOUND));
         log.info("Payee found: {}", payee);
 
         // 4. transfer

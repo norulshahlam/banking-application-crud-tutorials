@@ -1,5 +1,6 @@
 package com.shah.bankingapplicationcrud.service;
 
+import com.github.javafaker.Faker;
 import com.shah.bankingapplicationcrud.model.entity.Customer;
 import com.shah.bankingapplicationcrud.model.request.TransferRequest;
 import com.shah.bankingapplicationcrud.model.request.TransferResponseDto;
@@ -17,6 +18,8 @@ import static java.time.ZonedDateTime.now;
 
 public class Initializer {
 
+    private static final Faker faker = new Faker();
+
     private Initializer() {
     }
 
@@ -30,7 +33,7 @@ public class Initializer {
 
     public static Customer initCustomers() {
         return Customer.builder()
-                .email("norulshahlam@gmail.com")
+                .email(faker.internet().emailAddress())
                 .firstName("norulshahlam")
                 .lastName("bin mohsen")
                 .gender("Male")
