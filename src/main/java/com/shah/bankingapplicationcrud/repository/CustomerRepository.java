@@ -13,7 +13,9 @@ import java.util.UUID;
 public interface CustomerRepository extends PagingAndSortingRepository<Customer, UUID>,
         JpaSpecificationExecutor<Customer> {
 
-    Optional<Customer> findById(UUID id);
+
+    Optional<Customer> findByEmail(String email);
+
 
     static Specification<Customer> firstNameLike(String name) {
         return ((root, query, builder) -> builder.like(

@@ -6,7 +6,7 @@ import com.shah.bankingapplicationcrud.exception.CrudException;
 import com.shah.bankingapplicationcrud.impl.CustomerServiceImpl;
 import com.shah.bankingapplicationcrud.model.entity.Customer;
 import com.shah.bankingapplicationcrud.model.request.*;
-import com.shah.bankingapplicationcrud.model.response.CustomerResponse;
+import com.shah.bankingapplicationcrud.model.response.BankingResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +64,7 @@ class CustomerControllerTest {
 
     @Test
     void getOneCustomer_success() throws Exception {
-        CustomerResponse<Customer> response = CustomerResponse.successResponse(customer);
+        BankingResponse<Customer> response = BankingResponse.successResponse(customer);
         GetOneCustomerRequest request = builder().accountNumber(RANDOM_UUID1).build();
         when(service.getOneCustomer(any(GetOneCustomerRequest.class), any(HttpHeaders.class))).thenReturn(response);
         requestPayload = objectMapper.writeValueAsString(request);
@@ -84,7 +84,7 @@ class CustomerControllerTest {
     @Test
     void getOneCustomer_customer_not_found() throws Exception {
         CrudException e = new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND);
-        CustomerResponse<Customer> response = CustomerResponse.failureResponse(constructErrorForCrudException(e));
+        BankingResponse<Customer> response = BankingResponse.failureResponse(constructErrorForCrudException(e));
 
         GetOneCustomerRequest request = builder().accountNumber(RANDOM_UUID1).build();
         when(service.getOneCustomer(any(GetOneCustomerRequest.class), any(HttpHeaders.class))).thenReturn(response);
@@ -105,7 +105,7 @@ class CustomerControllerTest {
     @Test
     void searchCustomersByName_success() throws Exception {
         Page<Customer> pagedCustomers = new PageImpl<>(List.of(customer, customer, customer));
-        CustomerResponse<Page<Customer>> response = CustomerResponse.successResponse(pagedCustomers);
+        BankingResponse<Page<Customer>> response = BankingResponse.successResponse(pagedCustomers);
         when(service.getAllCustomersOrSearchByLastAndFirstName(any(HttpHeaders.class), anyString(), anyInt(), anyInt(), anyString())).thenReturn(response);
 
         mockMvc.perform(post(CONTEXT_API_V1 + GET_ALL_CUSTOMERS)
@@ -122,7 +122,7 @@ class CustomerControllerTest {
     @Test
     void searchCustomersByName_customer_not_found() throws Exception {
         CrudException e = new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND);
-        CustomerResponse<Page<Customer>> response = CustomerResponse.failureResponse((constructErrorForCrudException(e)));
+        BankingResponse<Page<Customer>> response = BankingResponse.failureResponse((constructErrorForCrudException(e)));
         when(service.getAllCustomersOrSearchByLastAndFirstName(any(HttpHeaders.class), anyString(), anyInt(), anyInt(), anyString())).thenReturn(response);
 
         mockMvc.perform(post(CONTEXT_API_V1 + GET_ALL_CUSTOMERS)
@@ -138,7 +138,7 @@ class CustomerControllerTest {
 
     @Test
     void createOneCustomer_success() throws Exception {
-        CustomerResponse<Customer> response = CustomerResponse.successResponse(customer);
+        BankingResponse<Customer> response = BankingResponse.successResponse(customer);
         CreateCustomerRequest request = CreateCustomerRequest.builder().build();
         copyProperties(customer, request);
         requestPayload = objectMapper.writeValueAsString(request);
@@ -157,7 +157,7 @@ class CustomerControllerTest {
 
     @Test
     void createOneCustomer_failed_validation() throws Exception {
-        CustomerResponse<Customer> response = CustomerResponse.successResponse(customer);
+        BankingResponse<Customer> response = BankingResponse.successResponse(customer);
         CreateCustomerRequest request = CreateCustomerRequest.builder().build();
         customer.setGender("invalid gender");
         copyProperties(customer, request);
@@ -180,7 +180,7 @@ class CustomerControllerTest {
 
     @Test
     void updateOneCustomer_success() throws Exception {
-        CustomerResponse<Customer> response = CustomerResponse.successResponse(customer);
+        BankingResponse<Customer> response = BankingResponse.successResponse(customer);
         PatchCustomerRequest request = PatchCustomerRequest.builder().build();
         copyProperties(customer, request);
         when(service.updateOneCustomer(any(PatchCustomerRequest.class), any(HttpHeaders.class))).thenReturn(response);
@@ -200,7 +200,7 @@ class CustomerControllerTest {
     @Test
     void updateOneCustomer_customer_not_found() throws Exception {
         CrudException e = new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND);
-        CustomerResponse<Customer> response = CustomerResponse.failureResponse(constructErrorForCrudException(e));
+        BankingResponse<Customer> response = BankingResponse.failureResponse(constructErrorForCrudException(e));
         PatchCustomerRequest request = PatchCustomerRequest.builder().build();
         customer.setAccountNumber(UUID.randomUUID());
         copyProperties(customer, request);
@@ -222,7 +222,7 @@ class CustomerControllerTest {
     void deleteOneCustomer_success() throws Exception {
         UUID id = RANDOM_UUID1;
         GetOneCustomerRequest request = builder().accountNumber(RANDOM_UUID1).build();
-        CustomerResponse<UUID> response = CustomerResponse.successResponse(id);
+        BankingResponse<UUID> response = BankingResponse.successResponse(id);
         requestPayload = objectMapper.writeValueAsString(request);
         when(service.deleteOneCustomer(any(), any(HttpHeaders.class))).thenReturn(response);
 
@@ -242,7 +242,7 @@ class CustomerControllerTest {
         UUID id = RANDOM_UUID1;
         CrudException e = new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND);
         GetOneCustomerRequest request = builder().accountNumber(RANDOM_UUID1).build();
-        CustomerResponse<UUID> response = CustomerResponse.failureResponse(constructErrorForCrudException(e));
+        BankingResponse<UUID> response = BankingResponse.failureResponse(constructErrorForCrudException(e));
         requestPayload = objectMapper.writeValueAsString(request);
         when(service.deleteOneCustomer(any(), any(HttpHeaders.class))).thenReturn(response);
 
@@ -261,7 +261,7 @@ class CustomerControllerTest {
     void transferAmount_success() throws Exception {
         TransferRequest request = initTransferAmount();
         TransferResponseDto data = initTransferResponseDto();
-        CustomerResponse<TransferResponseDto> response = CustomerResponse.successResponse(data);
+        BankingResponse<TransferResponseDto> response = BankingResponse.successResponse(data);
         requestPayload = objectMapper.writeValueAsString(request);
         when(service.transferAmount(any(TransferRequest.class), any(HttpHeaders.class))).thenReturn(response);
 
@@ -281,7 +281,7 @@ class CustomerControllerTest {
         CrudException e = new CrudException(AC_BAD_REQUEST, INSUFFICIENT_AMOUNT);
         TransferRequest request = initTransferAmount();
         TransferResponseDto data = initTransferResponseDto();
-        CustomerResponse<TransferResponseDto> response = CustomerResponse.failureResponse(CrudError.constructErrorForCrudException(e));
+        BankingResponse<TransferResponseDto> response = BankingResponse.failureResponse(CrudError.constructErrorForCrudException(e));
         requestPayload = objectMapper.writeValueAsString(request);
         when(service.transferAmount(any(TransferRequest.class), any(HttpHeaders.class))).thenReturn(response);
 

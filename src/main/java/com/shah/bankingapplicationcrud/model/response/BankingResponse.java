@@ -11,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CustomerResponse<T> {
+public class BankingResponse<T> {
 
     @Schema(description = "Possible value: \n" +
             " + SUCCESS\n" +
@@ -20,17 +20,31 @@ public class CustomerResponse<T> {
     ResponseStatus status;
     private T data;
     private CrudError error;
+    private String errorMessage;
 
-    public static <T> CustomerResponse successResponse(T data) {
-        return CustomerResponse.builder()
+    public static <T> BankingResponse successResponse(T data) {
+        return BankingResponse.builder()
                 .status(ResponseStatus.SUCCESS)
                 .data(data)
                 .build();
     }
-    public static CustomerResponse failureResponse(CrudError error) {
-        return CustomerResponse.builder()
+    public static <T> BankingResponse failureResponse(T data, String errorMessage) {
+        return BankingResponse.builder()
+                .status(ResponseStatus.FAILURE)
+                .data(data)
+                .errorMessage(errorMessage)
+                .build();
+    }
+    public static BankingResponse failureResponse(CrudError error) {
+        return BankingResponse.builder()
                 .status(ResponseStatus.FAILURE)
                 .error(error)
+                .build();
+    }
+  public static BankingResponse failureResponse(String errorMessage) {
+        return BankingResponse.builder()
+                .status(ResponseStatus.FAILURE)
+                .errorMessage(errorMessage)
                 .build();
     }
 

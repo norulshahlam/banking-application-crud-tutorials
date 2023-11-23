@@ -41,10 +41,10 @@ public class CustomerController {
 
     @ApiOperation(
             value = "Retrieve all customers. Optional query param to search for customer containing by first or last name",
-            response = CustomerResponse.class,
+            response = BankingResponse.class,
             tags = "Retrieve all customers. Optional query param to search for customer containing by first or last name")
     @PostMapping(GET_ALL_CUSTOMERS)
-    public ResponseEntity<CustomerResponse<Page<Customer>>> searchCustomersByName(
+    public ResponseEntity<BankingResponse<Page<Customer>>> searchCustomersByName(
             @RequestHeader HttpHeaders headers,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
@@ -55,10 +55,10 @@ public class CustomerController {
 
     @ApiOperation(
             value = "Retrieve one customer",
-            response = CustomerResponse.class,
+            response = BankingResponse.class,
             tags = "Retrieve one customer")
     @PostMapping(GET_ONE_CUSTOMER)
-    public ResponseEntity<CustomerResponse<Customer>> getOneCustomer(
+    public ResponseEntity<BankingResponse<Customer>> getOneCustomer(
             @ApiParam(defaultValue = "001d846e-4488-4ecc-84c2-9b6f1d130711")
             @Valid @RequestBody GetOneCustomerRequest request,
             @RequestHeader HttpHeaders headers) {
@@ -66,18 +66,18 @@ public class CustomerController {
     }
 
     @ApiOperation(value = "Add customer",
-            response = CustomerResponse.class,
+            response = BankingResponse.class,
             tags = "Add customer")
     @PostMapping(CREATE_CUSTOMER)
-    public ResponseEntity<CustomerResponse<Customer>> createOneCustomer(
+    public ResponseEntity<BankingResponse<Customer>> createOneCustomer(
             @Valid @RequestBody CreateCustomerRequest createCustomerRequest,
             @RequestHeader HttpHeaders headers) {
         return ResponseEntity.ok(service.createOneCustomer(createCustomerRequest, headers));
     }
 
-    @ApiOperation(value = "Patch customer", response = CustomerResponse.class, tags = "Add customer")
+    @ApiOperation(value = "Patch customer", response = BankingResponse.class, tags = "Add customer")
     @PostMapping(PATCH_CUSTOMER)
-    public ResponseEntity<CustomerResponse<Customer>> updateOneCustomer(
+    public ResponseEntity<BankingResponse<Customer>> updateOneCustomer(
             @Valid @RequestBody PatchCustomerRequest createCustomerRequest,
             @RequestHeader HttpHeaders headers) {
         return ResponseEntity.ok(service.updateOneCustomer(createCustomerRequest, headers));
@@ -85,10 +85,10 @@ public class CustomerController {
 
     @ApiOperation(
             value = "Retrieve one customer",
-            response = CustomerResponse.class,
+            response = BankingResponse.class,
             tags = "Retrieve one customer")
     @PostMapping(DELETE_CUSTOMER)
-    public ResponseEntity<CustomerResponse<UUID>> deleteOneCustomer(
+    public ResponseEntity<BankingResponse<UUID>> deleteOneCustomer(
             @ApiParam(defaultValue = "001d846e-4488-4ecc-84c2-9b6f1d130711")
             @Valid @RequestBody GetOneCustomerRequest request,
             @RequestHeader HttpHeaders headers) {
@@ -97,10 +97,10 @@ public class CustomerController {
 
     @ApiOperation(
             value = "Transfer amount",
-            response = CustomerResponse.class,
+            response = BankingResponse.class,
             tags = "Transfer amount")
     @PostMapping(TRANSFER)
-    public ResponseEntity<CustomerResponse<TransferResponseDto>> transferAmount(
+    public ResponseEntity<BankingResponse<TransferResponseDto>> transferAmount(
             @Valid @RequestBody TransferRequest request,
             @RequestHeader HttpHeaders headers) {
         return ResponseEntity.ok(service.transferAmount(request, headers));

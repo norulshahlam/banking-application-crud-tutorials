@@ -1,9 +1,11 @@
 package com.shah.bankingapplicationcrud.impl;
 
+import com.shah.bankingapplicationcrud.exception.BankingException;
+import com.shah.bankingapplicationcrud.exception.CrudErrorCodes;
 import com.shah.bankingapplicationcrud.exception.CrudException;
 import com.shah.bankingapplicationcrud.model.entity.Customer;
 import com.shah.bankingapplicationcrud.model.request.*;
-import com.shah.bankingapplicationcrud.model.response.CustomerResponse;
+import com.shah.bankingapplicationcrud.model.response.BankingResponse;
 import com.shah.bankingapplicationcrud.repository.CustomerRepository;
 import com.shah.bankingapplicationcrud.service.CustomerService;
 import lombok.Data;
@@ -20,13 +22,16 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.beans.FeatureDescriptor;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+import static com.shah.bankingapplicationcrud.constant.ExceptionConstants.CUSTOMER_EMAIL_ALREADY_EXISTS;
+import static com.shah.bankingapplicationcrud.constant.ExceptionConstants.CUSTOMER_NOT_FOUND;
 import static com.shah.bankingapplicationcrud.exception.CrudError.constructErrorForCrudException;
 import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.*;
-import static com.shah.bankingapplicationcrud.model.response.CustomerResponse.failureResponse;
-import static com.shah.bankingapplicationcrud.model.response.CustomerResponse.successResponse;
+import static com.shah.bankingapplicationcrud.model.response.BankingResponse.failureResponse;
+import static com.shah.bankingapplicationcrud.model.response.BankingResponse.successResponse;
 import static com.shah.bankingapplicationcrud.repository.CustomerRepository.firstNameLike;
 import static com.shah.bankingapplicationcrud.repository.CustomerRepository.lastNameLike;
 import static com.shah.bankingapplicationcrud.validation.ValidateHeaders.validateHeaders;
@@ -44,8 +49,9 @@ import static org.springframework.data.jpa.domain.Specification.where;
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
+
     @Autowired
-    private final CustomerRepository custRepo;
+    private final CustomerRepository repository;
 
 
     /**
@@ -60,7 +66,7 @@ public class CustomerServiceImpl implements CustomerService {
      */
 
     @Override
-    public CustomerResponse<Page<Customer>> getAllCustomersOrSearchByLastAndFirstName(
+    public BankingResponse<Page<Customer>> getAllCustomersOrSearchByLastAndFirstName(
             HttpHeaders headers, String name, int page, int size, String field) {
         try {
             validateHeaders(headers);
@@ -76,7 +82,7 @@ public class CustomerServiceImpl implements CustomerService {
                 log.info("Getting all customers");
             }
 
-            Page<Customer> customers = custRepo.findAll(
+            Page<Customer> customers = repository.findAll(
                     where(firstNameLike(name)
                             .or(lastNameLike(name))),
                     pageRequest);
@@ -85,7 +91,7 @@ public class CustomerServiceImpl implements CustomerService {
                 log.info("current customers displayed: {}, total customers found: {}", customers.getSize(), customers.getTotalElements());
                 return successResponse(customers);
             }
-            throw new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND);
+            throw new CrudException(AC_BAD_REQUEST, CrudErrorCodes.CUSTOMER_NOT_FOUND);
         } catch (CrudException e) {
             log.error("Customer: {} not found...", name);
             return failureResponse((constructErrorForCrudException(e)));
@@ -101,18 +107,14 @@ public class CustomerServiceImpl implements CustomerService {
      * @return
      */
     @Override
-    public CustomerResponse getOneCustomer(GetOneCustomerRequest request, HttpHeaders headers) {
+    public BankingResponse getOneCustomer(GetOneCustomerRequest request, HttpHeaders headers) {
         log.info("Fetching customer...");
-        try {
-            validateHeaders(headers);
-            Customer customer = custRepo.findById(request.getAccountNumber()).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND));
-            log.info("Fetch customer success...");
-            return successResponse(customer);
+        validateHeaders(headers);
 
-        } catch (CrudException e) {
-            log.error("Fetch customer failed...");
-            return failureResponse(constructErrorForCrudException(e));
-        }
+        Customer customer = repository.findById(request.getAccountNumber()).orElseThrow(
+                () -> new BankingException(CUSTOMER_NOT_FOUND));
+        log.info("Fetch customer success...");
+        return successResponse(customer);
     }
 
     /**
@@ -124,18 +126,17 @@ public class CustomerServiceImpl implements CustomerService {
      */
 
     @Override
-    public CustomerResponse<Customer> createOneCustomer(CreateCustomerRequest request, HttpHeaders headers) {
+    public BankingResponse<Customer> createOneCustomer(CreateCustomerRequest request, HttpHeaders headers) {
         log.info("Creating one customer...");
-        try {
-            validateHeaders(headers);
-            Customer customer = new Customer();
+        validateHeaders(headers);
+        Optional<Customer> customer1 = repository.findByEmail(request.getEmail());
+        Customer customer = new Customer();
+        if (customer1.isEmpty()) {
             copyProperties(request, customer);
-            Customer savedCustomer = custRepo.save(customer);
+            Customer savedCustomer = repository.save(customer);
             return successResponse(savedCustomer);
-
-        } catch (CrudException e) {
-            return failureResponse(constructErrorForCrudException(e));
         }
+        throw new BankingException(CUSTOMER_EMAIL_ALREADY_EXISTS);
     }
 
     /**
@@ -149,15 +150,15 @@ public class CustomerServiceImpl implements CustomerService {
      */
 
     @Override
-    public CustomerResponse<Customer> updateOneCustomer(PatchCustomerRequest request, HttpHeaders headers) {
+    public BankingResponse<Customer> updateOneCustomer(PatchCustomerRequest request, HttpHeaders headers) {
         log.info("Editing one customer...");
         try {
             validateHeaders(headers);
             if (isEmpty(request.getAccountNumber())) throw new CrudException(AC_BAD_REQUEST, EMPTY_ID);
 
-            Customer customer = custRepo.findById(request.getAccountNumber()).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND));
+            Customer customer = repository.findById(request.getAccountNumber()).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, CrudErrorCodes.CUSTOMER_NOT_FOUND));
             copyProperties(request, customer, getNullPropertyNames(request));
-            return successResponse(custRepo.save(customer));
+            return successResponse(repository.save(customer));
 
 
         } catch (CrudException e) {
@@ -175,15 +176,15 @@ public class CustomerServiceImpl implements CustomerService {
      */
 
     @Override
-    public CustomerResponse<UUID> deleteOneCustomer(GetOneCustomerRequest request, HttpHeaders headers) {
+    public BankingResponse<UUID> deleteOneCustomer(GetOneCustomerRequest request, HttpHeaders headers) {
         log.info("Check if customer exists...");
         UUID id = request.getAccountNumber();
         try {
             validateHeaders(headers);
-            Customer customer = custRepo.findById(id).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND));
+            Customer customer = repository.findById(id).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, CrudErrorCodes.CUSTOMER_NOT_FOUND));
 
             log.info("Customer with account number {} found! Deleting customer...", customer.getAccountNumber());
-            custRepo.deleteById(id);
+            repository.deleteById(id);
             return successResponse(id);
 
         } catch (CrudException e) {
@@ -200,26 +201,28 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Transactional
     @Override
-    public CustomerResponse<TransferResponseDto> transferAmount(TransferRequest request, HttpHeaders headers) {
+    public BankingResponse<TransferResponseDto> transferAmount(TransferRequest request, HttpHeaders headers) {
         UUID senderId = request.getPayerAccountNumber();
 
         try {
             validateHeaders(headers);
 
             // 1. check if payer acc exists
-            Customer payer = custRepo.findById(request.getPayerAccountNumber()).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, PAYER_ACCOUNT_NOT_FOUND));
+            Customer payer = repository.findById(request.getPayerAccountNumber()).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, PAYER_ACCOUNT_NOT_FOUND));
             log.info("Payer found: {}", payer);
 
             // 2. check if payer bal is more than transfer amount
-            if (payer.getAccBalance().compareTo(request.getAmount()) < 0)
+            if (payer.getAccBalance().compareTo(request.getAmount()) < 0) {
                 throw new CrudException(AC_BAD_REQUEST, INSUFFICIENT_AMOUNT);
+            }
 
             // 2. check if payer account number is same as payee account number
-            if (request.getPayeeAccountNumber().compareTo(request.getPayerAccountNumber()) == 0)
+            if (request.getPayeeAccountNumber().compareTo(request.getPayerAccountNumber()) == 0) {
                 throw new CrudException(AC_BAD_REQUEST, SAME_ACCOUNT_NUMBER);
+            }
 
             // 3. check if payee acc exists
-            Customer payee = custRepo.findById(request.getPayeeAccountNumber()).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, PAYEE_ACCOUNT_NOT_FOUND));
+            Customer payee = repository.findById(request.getPayeeAccountNumber()).orElseThrow(() -> new CrudException(AC_BAD_REQUEST, PAYEE_ACCOUNT_NOT_FOUND));
             log.info("Payee found: {}", payee);
 
             // 4. transfer
@@ -228,7 +231,7 @@ public class CustomerServiceImpl implements CustomerService {
             log.info("Transfer success");
 
             // 5. update both accounts to db
-            Iterable<Customer> customers = custRepo.saveAll(of(payee, payer));
+            Iterable<Customer> customers = repository.saveAll(of(payee, payer));
             log.info("Customers updated: {}", customers);
 
             // 6. create object for response

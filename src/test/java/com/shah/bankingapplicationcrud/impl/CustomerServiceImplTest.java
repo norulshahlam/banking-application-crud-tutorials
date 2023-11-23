@@ -3,7 +3,7 @@ package com.shah.bankingapplicationcrud.impl;
 import com.shah.bankingapplicationcrud.exception.CrudException;
 import com.shah.bankingapplicationcrud.model.entity.Customer;
 import com.shah.bankingapplicationcrud.model.request.*;
-import com.shah.bankingapplicationcrud.model.response.CustomerResponse;
+import com.shah.bankingapplicationcrud.model.response.BankingResponse;
 import com.shah.bankingapplicationcrud.repository.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -64,7 +64,7 @@ class CustomerServiceImplTest {
                 any(Pageable.class)))
                 .thenReturn(pagedCustomers);
 
-        CustomerResponse<Page<Customer>> response = service.getAllCustomersOrSearchByLastAndFirstName(headers, "bob", 1, 1, "email");
+        BankingResponse<Page<Customer>> response = service.getAllCustomersOrSearchByLastAndFirstName(headers, "bob", 1, 1, "email");
 
         assertThat(response.getData().get().findFirst()).contains(customer);
     }
@@ -76,7 +76,7 @@ class CustomerServiceImplTest {
                 any(Pageable.class)))
                 .thenReturn(new PageImpl<>(of()));
 
-        CustomerResponse<Page<Customer>> response = service.getAllCustomersOrSearchByLastAndFirstName(headers, "", 1, 1, "email");
+        BankingResponse<Page<Customer>> response = service.getAllCustomersOrSearchByLastAndFirstName(headers, "", 1, 1, "email");
 
         assertThat(response.getStatus()).isEqualTo(FAILURE);
         assertThat(response.getError().getErrorCode()).isEqualTo(CUSTOMER_NOT_FOUND.getCode());
@@ -86,7 +86,7 @@ class CustomerServiceImplTest {
     void getOneCustomer_customer_found() {
         when(custRepo.findById(any(UUID.class))).thenReturn(Optional.of(customer));
         GetOneCustomerRequest request = GetOneCustomerRequest.builder().accountNumber(RANDOM_UUID1).build();
-        CustomerResponse<Customer> oneCustomer = service.getOneCustomer(request, headers);
+        BankingResponse<Customer> oneCustomer = service.getOneCustomer(request, headers);
         assertThat(oneCustomer).isNotNull();
         assertThat(oneCustomer.getStatus()).isEqualTo(SUCCESS);
     }
@@ -94,7 +94,7 @@ class CustomerServiceImplTest {
     @Test
     void getOneCustomer_customer_NOT_found() {
         GetOneCustomerRequest request = GetOneCustomerRequest.builder().accountNumber(RANDOM_UUID1).build();
-        CustomerResponse<Customer> response = service.getOneCustomer(request, headers);
+        BankingResponse<Customer> response = service.getOneCustomer(request, headers);
         assertThat(response.getStatus()).isEqualTo(FAILURE);
         assertThat(response.getError().getErrorCode()).isEqualTo(CUSTOMER_NOT_FOUND.getCode());
     }
@@ -105,7 +105,7 @@ class CustomerServiceImplTest {
         CreateCustomerRequest request = CreateCustomerRequest.builder().build();
         copyProperties(customer, request);
 
-        CustomerResponse<Customer> response = service.createOneCustomer(request, headers);
+        BankingResponse<Customer> response = service.createOneCustomer(request, headers);
         assertThat(response.getStatus()).isEqualTo(SUCCESS);
 
         //createOneCustomer_FAILED
@@ -121,7 +121,7 @@ class CustomerServiceImplTest {
         copyProperties(customer, request);
         request.setAccountNumber(RANDOM_UUID1);
         when(custRepo.findById(any())).thenReturn(Optional.of(customer));
-        CustomerResponse<Customer> response = service.updateOneCustomer(request, headers);
+        BankingResponse<Customer> response = service.updateOneCustomer(request, headers);
         assertThat(response.getStatus()).isEqualTo(SUCCESS);
     }
 
@@ -129,7 +129,7 @@ class CustomerServiceImplTest {
     void updateOneCustomer_fail_CUSTOMER_NOT_FOUND() {
         PatchCustomerRequest request = PatchCustomerRequest.builder().build();
         copyProperties(customer, request);
-        CustomerResponse<Customer> response = service.updateOneCustomer(request, headers);
+        BankingResponse<Customer> response = service.updateOneCustomer(request, headers);
         assertThat(response.getStatus()).isEqualTo(FAILURE);
         assertThat(response.getError().getErrorCode()).isEqualTo(CUSTOMER_NOT_FOUND.getCode());
     }
@@ -138,14 +138,14 @@ class CustomerServiceImplTest {
     void deleteOneCustomer_success() {
         GetOneCustomerRequest request = GetOneCustomerRequest.builder().accountNumber(RANDOM_UUID1).build();
         when(custRepo.findById(any())).thenReturn(Optional.of(customer));
-        CustomerResponse<UUID> response = service.deleteOneCustomer(request, headers);
+        BankingResponse<UUID> response = service.deleteOneCustomer(request, headers);
         assertThat(response.getStatus()).isEqualTo(SUCCESS);
     }
 
     @Test
     void deleteOneCustomer_fail_CUSTOMER_NOT_FOUND() {
         GetOneCustomerRequest request = GetOneCustomerRequest.builder().accountNumber(RANDOM_UUID1).build();
-        CustomerResponse<UUID> response = service.deleteOneCustomer(request, headers);
+        BankingResponse<UUID> response = service.deleteOneCustomer(request, headers);
         assertThat(response.getStatus()).isEqualTo(FAILURE);
         assertThat(response.getError().getErrorCode()).isEqualTo(CUSTOMER_NOT_FOUND.getCode());
     }
@@ -164,7 +164,7 @@ class CustomerServiceImplTest {
         when(custRepo.findById(RANDOM_UUID1)).thenReturn(Optional.of(payer));
         when(custRepo.findById(RANDOM_UUID2)).thenReturn(Optional.of(payee));
         when(custRepo.saveAll(of(payee, payer))).thenReturn(of(payee, payer));
-        CustomerResponse<TransferResponseDto> response = service.transferAmount(request, headers);
+        BankingResponse<TransferResponseDto> response = service.transferAmount(request, headers);
         assertThat(response.getStatus()).isEqualTo(SUCCESS);
 
         // PAYEE NOT FOUND

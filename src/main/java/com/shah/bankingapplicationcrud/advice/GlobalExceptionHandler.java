@@ -1,7 +1,9 @@
 package com.shah.bankingapplicationcrud.advice;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.shah.bankingapplicationcrud.exception.BankingException;
 import com.shah.bankingapplicationcrud.exception.CrudErrorCodes;
+import com.shah.bankingapplicationcrud.model.response.BankingResponse;
 import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
@@ -27,6 +29,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.shah.bankingapplicationcrud.advice.Message.message;
+import static com.shah.bankingapplicationcrud.constant.ExceptionConstants.CONSTRAINT_VIOLATION_EXCEPTION;
+import static com.shah.bankingapplicationcrud.constant.ExceptionConstants.*;
 import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.*;
 
 @RestControllerAdvice
@@ -34,6 +38,7 @@ import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.*;
 public class GlobalExceptionHandler {
 
     public static final String ERROR_DETAIL = "requestUrl : {}, occurred an error : {}, e detail : {}";
+
 
     /**
      * to handle MethodArgumentNotValidException when validating request body from client input
@@ -46,7 +51,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler({MethodArgumentNotValidException.class})
     @ResponseBody
-    public ResponseEntity<Object> handleMethodArgumentNotValidException(HttpServletRequest req, MethodArgumentNotValidException e) {
+    public ResponseEntity<BankingResponse> handleMethodArgumentNotValidException(HttpServletRequest req, MethodArgumentNotValidException e) {
 
         String requestURL = req.getRequestURI();
         List<String> cause = new ArrayList<>();
@@ -58,9 +63,8 @@ public class GlobalExceptionHandler {
             cause.add(error.getDefaultMessage());
         }
         log.error(ERROR_DETAIL, requestURL, cause, e);
-        String collect = String.join(", ", cause);
-
-        return ResponseEntity.ok(message(AC_BAD_REQUEST, collect));
+        BankingResponse response = BankingResponse.failureResponse(cause, BAD_REQUEST);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -74,12 +78,13 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler({ConstraintViolationException.class})
     @ResponseBody
-    public ResponseEntity<Object> handleConstraintViolationException(HttpServletRequest req, ConstraintViolationException e) {
+    public ResponseEntity<BankingResponse> handleConstraintViolationException(HttpServletRequest req, ConstraintViolationException e) {
 
         List<String> errorMessages = e.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
         log.error("requestUrl : {}, occurred an error : {}, exception detail : {}", req.getRequestURI(), errorMessages, e);
-        String collect = String.join(", ", errorMessages);
-        return ResponseEntity.ok(message(CONSTRAINT_VIOLATION_EXCEPTION, collect));
+
+        BankingResponse response = BankingResponse.failureResponse(errorMessages, CONSTRAINT_VIOLATION_EXCEPTION);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -94,7 +99,10 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException exception) {
         String cause = exception.getCause().getCause().getMessage();
-        return ResponseEntity.ok(message(DATA_INTEGRITY_VIOLATION_EXCEPTION, cause));
+
+        BankingResponse response = BankingResponse.failureResponse(cause, DATABASE_INTEGRITY_VIOLATION_EXCEPTION);
+
+        return ResponseEntity.ok(response);
     }
 
 
@@ -130,6 +138,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity.ok(message(AC_BAD_REQUEST, cause));
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({BankingException.class})
+    @ResponseBody
+    public ResponseEntity<BankingResponse> handleBankingException(HttpServletRequest req, BankingException e) {
+        String errorMessage = e.getErrorMessage();
+        log.error(ERROR_DETAIL, req.getRequestURI(), errorMessage, e);
+
+        BankingResponse response = BankingResponse.failureResponse(BAD_REQUEST, errorMessage);
+        return ResponseEntity.ok(response);
+    }
+
     /**
      * For all other unexpected exceptions
      *
@@ -138,7 +157,7 @@ public class GlobalExceptionHandler {
      * @return
      */
 
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
     @ExceptionHandler({Exception.class})
     @ResponseBody
     public ResponseEntity<Object> handleBaseException(HttpServletRequest req, Exception e) {
