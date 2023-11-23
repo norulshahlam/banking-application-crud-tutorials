@@ -1,0 +1,51 @@
+server:
+  port: 9090
+spring:
+  application:
+    profile: default
+    name: rest-api-tutorials
+    description: rest-api-tutorials
+  banner:
+    image:
+      margin: 6
+      invert: true
+      height: 20
+      pixelmode: TEXT
+      bitdepth: 8
+      width: 130
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: Asia/Singapore
+        format:
+          sql: true
+    hibernate:
+      ddl-auto: create
+    defer-datasource-initialization: true
+    show-sql: true
+  sql:
+    init:
+      mode: always
+  output:
+    ansi:
+      enabled: always
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher
+  batch:
+    job:
+      enabled: false
+    initialize-schema: ALWAYS
+scheduled:
+  period:
+    in-cron: 0 0 * ? * * # Every hour
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  info:
+    env:
+      enabled: true
+

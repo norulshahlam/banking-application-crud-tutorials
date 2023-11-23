@@ -1,0 +1,12 @@
+spring:
+  application:
+    profile: local
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: password
+    url: jdbc:mysql://localhost:3306/mydb?allowPublicKeyRetrievaltrueuseSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
+    hikari:
+      maxLifetime: 5000
+      connectionTimeout: 3000
+      idleTimeout: 5000

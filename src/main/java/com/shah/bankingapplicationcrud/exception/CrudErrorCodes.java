@@ -71,7 +71,7 @@ public enum CrudErrorCodes implements ErrorCode {
     }
 
     private final String appCode = "CRUD";
-    protected String code;
+    private String code;
 
     CrudErrorCodes(String code) {
         this.code = code;

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class MyStartup implements CommandLineRunner {
 
-    @Value("${app.name}")
+    @Value("${spring.application.name}")
     private String appName;
 
     @Override
