@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://172.17.66.18:3306/norul?nullCatalogMeansCurrent=true&serverTimezone=UTC&useLegacyDatetimeCode=false&useSSL=false
+    username: MYPIL_ADM
+    password: m4yP1l@dm2023!

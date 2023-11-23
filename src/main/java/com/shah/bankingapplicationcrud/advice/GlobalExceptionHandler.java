@@ -116,9 +116,11 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler({CannotCreateTransactionException.class})
     @ResponseBody
-    public ResponseEntity<Object> handleCannotCreateTransactionException(CannotCreateTransactionException exception) {
+    public ResponseEntity<BankingResponse> handleCannotCreateTransactionException(CannotCreateTransactionException exception) {
         String cause = exception.getCause().getCause().getMessage();
-        return ResponseEntity.ok(message(JPA_CONNECTION_ERROR, cause));
+
+        BankingResponse response = BankingResponse.failureResponse(cause, "JPA connection error");
+        return ResponseEntity.ok(response);
     }
 
     /**
