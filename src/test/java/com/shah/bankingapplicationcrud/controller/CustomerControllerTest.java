@@ -1,8 +1,7 @@
 package com.shah.bankingapplicationcrud.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shah.bankingapplicationcrud.exception.CrudError;
-import com.shah.bankingapplicationcrud.exception.CrudException;
+import com.shah.bankingapplicationcrud.constant.ErrorConstants;
 import com.shah.bankingapplicationcrud.impl.CustomerServiceImpl;
 import com.shah.bankingapplicationcrud.model.entity.Customer;
 import com.shah.bankingapplicationcrud.model.request.*;
@@ -25,8 +24,6 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.shah.bankingapplicationcrud.constant.CommonConstants.*;
-import static com.shah.bankingapplicationcrud.exception.CrudError.constructErrorForCrudException;
-import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.*;
 import static com.shah.bankingapplicationcrud.model.enums.ResponseStatus.FAILURE;
 import static com.shah.bankingapplicationcrud.model.request.GetOneCustomerRequest.builder;
 import static com.shah.bankingapplicationcrud.service.Initializer.*;
@@ -83,8 +80,7 @@ class CustomerControllerTest {
 
     @Test
     void getOneCustomer_customer_not_found() throws Exception {
-        CrudException e = new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND);
-        BankingResponse<Customer> response = BankingResponse.failureResponse(constructErrorForCrudException(e));
+        BankingResponse<Customer> response = BankingResponse.failureResponse(ErrorConstants.CUSTOMER_NOT_FOUND);
 
         GetOneCustomerRequest request = builder().accountNumber(RANDOM_UUID1).build();
         when(service.getOneCustomer(any(GetOneCustomerRequest.class), any(HttpHeaders.class))).thenReturn(response);
@@ -97,7 +93,7 @@ class CustomerControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(FAILURE.name()))
-                .andExpect(jsonPath("$.error")
+                .andExpect(jsonPath("$.errorMessage")
                         .isNotEmpty());
 
     }
@@ -121,8 +117,7 @@ class CustomerControllerTest {
 
     @Test
     void searchCustomersByName_customer_not_found() throws Exception {
-        CrudException e = new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND);
-        BankingResponse<Page<Customer>> response = BankingResponse.failureResponse((constructErrorForCrudException(e)));
+        BankingResponse<Page<Customer>> response = BankingResponse.failureResponse((ErrorConstants.CUSTOMER_NOT_FOUND));
         when(service.getAllCustomersOrSearchByLastAndFirstName(any(HttpHeaders.class), anyString(), anyInt(), anyInt(), anyString())).thenReturn(response);
 
         mockMvc.perform(post(CONTEXT_API_V1 + GET_ALL_CUSTOMERS)
@@ -131,7 +126,7 @@ class CustomerControllerTest {
                         .params(searchCustomerParams))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.error.errorCode")
+                .andExpect(jsonPath("$.errorMessage")
                         .isNotEmpty())
                 .andExpect(jsonPath("$.status").value(FAILURE.name()));
     }
@@ -171,10 +166,8 @@ class CustomerControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
-                .andExpect(jsonPath("$.error")
-                        .isNotEmpty())
-                .andExpect(jsonPath("$.error.description")
-                        .value("Gender must be Male or Female"));
+                .andExpect(jsonPath("$.errorMessage")
+                        .isNotEmpty());
 
     }
 
@@ -199,8 +192,7 @@ class CustomerControllerTest {
 
     @Test
     void updateOneCustomer_customer_not_found() throws Exception {
-        CrudException e = new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND);
-        BankingResponse<Customer> response = BankingResponse.failureResponse(constructErrorForCrudException(e));
+        BankingResponse<Customer> response = BankingResponse.failureResponse(ErrorConstants.CUSTOMER_NOT_FOUND);
         PatchCustomerRequest request = PatchCustomerRequest.builder().build();
         customer.setAccountNumber(UUID.randomUUID());
         copyProperties(customer, request);
@@ -213,7 +205,7 @@ class CustomerControllerTest {
                         .headers(headers))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.error")
+                .andExpect(jsonPath("$.errorMessage")
                         .isNotEmpty())
                 .andExpect(jsonPath("$.status").value(FAILURE.name()));
     }
@@ -240,9 +232,8 @@ class CustomerControllerTest {
     @Test
     void deleteOneCustomer_customer_not_found() throws Exception {
         UUID id = RANDOM_UUID1;
-        CrudException e = new CrudException(AC_BAD_REQUEST, CUSTOMER_NOT_FOUND);
         GetOneCustomerRequest request = builder().accountNumber(RANDOM_UUID1).build();
-        BankingResponse<UUID> response = BankingResponse.failureResponse(constructErrorForCrudException(e));
+        BankingResponse<UUID> response = BankingResponse.failureResponse(ErrorConstants.CUSTOMER_NOT_FOUND);
         requestPayload = objectMapper.writeValueAsString(request);
         when(service.deleteOneCustomer(any(), any(HttpHeaders.class))).thenReturn(response);
 
@@ -252,8 +243,8 @@ class CustomerControllerTest {
                         .headers(headers))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.error.errorCode")
-                        .value("CRUD-20001"))
+                .andExpect(jsonPath("$.errorMessage")
+                        .value(ErrorConstants.CUSTOMER_NOT_FOUND))
                 .andExpect(jsonPath("$.status").value(FAILURE.name()));
     }
 
@@ -278,10 +269,9 @@ class CustomerControllerTest {
 
     @Test
     void transferAmount_insufficient_amount() throws Exception {
-        CrudException e = new CrudException(AC_BAD_REQUEST, INSUFFICIENT_AMOUNT);
         TransferRequest request = initTransferAmount();
         TransferResponseDto data = initTransferResponseDto();
-        BankingResponse<TransferResponseDto> response = BankingResponse.failureResponse(CrudError.constructErrorForCrudException(e));
+        BankingResponse<TransferResponseDto> response = BankingResponse.failureResponse(ErrorConstants.CUSTOMER_NOT_FOUND);
         requestPayload = objectMapper.writeValueAsString(request);
         when(service.transferAmount(any(TransferRequest.class), any(HttpHeaders.class))).thenReturn(response);
 
@@ -291,7 +281,7 @@ class CustomerControllerTest {
                         .headers(headers))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.error")
+                .andExpect(jsonPath("$.errorMessage")
                         .isNotEmpty())
                 .andExpect(jsonPath("$.status").value(FAILURE.name()));
     }

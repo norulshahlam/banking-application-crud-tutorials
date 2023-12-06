@@ -1,6 +1,6 @@
 package com.shah.bankingapplicationcrud.impl;
 
-import com.shah.bankingapplicationcrud.constant.ExceptionConstants;
+import com.shah.bankingapplicationcrud.constant.ErrorConstants;
 import com.shah.bankingapplicationcrud.exception.BankingException;
 import com.shah.bankingapplicationcrud.model.entity.Customer;
 import com.shah.bankingapplicationcrud.model.request.*;
@@ -17,14 +17,14 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpHeaders;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static com.shah.bankingapplicationcrud.constant.CommonConstants.RANDOM_UUID1;
-import static com.shah.bankingapplicationcrud.constant.ExceptionConstants.*;
-import static com.shah.bankingapplicationcrud.model.enums.ResponseStatus.FAILURE;
+import static com.shah.bankingapplicationcrud.constant.ErrorConstants.*;
 import static com.shah.bankingapplicationcrud.model.enums.ResponseStatus.SUCCESS;
 import static com.shah.bankingapplicationcrud.service.Initializer.*;
 import static java.math.BigDecimal.valueOf;
@@ -35,7 +35,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 import static org.springframework.beans.BeanUtils.copyProperties;
-import static org.springframework.test.util.ReflectionTestUtils.setField;
 
 @ExtendWith(MockitoExtension.class)
 class CustomerServiceImplTest {
@@ -53,7 +52,7 @@ class CustomerServiceImplTest {
     @BeforeEach
     void setUp() {
         openMocks(this);
-        setField(service, "repository", custRepo);
+        ReflectionTestUtils.setField(service, "repository", custRepo);
         headers = initializeHeader();
         customer = initCustomers();
     }
@@ -78,9 +77,9 @@ class CustomerServiceImplTest {
                 any(Pageable.class)))
                 .thenReturn(new PageImpl<>(of()));
 
-        BankingResponse<Page<Customer>> response = service.getAllCustomersOrSearchByLastAndFirstName(headers, "", 1, 1, "email");
+        BankingException response = assertThrows(BankingException.class, () -> service.getAllCustomersOrSearchByLastAndFirstName(headers, "", 1, 1, "email"));
 
-        assertThat(response.getStatus()).isEqualTo(FAILURE);
+        assertThat(response.getErrorMessage()).isEqualTo(ErrorConstants.CUSTOMER_NOT_FOUND);
     }
 
     @Test
@@ -96,9 +95,9 @@ class CustomerServiceImplTest {
     void getOneCustomer_customer_NOT_found() {
         GetOneCustomerRequest request = GetOneCustomerRequest.builder().accountNumber(RANDOM_UUID1).build();
 
-         bankingException = assertThrows(BankingException.class, () -> service.getOneCustomer(request, headers));
+        bankingException = assertThrows(BankingException.class, () -> service.getOneCustomer(request, headers));
 
-        assertThat(bankingException.getErrorMessage()).isEqualTo(ExceptionConstants.CUSTOMER_NOT_FOUND);
+        assertThat(bankingException.getErrorMessage()).isEqualTo(ErrorConstants.CUSTOMER_NOT_FOUND);
     }
 
     @Test
@@ -119,7 +118,7 @@ class CustomerServiceImplTest {
 
         when(custRepo.findByEmail(any())).thenReturn(Optional.of(customer));
 
-         bankingException = assertThrows(BankingException.class, () -> service.createOneCustomer(request, headers));
+        bankingException = assertThrows(BankingException.class, () -> service.createOneCustomer(request, headers));
 
         assertThat(bankingException.getErrorMessage()).isEqualTo(CUSTOMER_EMAIL_ALREADY_EXISTS);
     }
@@ -139,11 +138,11 @@ class CustomerServiceImplTest {
         PatchCustomerRequest request = PatchCustomerRequest.builder().build();
         copyProperties(customer, request);
 
-        when(custRepo.findById(any())).thenThrow(new BankingException(ExceptionConstants.CUSTOMER_NOT_FOUND));
+        when(custRepo.findById(any())).thenThrow(new BankingException(ErrorConstants.CUSTOMER_NOT_FOUND));
 
-         bankingException = assertThrows(BankingException.class, () -> service.updateOneCustomer(request, headers));
+        bankingException = assertThrows(BankingException.class, () -> service.updateOneCustomer(request, headers));
 
-        assertThat(bankingException.getErrorMessage()).isEqualTo(ExceptionConstants.CUSTOMER_NOT_FOUND);
+        assertThat(bankingException.getErrorMessage()).isEqualTo(ErrorConstants.CUSTOMER_NOT_FOUND);
     }
 
     @Test
@@ -158,11 +157,11 @@ class CustomerServiceImplTest {
     void deleteOneCustomer_fail_CUSTOMER_NOT_FOUND() {
         GetOneCustomerRequest request = GetOneCustomerRequest.builder().accountNumber(RANDOM_UUID1).build();
 
-        when(custRepo.findById(any())).thenThrow(new BankingException(ExceptionConstants.CUSTOMER_NOT_FOUND));
+        when(custRepo.findById(any())).thenThrow(new BankingException(ErrorConstants.CUSTOMER_NOT_FOUND));
 
-         bankingException = assertThrows(BankingException.class, () -> service.deleteOneCustomer(request, headers));
+        bankingException = assertThrows(BankingException.class, () -> service.deleteOneCustomer(request, headers));
 
-        assertThat(bankingException.getErrorMessage()).isEqualTo(ExceptionConstants.CUSTOMER_NOT_FOUND);
+        assertThat(bankingException.getErrorMessage()).isEqualTo(ErrorConstants.CUSTOMER_NOT_FOUND);
     }
 
     @Test
@@ -184,7 +183,7 @@ class CustomerServiceImplTest {
 
         // PAYEE NOT FOUND
         when(custRepo.findById(request.getPayeeAccountNumber())).thenReturn(Optional.empty());
-         bankingException = assertThrows(BankingException.class, () -> service.transferAmount(request, headers));
+        bankingException = assertThrows(BankingException.class, () -> service.transferAmount(request, headers));
         assertThat(bankingException.getErrorMessage()).isEqualTo(PAYEE_NOT_FOUND);
 
         // PAYEE AND PAYER ACCOUNT NUMBERS ARE THE SAME

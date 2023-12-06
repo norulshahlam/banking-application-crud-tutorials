@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.shah.bankingapplicationcrud.constant.ExceptionConstants.*;
+import static com.shah.bankingapplicationcrud.constant.ErrorConstants.*;
 
 @RestControllerAdvice
 @Slf4j

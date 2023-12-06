@@ -1,7 +1,6 @@
 package com.shah.bankingapplicationcrud.model.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.shah.bankingapplicationcrud.exception.CrudError;
 import com.shah.bankingapplicationcrud.model.enums.ResponseStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -14,12 +13,11 @@ import lombok.*;
 public class BankingResponse<T> {
 
     @Schema(description = "Possible value: \n" +
-            " + SUCCESS\n" +
-            " + FAILURE\n")
+                          " + SUCCESS\n" +
+                          " + FAILURE\n")
     @NonNull
     ResponseStatus status;
     private T data;
-    private CrudError error;
     private String errorMessage;
 
     public static <T> BankingResponse successResponse(T data) {
@@ -28,6 +26,7 @@ public class BankingResponse<T> {
                 .data(data)
                 .build();
     }
+
     public static <T> BankingResponse failureResponse(T data, String errorMessage) {
         return BankingResponse.builder()
                 .status(ResponseStatus.FAILURE)
@@ -35,13 +34,8 @@ public class BankingResponse<T> {
                 .errorMessage(errorMessage)
                 .build();
     }
-    public static BankingResponse failureResponse(CrudError error) {
-        return BankingResponse.builder()
-                .status(ResponseStatus.FAILURE)
-                .error(error)
-                .build();
-    }
-  public static BankingResponse failureResponse(String errorMessage) {
+
+    public static BankingResponse failureResponse(String errorMessage) {
         return BankingResponse.builder()
                 .status(ResponseStatus.FAILURE)
                 .errorMessage(errorMessage)

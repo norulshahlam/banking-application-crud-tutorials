@@ -3,9 +3,9 @@ package com.shah.bankingapplicationcrud.constant;
 /**
  * @author NORUL
  */
-public class ExceptionConstants {
+public class ErrorConstants {
 
-    private ExceptionConstants() {
+    private ErrorConstants() {
     }
 
     public static final String CONSTRAINT_VIOLATION_EXCEPTION = "CONSTRAINT VIOLATION EXCEPTION";

@@ -1,8 +1,7 @@
 package com.shah.bankingapplicationcrud.impl;
 
+import com.shah.bankingapplicationcrud.constant.ErrorConstants;
 import com.shah.bankingapplicationcrud.exception.BankingException;
-import com.shah.bankingapplicationcrud.exception.CrudErrorCodes;
-import com.shah.bankingapplicationcrud.exception.CrudException;
 import com.shah.bankingapplicationcrud.model.entity.Customer;
 import com.shah.bankingapplicationcrud.model.request.*;
 import com.shah.bankingapplicationcrud.model.response.BankingResponse;
@@ -26,11 +25,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import static com.shah.bankingapplicationcrud.constant.ExceptionConstants.*;
-import static com.shah.bankingapplicationcrud.constant.ExceptionConstants.CUSTOMER_NOT_FOUND;
-import static com.shah.bankingapplicationcrud.exception.CrudError.constructErrorForCrudException;
-import static com.shah.bankingapplicationcrud.exception.CrudErrorCodes.*;
-import static com.shah.bankingapplicationcrud.model.response.BankingResponse.failureResponse;
+import static com.shah.bankingapplicationcrud.constant.ErrorConstants.*;
 import static com.shah.bankingapplicationcrud.model.response.BankingResponse.successResponse;
 import static com.shah.bankingapplicationcrud.repository.CustomerRepository.firstNameLike;
 import static com.shah.bankingapplicationcrud.repository.CustomerRepository.lastNameLike;
@@ -67,7 +62,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public BankingResponse<Page<Customer>> getAllCustomersOrSearchByLastAndFirstName(
             HttpHeaders headers, String name, int page, int size, String field) {
-        try {
+
             validateHeaders(headers);
             Pageable pageRequest = of(page, size).withSort(by(ASC, field));
             /** TODO
@@ -90,12 +85,7 @@ public class CustomerServiceImpl implements CustomerService {
                 log.info("current customers displayed: {}, total customers found: {}", customers.getSize(), customers.getTotalElements());
                 return successResponse(customers);
             }
-            throw new CrudException(AC_BAD_REQUEST, CrudErrorCodes.CUSTOMER_NOT_FOUND);
-        } catch (CrudException e) {
-            log.error("Customer: {} not found...", name);
-            return failureResponse((constructErrorForCrudException(e)));
-        }
-
+        throw new BankingException(ErrorConstants.CUSTOMER_NOT_FOUND);
     }
 
     /**
@@ -164,7 +154,7 @@ public class CustomerServiceImpl implements CustomerService {
      * @param request
      * @param headers
      * @return
-     * @throws CrudException
+     * @throws BankingException
      */
 
     @Override
