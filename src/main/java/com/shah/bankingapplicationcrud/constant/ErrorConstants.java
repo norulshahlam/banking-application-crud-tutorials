@@ -5,8 +5,15 @@ package com.shah.bankingapplicationcrud.constant;
  */
 public class ErrorConstants {
 
+
+    public static final String EMPTY_CORRELATION_ID = "Empty correlation id";
+    public static final String EMPTY_DATE_TIME = "Empty date time";
+    public static final String INVALID_SOURCE_COUNTRY = "Invalid source country";
+    public static final String INVALID_CORRELATION_ID = "Invalid correlation id format. Eg of UUID: f9bd1139-c907-11ec-b11c-0242ac110002";
+
     private ErrorConstants() {
     }
+    public static final String EMPTY_SOURCE_COUNTRY = "Empty source country";
 
     public static final String CONSTRAINT_VIOLATION_EXCEPTION = "CONSTRAINT VIOLATION EXCEPTION";
     public static final String DATABASE_INTEGRITY_VIOLATION_EXCEPTION = "DATABASE_INTEGRITY_VIOLATION_EXCEPTION";
