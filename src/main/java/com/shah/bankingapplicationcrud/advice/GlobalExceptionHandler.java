@@ -31,7 +31,6 @@ public class GlobalExceptionHandler {
 
     public static final String ERROR_DETAIL = "requestUrl : {}, occurred an error : {}, e detail : {}";
 
-
     /**
      * to handle MethodArgumentNotValidException when validating request body from client input
      *
