@@ -1,3 +1,7 @@
+springdoc:
+  project-title: rest-api-tutorials
+  project-version: v1
+  project-description: Base project for REST API tutorials
 server:
   port: 9090
 spring:

@@ -2,6 +2,7 @@ package com.shah.bankingapplicationcrud;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 import static org.springframework.boot.SpringApplication.run;
 
@@ -10,6 +11,7 @@ import static org.springframework.boot.SpringApplication.run;
  */
 @SpringBootApplication
 @Slf4j
+@ConfigurationPropertiesScan
 public class Application {
 
     public static void main(String[] args) {

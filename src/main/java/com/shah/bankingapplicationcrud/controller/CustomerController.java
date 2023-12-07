@@ -3,11 +3,11 @@ package com.shah.bankingapplicationcrud.controller;
 import com.shah.bankingapplicationcrud.impl.CustomerServiceImpl;
 import com.shah.bankingapplicationcrud.model.entity.Customer;
 import com.shah.bankingapplicationcrud.model.request.*;
-import com.shah.bankingapplicationcrud.model.response.*;
-import io.swagger.annotations.ApiOperation;
+import com.shah.bankingapplicationcrud.model.response.BankingResponse;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,7 +17,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
 import java.util.UUID;
 
 import static com.shah.bankingapplicationcrud.constant.CommonConstants.*;
@@ -39,10 +38,8 @@ public class CustomerController {
     @Autowired
     private final CustomerServiceImpl service;
 
-    @ApiOperation(
-            value = "Retrieve all customers. Optional query param to search for customer containing by first or last name",
-            response = BankingResponse.class,
-            tags = "Retrieve all customers. Optional query param to search for customer containing by first or last name")
+    @Operation(description = "Retrieve all customers. Optional query param to search for customer containing by first or last name",
+            tags = "Retrieve all customers")
     @PostMapping(GET_ALL_CUSTOMERS)
     public ResponseEntity<BankingResponse<Page<Customer>>> searchCustomersByName(
             @RequestHeader HttpHeaders headers,
@@ -53,9 +50,7 @@ public class CustomerController {
         return ResponseEntity.ok(service.getAllCustomersOrSearchByLastAndFirstName(headers, query, page, size, field));
     }
 
-    @ApiOperation(
-            value = "Retrieve one customer",
-            response = BankingResponse.class,
+    @Operation(description = "Retrieve one customer",
             tags = "Retrieve one customer")
     @PostMapping(GET_ONE_CUSTOMER)
     public ResponseEntity<BankingResponse<Customer>> getOneCustomer(
@@ -65,8 +60,7 @@ public class CustomerController {
         return ResponseEntity.ok(service.getOneCustomer(request, headers));
     }
 
-    @ApiOperation(value = "Add customer",
-            response = BankingResponse.class,
+    @Operation(description = "Add customer",
             tags = "Add customer")
     @PostMapping(CREATE_CUSTOMER)
     public ResponseEntity<BankingResponse<Customer>> createOneCustomer(
@@ -75,7 +69,8 @@ public class CustomerController {
         return ResponseEntity.ok(service.createOneCustomer(createCustomerRequest, headers));
     }
 
-    @ApiOperation(value = "Patch customer", response = BankingResponse.class, tags = "Add customer")
+    @Operation(description = "Patch customer",
+            tags = "Patch customer")
     @PostMapping(PATCH_CUSTOMER)
     public ResponseEntity<BankingResponse<Customer>> updateOneCustomer(
             @Valid @RequestBody PatchCustomerRequest createCustomerRequest,
@@ -83,10 +78,8 @@ public class CustomerController {
         return ResponseEntity.ok(service.updateOneCustomer(createCustomerRequest, headers));
     }
 
-    @ApiOperation(
-            value = "Retrieve one customer",
-            response = BankingResponse.class,
-            tags = "Retrieve one customer")
+    @Operation(description = "Delete customer",
+            tags = "Delete customer")
     @PostMapping(DELETE_CUSTOMER)
     public ResponseEntity<BankingResponse<UUID>> deleteOneCustomer(
             @ApiParam(defaultValue = "001d846e-4488-4ecc-84c2-9b6f1d130711")
@@ -95,9 +88,7 @@ public class CustomerController {
         return ResponseEntity.ok(service.deleteOneCustomer(request, headers));
     }
 
-    @ApiOperation(
-            value = "Transfer amount",
-            response = BankingResponse.class,
+    @Operation(description = "Transfer amount",
             tags = "Transfer amount")
     @PostMapping(TRANSFER)
     public ResponseEntity<BankingResponse<TransferResponseDto>> transferAmount(
@@ -105,6 +96,4 @@ public class CustomerController {
             @RequestHeader HttpHeaders headers) {
         return ResponseEntity.ok(service.transferAmount(request, headers));
     }
-
-
 }

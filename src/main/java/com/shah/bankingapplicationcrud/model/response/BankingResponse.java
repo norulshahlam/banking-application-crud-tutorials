@@ -16,7 +16,7 @@ public class BankingResponse<T> {
                           " + SUCCESS\n" +
                           " + FAILURE\n")
     @NonNull
-    ResponseStatus status;
+    private ResponseStatus status;
     private T data;
     private String errorMessage;
 
@@ -41,5 +41,4 @@ public class BankingResponse<T> {
                 .errorMessage(errorMessage)
                 .build();
     }
-
 }
