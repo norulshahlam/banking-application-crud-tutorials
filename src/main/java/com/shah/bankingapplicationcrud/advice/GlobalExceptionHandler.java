@@ -1,12 +1,7 @@
 package com.shah.bankingapplicationcrud.advice;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.shah.bankingapplicationcrud.exception.BankingException;
-import com.shah.bankingapplicationcrud.exception.CrudErrorCodes;
 import com.shah.bankingapplicationcrud.model.response.BankingResponse;
-import lombok.Builder;
-import lombok.Data;
-import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.mapping.PropertyReferenceException;
@@ -179,23 +174,3 @@ public class GlobalExceptionHandler {
 }
 
 
-@SuperBuilder
-@Data
-class Message {
-
-    @JsonProperty("error")
-    private CrudError crudError;
-
-    public static Message message(CrudErrorCodes acBusinessError, String exceptionMessage) {
-
-        CrudError er = CrudError.builder().errorCode(acBusinessError.getCode()).description(exceptionMessage).build();
-        return builder().crudError(er).build();
-    }
-
-    @Builder
-    @Data
-    private static class CrudError {
-        private final String errorCode;
-        private final String description;
-    }
-}

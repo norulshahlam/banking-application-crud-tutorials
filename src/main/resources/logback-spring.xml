@@ -6,7 +6,7 @@
     <!--  your console output  -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%green(%d{dd-MM-yyyy E HH:mm:ss.SSS}) %magenta([%thread]) %highlight(%-5level) %yellow(%logger{36}) - %blue(%msg%n)
+            <pattern>%green(%d{dd-MM-yyyy E HH:mm:ss.SSS}) %magenta([%thread]) %highlight(%-5level) %yellow(%logger{36}) - %cyan(%msg%n)
             </pattern>
         </encoder>
     </appender>
