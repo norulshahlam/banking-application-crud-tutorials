@@ -46,6 +46,9 @@ import static com.shah.bankingapplicationcrud.validation.ValidateHeaders.validat
                 content = @Content)})
 public class CustomerController {
 
+    /**
+     * https://medium.com/@prabha.shankaran/creating-openapi-definitions-for-apis-using-springdoc-4c7a5c80a7cf
+     */
 
     @Autowired
     private final CustomerServiceImpl service;
