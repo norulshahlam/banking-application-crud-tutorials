@@ -90,7 +90,6 @@ class CustomerControllerTest {
                 .andExpect(jsonPath("$.status").value(FAILURE.name()))
                 .andExpect(jsonPath("$.errorMessage")
                         .isNotEmpty());
-
     }
 
     @Test

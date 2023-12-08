@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -56,7 +57,7 @@ public class CustomerController {
             tags = "Get one customer")
     @GetMapping(GET_ONE_CUSTOMER + "/{request}")
     public ResponseEntity<BankingResponse<Customer>> getOneCustomer(
-            @ApiParam(defaultValue = "001d846e-4488-4ecc-84c2-9b6f1d130711")
+            @Parameter(example = "001d846e-4488-4ecc-84c2-9b6f1d130711")
             @Valid @PathVariable UUID request,
             @RequestHeader HttpHeaders headers) {
         validateHeaders(headers);

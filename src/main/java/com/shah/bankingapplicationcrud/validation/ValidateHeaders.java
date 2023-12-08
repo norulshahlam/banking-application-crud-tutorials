@@ -22,14 +22,16 @@ public class ValidateHeaders {
         if (ObjectUtils.isEmpty(headers)) {
             headerList.add(EMPTY_HEADER);
         }
-        if (ObjectUtils.isEmpty(headers.getFirst(X_SOURCE_COUNTRY))) {
-            headerList.add(EMPTY_SOURCE_COUNTRY);
-        }
         if (ObjectUtils.isEmpty(headers.getFirst(X_SOURCE_DATE_TIME))) {
             headerList.add(EMPTY_DATE_TIME);
         }
-        if (!SG.equalsIgnoreCase(headers.getFirst(X_SOURCE_COUNTRY))) {
-            headerList.add(INVALID_SOURCE_COUNTRY);
+        if (ObjectUtils.isEmpty(headers.getFirst(X_SOURCE_COUNTRY))) {
+            headerList.add(EMPTY_SOURCE_COUNTRY);
+        }
+        if (ObjectUtils.isNotEmpty(headers.getFirst(X_SOURCE_COUNTRY))) {
+            if (!SG.equalsIgnoreCase(headers.getFirst(X_SOURCE_COUNTRY))) {
+                headerList.add(INVALID_SOURCE_COUNTRY);
+            }
         }
         if (ObjectUtils.isEmpty(headers.getFirst(X_CORRELATION_ID))) {
             headerList.add(EMPTY_CORRELATION_ID);

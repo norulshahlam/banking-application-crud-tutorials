@@ -42,10 +42,8 @@ import static org.springframework.data.jpa.domain.Specification.where;
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
-
     @Autowired
     private final CustomerRepository repository;
-
 
     /**
      * Fetch all customers. If empty will throw exception. Optional query param to search for customer containing by first or last name
@@ -62,7 +60,6 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public BankingResponse<Page<Customer>> getAllCustomersOrSearchByLastAndFirstName(
             HttpHeaders headers, String name, int page, int size, String field) {
-
 
         Pageable pageRequest = of(page, size).withSort(by(ASC, field));
         /** TODO
@@ -138,7 +135,6 @@ public class CustomerServiceImpl implements CustomerService {
     public BankingResponse<Customer> updateOneCustomer(PatchCustomerRequest request) {
         log.info("Editing one customer...");
 
-
         Customer customer = repository.findById(request.getAccountNumber()).orElseThrow(() -> new BankingException(CUSTOMER_NOT_FOUND));
         copyProperties(request, customer, getNullPropertyNames(request));
         return successResponse(repository.save(customer));
@@ -157,13 +153,11 @@ public class CustomerServiceImpl implements CustomerService {
         log.info("Check if customer exists...");
 
         UUID id = request.getAccountNumber();
-
         Customer customer = repository.findById(request.getAccountNumber()).orElseThrow(() -> new BankingException(CUSTOMER_NOT_FOUND));
 
         log.info("Customer with account number {} found! Deleting customer...", customer.getAccountNumber());
         repository.deleteById(id);
         return successResponse(id);
-
     }
 
     /**
@@ -175,7 +169,6 @@ public class CustomerServiceImpl implements CustomerService {
     @Transactional
     @Override
     public BankingResponse<TransferResponseDto> transferAmount(TransferRequest request) {
-
         UUID senderId = request.getPayerAccountNumber();
 
         // 1. check if payer acc exists
