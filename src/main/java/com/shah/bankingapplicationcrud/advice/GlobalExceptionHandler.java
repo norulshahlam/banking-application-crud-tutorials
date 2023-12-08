@@ -29,7 +29,7 @@ import static com.shah.bankingapplicationcrud.constant.ErrorConstants.*;
 @Slf4j
 public class GlobalExceptionHandler {
 
-    public static final String ERROR_DETAIL = "requestUrl : {}, occurred an error : {}, e detail : {}";
+    public static final String ERROR_DETAIL = "requestUrl : {}, Error : {}";
 
     /**
      * to handle MethodArgumentNotValidException when validating request body from client input
@@ -53,7 +53,7 @@ public class GlobalExceptionHandler {
         for (ObjectError error : e.getBindingResult().getGlobalErrors()) {
             cause.add(error.getDefaultMessage());
         }
-        log.error(ERROR_DETAIL, requestURL, cause, e);
+        log.error(ERROR_DETAIL, requestURL, cause);
         BankingResponse response = BankingResponse.failureResponse(cause, BAD_REQUEST);
         return ResponseEntity.ok(response);
     }
@@ -72,7 +72,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<BankingResponse> handleConstraintViolationException(HttpServletRequest req, ConstraintViolationException e) {
 
         List<String> errorMessages = e.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.toList());
-        log.error("requestUrl : {}, occurred an error : {}, exception detail : {}", req.getRequestURI(), errorMessages, e);
+        log.error("requestUrl : {}, occurred an error : {}", req.getRequestURI(), errorMessages);
 
         BankingResponse response = BankingResponse.failureResponse(errorMessages, CONSTRAINT_VIOLATION_EXCEPTION);
         return ResponseEntity.ok(response);
@@ -110,7 +110,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseEntity<BankingResponse> handlePropertyReferenceException(HttpServletRequest req, PropertyReferenceException e) {
         String cause = e.getMessage();
-        log.error(ERROR_DETAIL, req.getRequestURI(), cause, e);
+        log.error(ERROR_DETAIL, req.getRequestURI(), cause);
         BankingResponse response = BankingResponse.failureResponse(cause, FIELD_PROPERTY_NOT_FOUND);
         return ResponseEntity.ok(response);
     }
@@ -128,7 +128,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseEntity<BankingResponse> handleBankingException(HttpServletRequest req, BankingException e) {
         String errorMessage = e.getErrorMessage();
-        log.error(ERROR_DETAIL, req.getRequestURI(), errorMessage, e);
+        log.error(ERROR_DETAIL, req.getRequestURI(), errorMessage);
 
         BankingResponse response = BankingResponse.failureResponse(BAD_REQUEST, errorMessage);
         return ResponseEntity.ok(response);
@@ -165,7 +165,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResponseEntity<Object> handleBaseException(HttpServletRequest req, Exception e) {
         String cause = e.getMessage();
-        log.error(ERROR_DETAIL, req.getRequestURI(), cause, e);
+        log.error(ERROR_DETAIL, req.getRequestURI(), cause);
 
         BankingResponse response = BankingResponse.failureResponse(cause);
         return ResponseEntity.ok(response);

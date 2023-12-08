@@ -1,10 +1,14 @@
 package com.shah.bankingapplicationcrud.exception;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+
+/**
+ * @author norulshahlam.mohsen
+ */
+@Getter
 @AllArgsConstructor
-public class BankingException extends RuntimeException{
+public class BankingException extends RuntimeException {
     private final String errorMessage;
 }
