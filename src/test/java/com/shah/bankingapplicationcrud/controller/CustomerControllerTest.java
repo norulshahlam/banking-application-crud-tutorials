@@ -2,6 +2,7 @@ package com.shah.bankingapplicationcrud.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shah.bankingapplicationcrud.constant.ErrorConstants;
+import com.shah.bankingapplicationcrud.exception.BankingException;
 import com.shah.bankingapplicationcrud.impl.CustomerServiceImpl;
 import com.shah.bankingapplicationcrud.model.entity.Customer;
 import com.shah.bankingapplicationcrud.model.request.*;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.shah.bankingapplicationcrud.constant.CommonConstants.*;
+import static com.shah.bankingapplicationcrud.constant.ErrorConstants.CUSTOMER_NOT_FOUND;
 import static com.shah.bankingapplicationcrud.model.enums.ResponseStatus.FAILURE;
 import static com.shah.bankingapplicationcrud.model.request.GetOneCustomerRequest.builder;
 import static com.shah.bankingapplicationcrud.service.Initializer.*;
@@ -32,7 +34,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 import static org.springframework.beans.BeanUtils.copyProperties;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -62,13 +64,11 @@ class CustomerControllerTest {
     @Test
     void getOneCustomer_success() throws Exception {
         BankingResponse<Customer> response = BankingResponse.successResponse(customer);
-        GetOneCustomerRequest request = builder().accountNumber(RANDOM_UUID1).build();
-        when(service.getOneCustomer(any(GetOneCustomerRequest.class), any(HttpHeaders.class))).thenReturn(response);
-        requestPayload = objectMapper.writeValueAsString(request);
+        when(service.getOneCustomer(any(UUID.class), any(HttpHeaders.class))).thenReturn(response);
+        requestPayload = objectMapper.writeValueAsString(RANDOM_UUID1);
 
-        mockMvc.perform(post(CONTEXT_API_V1 + GET_ONE_CUSTOMER)
+        mockMvc.perform(get(CONTEXT_API_V1 + GET_ONE_CUSTOMER + "/" + RANDOM_UUID1)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestPayload)
                         .headers(headers))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -80,18 +80,13 @@ class CustomerControllerTest {
 
     @Test
     void getOneCustomer_customer_not_found() throws Exception {
-        BankingResponse<Customer> response = BankingResponse.failureResponse(ErrorConstants.CUSTOMER_NOT_FOUND);
 
-        GetOneCustomerRequest request = builder().accountNumber(RANDOM_UUID1).build();
-        when(service.getOneCustomer(any(GetOneCustomerRequest.class), any(HttpHeaders.class))).thenReturn(response);
-        requestPayload = objectMapper.writeValueAsString(request);
+        when(service.getOneCustomer(any(UUID.class), any(HttpHeaders.class))).thenThrow(new BankingException(CUSTOMER_NOT_FOUND));
 
-        mockMvc.perform(post(CONTEXT_API_V1 + GET_ONE_CUSTOMER)
+        mockMvc.perform(get(CONTEXT_API_V1 + GET_ONE_CUSTOMER + "/" + RANDOM_UUID2)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestPayload)
                         .headers(headers))
                 .andDo(print())
-                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(FAILURE.name()))
                 .andExpect(jsonPath("$.errorMessage")
                         .isNotEmpty());
@@ -104,7 +99,7 @@ class CustomerControllerTest {
         BankingResponse<Page<Customer>> response = BankingResponse.successResponse(pagedCustomers);
         when(service.getAllCustomersOrSearchByLastAndFirstName(any(HttpHeaders.class), anyString(), anyInt(), anyInt(), anyString())).thenReturn(response);
 
-        mockMvc.perform(post(CONTEXT_API_V1 + GET_ALL_CUSTOMERS)
+        mockMvc.perform(get(CONTEXT_API_V1 + GET_ALL_CUSTOMERS)
                         .contentType(MediaType.APPLICATION_JSON)
                         .headers(headers)
                         .params(searchCustomerParams))
@@ -179,7 +174,7 @@ class CustomerControllerTest {
         when(service.updateOneCustomer(any(PatchCustomerRequest.class), any(HttpHeaders.class))).thenReturn(response);
         requestPayload = objectMapper.writeValueAsString(request);
 
-        mockMvc.perform(post(CONTEXT_API_V1 + PATCH_CUSTOMER)
+        mockMvc.perform(patch(CONTEXT_API_V1 + PATCH_CUSTOMER)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestPayload)
                         .headers(headers))
@@ -218,7 +213,7 @@ class CustomerControllerTest {
         requestPayload = objectMapper.writeValueAsString(request);
         when(service.deleteOneCustomer(any(), any(HttpHeaders.class))).thenReturn(response);
 
-        mockMvc.perform(post(CONTEXT_API_V1 + DELETE_CUSTOMER)
+        mockMvc.perform(delete(CONTEXT_API_V1 + DELETE_CUSTOMER)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestPayload)
                         .headers(headers))
@@ -237,7 +232,7 @@ class CustomerControllerTest {
         requestPayload = objectMapper.writeValueAsString(request);
         when(service.deleteOneCustomer(any(), any(HttpHeaders.class))).thenReturn(response);
 
-        mockMvc.perform(post(CONTEXT_API_V1 + DELETE_CUSTOMER)
+        mockMvc.perform(delete(CONTEXT_API_V1 + DELETE_CUSTOMER)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestPayload)
                         .headers(headers))

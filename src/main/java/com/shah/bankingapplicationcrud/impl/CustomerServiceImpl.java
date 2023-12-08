@@ -96,11 +96,11 @@ public class CustomerServiceImpl implements CustomerService {
      * @return
      */
     @Override
-    public BankingResponse getOneCustomer(GetOneCustomerRequest request, HttpHeaders headers) {
+    public BankingResponse getOneCustomer(UUID request, HttpHeaders headers) {
         log.info("Fetching customer...");
         validateHeaders(headers);
 
-        Customer customer = repository.findById(request.getAccountNumber()).orElseThrow(
+        Customer customer = repository.findById(request).orElseThrow(
                 () -> new BankingException(CUSTOMER_NOT_FOUND));
         log.info("Fetch customer success...");
         return successResponse(customer);

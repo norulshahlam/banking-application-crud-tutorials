@@ -85,17 +85,15 @@ class CustomerServiceImplTest {
     @Test
     void getOneCustomer_customer_found() {
         when(custRepo.findById(any(UUID.class))).thenReturn(Optional.of(customer));
-        GetOneCustomerRequest request = GetOneCustomerRequest.builder().accountNumber(RANDOM_UUID1).build();
-        BankingResponse<Customer> oneCustomer = service.getOneCustomer(request, headers);
+        BankingResponse<Customer> oneCustomer = service.getOneCustomer(RANDOM_UUID1, headers);
         assertThat(oneCustomer).isNotNull();
         assertThat(oneCustomer.getStatus()).isEqualTo(SUCCESS);
     }
 
     @Test
     void getOneCustomer_customer_NOT_found() {
-        GetOneCustomerRequest request = GetOneCustomerRequest.builder().accountNumber(RANDOM_UUID1).build();
 
-        bankingException = assertThrows(BankingException.class, () -> service.getOneCustomer(request, headers));
+        bankingException = assertThrows(BankingException.class, () -> service.getOneCustomer(RANDOM_UUID1, headers));
 
         assertThat(bankingException.getErrorMessage()).isEqualTo(ErrorConstants.CUSTOMER_NOT_FOUND);
     }

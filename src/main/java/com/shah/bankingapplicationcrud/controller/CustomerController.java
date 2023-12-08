@@ -40,7 +40,7 @@ public class CustomerController {
 
     @Operation(description = "Retrieve all customers. Optional query param to search for customer containing by first or last name",
             tags = "Retrieve all customers")
-    @PostMapping(GET_ALL_CUSTOMERS)
+    @GetMapping(GET_ALL_CUSTOMERS)
     public ResponseEntity<BankingResponse<Page<Customer>>> searchCustomersByName(
             @RequestHeader HttpHeaders headers,
             @RequestParam(defaultValue = "0") int page,
@@ -50,12 +50,12 @@ public class CustomerController {
         return ResponseEntity.ok(service.getAllCustomersOrSearchByLastAndFirstName(headers, query, page, size, field));
     }
 
-    @Operation(description = "Retrieve one customer",
-            tags = "Retrieve one customer")
-    @PostMapping(GET_ONE_CUSTOMER)
+    @Operation(description = "Get one customer",
+            tags = "Get one customer")
+    @GetMapping(GET_ONE_CUSTOMER + "/{request}")
     public ResponseEntity<BankingResponse<Customer>> getOneCustomer(
             @ApiParam(defaultValue = "001d846e-4488-4ecc-84c2-9b6f1d130711")
-            @Valid @RequestBody GetOneCustomerRequest request,
+            @Valid @PathVariable UUID request,
             @RequestHeader HttpHeaders headers) {
         return ResponseEntity.ok(service.getOneCustomer(request, headers));
     }
@@ -71,7 +71,7 @@ public class CustomerController {
 
     @Operation(description = "Patch customer",
             tags = "Patch customer")
-    @PostMapping(PATCH_CUSTOMER)
+    @PatchMapping(PATCH_CUSTOMER)
     public ResponseEntity<BankingResponse<Customer>> updateOneCustomer(
             @Valid @RequestBody PatchCustomerRequest createCustomerRequest,
             @RequestHeader HttpHeaders headers) {
@@ -80,7 +80,7 @@ public class CustomerController {
 
     @Operation(description = "Delete customer",
             tags = "Delete customer")
-    @PostMapping(DELETE_CUSTOMER)
+    @DeleteMapping(DELETE_CUSTOMER)
     public ResponseEntity<BankingResponse<UUID>> deleteOneCustomer(
             @ApiParam(defaultValue = "001d846e-4488-4ecc-84c2-9b6f1d130711")
             @Valid @RequestBody GetOneCustomerRequest request,

@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public interface CustomerService {
 
-    BankingResponse<Customer> getOneCustomer(GetOneCustomerRequest request, HttpHeaders headers);
+    BankingResponse<Customer> getOneCustomer(UUID request, HttpHeaders headers);
 
     BankingResponse<Customer> createOneCustomer(CreateCustomerRequest createCustomerRequest, HttpHeaders headers);
 

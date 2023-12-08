@@ -35,7 +35,7 @@ public class ValidateHeaders {
             headerList.add(EMPTY_CORRELATION_ID);
         }
         if (ObjectUtils.isNotEmpty(headers.getFirst(X_CORRELATION_ID))) {
-            if (headers.getFirst(X_CORRELATION_ID).matches("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")) {
+            if (!headers.getFirst(X_CORRELATION_ID).matches("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")) {
                 headerList.add(INVALID_CORRELATION_ID);
             }
         }
