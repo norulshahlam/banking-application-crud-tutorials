@@ -5,10 +5,11 @@ import com.shah.bankingapplicationcrud.model.entity.Customer;
 import com.shah.bankingapplicationcrud.model.request.*;
 import com.shah.bankingapplicationcrud.model.response.BankingResponse;
 import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,11 +30,20 @@ import static com.shah.bankingapplicationcrud.validation.ValidateHeaders.validat
 @RestController
 @Validated
 @ApiResponses(value = {
-        @ApiResponse(code = 201, message = "Created"),
-        @ApiResponse(code = 302, message = "Found"),
-        @ApiResponse(code = 404, message = "Not found"),
-        @ApiResponse(code = 400, message = "Bad Request"),
-        @ApiResponse(code = 500, message = "Service Unavaliable")})
+        @ApiResponse(responseCode = "400", description = "Bad Request",
+                content = @Content),
+        @ApiResponse(responseCode = "401", description = "Unauthorized Access",
+                content = @Content),
+        @ApiResponse(responseCode = "403", description = "Forbidden",
+                content = @Content),
+        @ApiResponse(responseCode = "404", description = "The server has not found anything matching the URI given",
+                content = @Content),
+        @ApiResponse(responseCode = "405", description = "Method not Allowed",
+                content = @Content),
+        @ApiResponse(responseCode = "500", description = "Internal Server Error",
+                content = @Content),
+        @ApiResponse(responseCode = "503", description = "Service Unavailable",
+                content = @Content)})
 public class CustomerController {
 
 
