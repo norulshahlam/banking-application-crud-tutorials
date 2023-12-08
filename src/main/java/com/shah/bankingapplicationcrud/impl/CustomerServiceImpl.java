@@ -29,7 +29,6 @@ import static com.shah.bankingapplicationcrud.constant.ErrorConstants.*;
 import static com.shah.bankingapplicationcrud.model.response.BankingResponse.successResponse;
 import static com.shah.bankingapplicationcrud.repository.CustomerRepository.firstNameLike;
 import static com.shah.bankingapplicationcrud.repository.CustomerRepository.lastNameLike;
-import static com.shah.bankingapplicationcrud.validation.ValidateHeaders.validateHeaders;
 import static java.util.List.of;
 import static org.springframework.beans.BeanUtils.copyProperties;
 import static org.springframework.data.domain.PageRequest.of;
@@ -50,12 +49,13 @@ public class CustomerServiceImpl implements CustomerService {
 
     /**
      * Fetch all customers. If empty will throw exception. Optional query param to search for customer containing by first or last name
+     * <p>
+     * request headers coming from client
      *
-     * @param headers request headers coming from client
-     * @param name    name of field
-     * @param page    page number to display
-     * @param size    number of items to display in each page
-     * @param field   the parameter to search from eg by firstName, email, etc
+     * @param name  name of field
+     * @param page  page number to display
+     * @param size  number of items to display in each page
+     * @param field the parameter to search from eg by firstName, email, etc
      * @return
      */
 
@@ -63,42 +63,40 @@ public class CustomerServiceImpl implements CustomerService {
     public BankingResponse<Page<Customer>> getAllCustomersOrSearchByLastAndFirstName(
             HttpHeaders headers, String name, int page, int size, String field) {
 
-            validateHeaders(headers);
-            Pageable pageRequest = of(page, size).withSort(by(ASC, field));
-            /** TODO
-             to test below jpa query
-             select * from customers where last_name like '%s%' or first_name like '%s%';
-             **/
 
-            if (StringUtils.isNotBlank(name)) {
-                log.info("Performing search like by firstname or lastname by keyword: {}", name);
-            } else {
-                log.info("Getting all customers");
-            }
+        Pageable pageRequest = of(page, size).withSort(by(ASC, field));
+        /** TODO
+         to test below jpa query
+         select * from customers where last_name like '%s%' or first_name like '%s%';
+         **/
 
-            Page<Customer> customers = repository.findAll(
-                    where(firstNameLike(name)
-                            .or(lastNameLike(name))),
-                    pageRequest);
+        if (StringUtils.isNotBlank(name)) {
+            log.info("Performing search like by firstname or lastname by keyword: {}", name);
+        } else {
+            log.info("Getting all customers");
+        }
 
-            if (customers.stream().findAny().isPresent()) {
-                log.info("current customers displayed: {}, total customers found: {}", customers.getSize(), customers.getTotalElements());
-                return successResponse(customers);
-            }
+        Page<Customer> customers = repository.findAll(
+                where(firstNameLike(name)
+                        .or(lastNameLike(name))),
+                pageRequest);
+
+        if (customers.stream().findAny().isPresent()) {
+            log.info("current customers displayed: {}, total customers found: {}", customers.getSize(), customers.getTotalElements());
+            return successResponse(customers);
+        }
         throw new BankingException(ErrorConstants.CUSTOMER_NOT_FOUND);
     }
 
     /**
      * Fetch one customer. If not found will throw exception
      *
-     * @param request
-     * @param headers Headers coming from client
+     * @param request Headers coming from client
      * @return
      */
     @Override
-    public BankingResponse getOneCustomer(UUID request, HttpHeaders headers) {
+    public BankingResponse getOneCustomer(UUID request) {
         log.info("Fetching customer...");
-        validateHeaders(headers);
 
         Customer customer = repository.findById(request).orElseThrow(
                 () -> new BankingException(CUSTOMER_NOT_FOUND));
@@ -110,14 +108,13 @@ public class CustomerServiceImpl implements CustomerService {
      * Create new customer
      *
      * @param request
-     * @param headers
      * @return
      */
 
     @Override
-    public BankingResponse<Customer> createOneCustomer(CreateCustomerRequest request, HttpHeaders headers) {
+    public BankingResponse<Customer> createOneCustomer(CreateCustomerRequest request) {
         log.info("Creating one customer...");
-        validateHeaders(headers);
+
         Optional<Customer> customer1 = repository.findByEmail(request.getEmail());
         Customer customer = new Customer();
         if (customer1.isEmpty()) {
@@ -134,14 +131,13 @@ public class CustomerServiceImpl implements CustomerService {
      * To edit all field, simply add all fields.
      *
      * @param request
-     * @param headers
      * @return
      */
 
     @Override
-    public BankingResponse<Customer> updateOneCustomer(PatchCustomerRequest request, HttpHeaders headers) {
+    public BankingResponse<Customer> updateOneCustomer(PatchCustomerRequest request) {
         log.info("Editing one customer...");
-        validateHeaders(headers);
+
 
         Customer customer = repository.findById(request.getAccountNumber()).orElseThrow(() -> new BankingException(CUSTOMER_NOT_FOUND));
         copyProperties(request, customer, getNullPropertyNames(request));
@@ -152,15 +148,14 @@ public class CustomerServiceImpl implements CustomerService {
      * Delete customer by id
      *
      * @param request
-     * @param headers
      * @return
      * @throws BankingException
      */
 
     @Override
-    public BankingResponse<UUID> deleteOneCustomer(GetOneCustomerRequest request, HttpHeaders headers) {
+    public BankingResponse<UUID> deleteOneCustomer(GetOneCustomerRequest request) {
         log.info("Check if customer exists...");
-        validateHeaders(headers);
+
         UUID id = request.getAccountNumber();
 
         Customer customer = repository.findById(request.getAccountNumber()).orElseThrow(() -> new BankingException(CUSTOMER_NOT_FOUND));
@@ -175,13 +170,12 @@ public class CustomerServiceImpl implements CustomerService {
      * To transfer amount from one acc to another
      *
      * @param request
-     * @param headers
      * @return
      */
     @Transactional
     @Override
-    public BankingResponse<TransferResponseDto> transferAmount(TransferRequest request, HttpHeaders headers) {
-        validateHeaders(headers);
+    public BankingResponse<TransferResponseDto> transferAmount(TransferRequest request) {
+
         UUID senderId = request.getPayerAccountNumber();
 
         // 1. check if payer acc exists

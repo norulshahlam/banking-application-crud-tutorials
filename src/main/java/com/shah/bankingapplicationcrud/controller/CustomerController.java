@@ -20,6 +20,7 @@ import javax.validation.Valid;
 import java.util.UUID;
 
 import static com.shah.bankingapplicationcrud.constant.CommonConstants.*;
+import static com.shah.bankingapplicationcrud.validation.ValidateHeaders.validateHeaders;
 
 
 @RequestMapping(CONTEXT_API_V1)
@@ -47,6 +48,7 @@ public class CustomerController {
             @RequestParam(defaultValue = "5") int size,
             @RequestParam(defaultValue = "email") String field,
             @RequestParam(defaultValue = "") String query) {
+        validateHeaders(headers);
         return ResponseEntity.ok(service.getAllCustomersOrSearchByLastAndFirstName(headers, query, page, size, field));
     }
 
@@ -57,7 +59,8 @@ public class CustomerController {
             @ApiParam(defaultValue = "001d846e-4488-4ecc-84c2-9b6f1d130711")
             @Valid @PathVariable UUID request,
             @RequestHeader HttpHeaders headers) {
-        return ResponseEntity.ok(service.getOneCustomer(request, headers));
+        validateHeaders(headers);
+        return ResponseEntity.ok(service.getOneCustomer(request));
     }
 
     @Operation(description = "Add customer",
@@ -66,7 +69,8 @@ public class CustomerController {
     public ResponseEntity<BankingResponse<Customer>> createOneCustomer(
             @Valid @RequestBody CreateCustomerRequest createCustomerRequest,
             @RequestHeader HttpHeaders headers) {
-        return ResponseEntity.ok(service.createOneCustomer(createCustomerRequest, headers));
+        validateHeaders(headers);
+        return ResponseEntity.ok(service.createOneCustomer(createCustomerRequest));
     }
 
     @Operation(description = "Patch customer",
@@ -75,7 +79,8 @@ public class CustomerController {
     public ResponseEntity<BankingResponse<Customer>> updateOneCustomer(
             @Valid @RequestBody PatchCustomerRequest createCustomerRequest,
             @RequestHeader HttpHeaders headers) {
-        return ResponseEntity.ok(service.updateOneCustomer(createCustomerRequest, headers));
+        validateHeaders(headers);
+        return ResponseEntity.ok(service.updateOneCustomer(createCustomerRequest));
     }
 
     @Operation(description = "Delete customer",
@@ -85,7 +90,8 @@ public class CustomerController {
             @ApiParam(defaultValue = "001d846e-4488-4ecc-84c2-9b6f1d130711")
             @Valid @RequestBody GetOneCustomerRequest request,
             @RequestHeader HttpHeaders headers) {
-        return ResponseEntity.ok(service.deleteOneCustomer(request, headers));
+        validateHeaders(headers);
+        return ResponseEntity.ok(service.deleteOneCustomer(request));
     }
 
     @Operation(description = "Transfer amount",
@@ -94,6 +100,7 @@ public class CustomerController {
     public ResponseEntity<BankingResponse<TransferResponseDto>> transferAmount(
             @Valid @RequestBody TransferRequest request,
             @RequestHeader HttpHeaders headers) {
-        return ResponseEntity.ok(service.transferAmount(request, headers));
+        validateHeaders(headers);
+        return ResponseEntity.ok(service.transferAmount(request));
     }
 }

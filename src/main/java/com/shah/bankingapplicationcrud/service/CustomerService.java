@@ -11,15 +11,15 @@ import java.util.UUID;
 
 public interface CustomerService {
 
-    BankingResponse<Customer> getOneCustomer(UUID request, HttpHeaders headers);
+    BankingResponse<Customer> getOneCustomer(UUID request);
 
-    BankingResponse<Customer> createOneCustomer(CreateCustomerRequest createCustomerRequest, HttpHeaders headers);
+    BankingResponse<Customer> createOneCustomer(CreateCustomerRequest createCustomerRequest);
 
-    BankingResponse<Customer> updateOneCustomer(PatchCustomerRequest createCustomerRequest, HttpHeaders headers);
+    BankingResponse<Customer> updateOneCustomer(PatchCustomerRequest createCustomerRequest);
 
-    BankingResponse<UUID> deleteOneCustomer(GetOneCustomerRequest request, HttpHeaders headers);
+    BankingResponse<UUID> deleteOneCustomer(GetOneCustomerRequest request);
 
     BankingResponse<Page<Customer>> getAllCustomersOrSearchByLastAndFirstName(HttpHeaders headers, String name, int page, int size, String field);
 
-    BankingResponse<TransferResponseDto> transferAmount(TransferRequest request, HttpHeaders headers);
+    BankingResponse<TransferResponseDto> transferAmount(TransferRequest request);
 }

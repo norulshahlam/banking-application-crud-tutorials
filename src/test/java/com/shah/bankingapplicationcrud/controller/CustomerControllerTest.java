@@ -64,7 +64,7 @@ class CustomerControllerTest {
     @Test
     void getOneCustomer_success() throws Exception {
         BankingResponse<Customer> response = BankingResponse.successResponse(customer);
-        when(service.getOneCustomer(any(UUID.class), any(HttpHeaders.class))).thenReturn(response);
+        when(service.getOneCustomer(any(UUID.class))).thenReturn(response);
         requestPayload = objectMapper.writeValueAsString(RANDOM_UUID1);
 
         mockMvc.perform(get(CONTEXT_API_V1 + GET_ONE_CUSTOMER + "/" + RANDOM_UUID1)
@@ -81,7 +81,7 @@ class CustomerControllerTest {
     @Test
     void getOneCustomer_customer_not_found() throws Exception {
 
-        when(service.getOneCustomer(any(UUID.class), any(HttpHeaders.class))).thenThrow(new BankingException(CUSTOMER_NOT_FOUND));
+        when(service.getOneCustomer(any(UUID.class))).thenThrow(new BankingException(CUSTOMER_NOT_FOUND));
 
         mockMvc.perform(get(CONTEXT_API_V1 + GET_ONE_CUSTOMER + "/" + RANDOM_UUID2)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -133,7 +133,7 @@ class CustomerControllerTest {
         copyProperties(customer, request);
         requestPayload = objectMapper.writeValueAsString(request);
 
-        when(service.createOneCustomer(any(CreateCustomerRequest.class), any(HttpHeaders.class))).thenReturn(response);
+        when(service.createOneCustomer(any(CreateCustomerRequest.class))).thenReturn(response);
         mockMvc.perform(post(CONTEXT_API_V1 + CREATE_CUSTOMER)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestPayload)
@@ -152,7 +152,7 @@ class CustomerControllerTest {
         customer.setGender("invalid gender");
         copyProperties(customer, request);
         requestPayload = objectMapper.writeValueAsString(request);
-        when(service.createOneCustomer(any(), any(HttpHeaders.class))).thenReturn(response);
+        when(service.createOneCustomer(any())).thenReturn(response);
 
         mockMvc.perform(post(CONTEXT_API_V1 + CREATE_CUSTOMER)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -171,7 +171,7 @@ class CustomerControllerTest {
         BankingResponse<Customer> response = BankingResponse.successResponse(customer);
         PatchCustomerRequest request = PatchCustomerRequest.builder().build();
         copyProperties(customer, request);
-        when(service.updateOneCustomer(any(PatchCustomerRequest.class), any(HttpHeaders.class))).thenReturn(response);
+        when(service.updateOneCustomer(any(PatchCustomerRequest.class))).thenReturn(response);
         requestPayload = objectMapper.writeValueAsString(request);
 
         mockMvc.perform(patch(CONTEXT_API_V1 + PATCH_CUSTOMER)
@@ -191,7 +191,7 @@ class CustomerControllerTest {
         PatchCustomerRequest request = PatchCustomerRequest.builder().build();
         customer.setAccountNumber(UUID.randomUUID());
         copyProperties(customer, request);
-        when(service.updateOneCustomer(any(PatchCustomerRequest.class), any(HttpHeaders.class))).thenReturn(response);
+        when(service.updateOneCustomer(any(PatchCustomerRequest.class))).thenReturn(response);
         requestPayload = objectMapper.writeValueAsString(request);
 
         mockMvc.perform(post(CONTEXT_API_V1 + PATCH_CUSTOMER)
@@ -211,7 +211,7 @@ class CustomerControllerTest {
         GetOneCustomerRequest request = builder().accountNumber(RANDOM_UUID1).build();
         BankingResponse<UUID> response = BankingResponse.successResponse(id);
         requestPayload = objectMapper.writeValueAsString(request);
-        when(service.deleteOneCustomer(any(), any(HttpHeaders.class))).thenReturn(response);
+        when(service.deleteOneCustomer(any())).thenReturn(response);
 
         mockMvc.perform(delete(CONTEXT_API_V1 + DELETE_CUSTOMER)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -230,7 +230,7 @@ class CustomerControllerTest {
         GetOneCustomerRequest request = builder().accountNumber(RANDOM_UUID1).build();
         BankingResponse<UUID> response = BankingResponse.failureResponse(ErrorConstants.CUSTOMER_NOT_FOUND);
         requestPayload = objectMapper.writeValueAsString(request);
-        when(service.deleteOneCustomer(any(), any(HttpHeaders.class))).thenReturn(response);
+        when(service.deleteOneCustomer(any())).thenReturn(response);
 
         mockMvc.perform(delete(CONTEXT_API_V1 + DELETE_CUSTOMER)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -249,7 +249,7 @@ class CustomerControllerTest {
         TransferResponseDto data = initTransferResponseDto();
         BankingResponse<TransferResponseDto> response = BankingResponse.successResponse(data);
         requestPayload = objectMapper.writeValueAsString(request);
-        when(service.transferAmount(any(TransferRequest.class), any(HttpHeaders.class))).thenReturn(response);
+        when(service.transferAmount(any(TransferRequest.class))).thenReturn(response);
 
         mockMvc.perform(post(CONTEXT_API_V1 + TRANSFER)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -268,7 +268,7 @@ class CustomerControllerTest {
         TransferResponseDto data = initTransferResponseDto();
         BankingResponse<TransferResponseDto> response = BankingResponse.failureResponse(ErrorConstants.CUSTOMER_NOT_FOUND);
         requestPayload = objectMapper.writeValueAsString(request);
-        when(service.transferAmount(any(TransferRequest.class), any(HttpHeaders.class))).thenReturn(response);
+        when(service.transferAmount(any(TransferRequest.class))).thenReturn(response);
 
         mockMvc.perform(post(CONTEXT_API_V1 + TRANSFER)
                         .contentType(MediaType.APPLICATION_JSON)
