@@ -1,12 +1,14 @@
 <configuration>
-
+    <!-- Using variables from property file  -->
+    <springProperty name="appName" source="spring.application.name"/>
+    <springProperty name="profile" source="spring.profiles.active"/>
     <!--  where logs is saved  -->
     <property name="LOGS" value="logs"/>
 
     <!--  your console output  -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%green(%d{dd-MM-yyyy E HH:mm:ss.SSS}) %magenta([%thread]) %highlight(%-5level) %yellow(%logger{36}) - %cyan(%msg%n)
+            <pattern>%cyan(%d{dd-MM-yyyy E HH:mm:ss.SSS}) %green([${appName}]) %blue([${profile}]) %magenta([%thread]) %highlight(%-5level) %yellow(%logger{36}) - (%msg%n)
             </pattern>
         </encoder>
     </appender>
