@@ -169,6 +169,8 @@ Customized console display:
 
 [More info](https://howtodoinjava.com/spring-boot2/logging/console-logging-configuration/)
 [More info](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.logging)
+[More info](https://docs.spring.io/spring-boot/docs/2.5.2/reference/htmlsingle/#features.logging.logback-extensions)
+[More info](https://reflectoring.io/profile-specific-logging-spring-boot/)
 
 <li><b>Spring boot custom banner</b></li><br>
 

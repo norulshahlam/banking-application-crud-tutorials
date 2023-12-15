@@ -1,7 +1,7 @@
 <configuration>
     <!-- Using variables from property file  -->
     <springProperty name="appName" source="spring.application.name"/>
-    <springProperty name="profile" source="spring.profiles.active"/>
+    <springProperty name="profile" source="spring.profiles.active" defaultValue="default-profile"/>
     <!--  where logs is saved  -->
     <property name="LOGS" value="logs"/>
 
