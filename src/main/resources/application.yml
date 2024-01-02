@@ -52,4 +52,7 @@ management:
   info:
     env:
       enabled: true
+logging:
+  file:
+    max-history: 10
 
