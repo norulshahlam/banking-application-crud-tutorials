@@ -163,7 +163,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({Exception.class})
     @ResponseBody
-    public ResponseEntity<Object> handleBaseException(HttpServletRequest req, Exception e) {
+    public ResponseEntity<BankingResponse> handleBaseException(HttpServletRequest req, Exception e) {
         String cause = e.getMessage();
         log.error(ERROR_DETAIL, req.getRequestURI(), cause);
 
