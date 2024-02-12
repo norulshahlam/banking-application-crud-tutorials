@@ -1,14 +1,14 @@
 <configuration>
+
     <!-- Using variables from property file  -->
-    <springProperty name="appName" source="spring.application.name"/>
-    <springProperty name="profile" source="spring.profiles.active" defaultValue="default-profile"/>
+    <springProperty name="appName" source="spring.application.name"  defaultValue="default-name"/>
+    <springProperty name="profile" source="spring.profiles.active"  defaultValue="default-profile"/>
     <!--  where logs is saved  -->
     <property name="LOGS" value="./logs"/>
-
     <!--  your console output  -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%cyan(%d{dd-MM-yyyy E HH:mm:ss.SSS}) %green([${appName}]) %blue([${profile}]) %magenta([%thread]) %highlight(%-5level) %yellow(%logger{36}) - (%msg%n)
+            <pattern>%cyan(%d{dd-MMM-yyyy E HH:mm:ss.SSS}) %green([${appName}]) %blue([${profile}]) %yellow([%t]) %highlight(%-5level) %magenta(%logger{10}) - %msg%n
             </pattern>
         </encoder>
     </appender>
@@ -17,15 +17,14 @@
     <appender name="APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOGS}/logger.log</file>
         <encoder>
-            <pattern>%d{dd-MM-yyyy E HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <pattern>>%cyan(%d{dd-MMM-yyyy E HH:mm:ss.SSS}) %green([${appName}]) %blue([${profile}]) %yellow([%t]) %highlight(%-5level) %magenta(%logger{10}) - %msg%n
+            </pattern>
         </encoder>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOGS}/archived/logger-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy
-                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>10MB</maxFileSize>
-                <maxHistory>10</maxHistory>
-            </timeBasedFileNamingAndTriggeringPolicy>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOGS}/${appName}/${profile}/logger-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>20MB</maxFileSize>
+            <maxHistory>10</maxHistory>
+            <totalSizeCap>20GB</totalSizeCap>
         </rollingPolicy>
     </appender>
 
@@ -33,7 +32,6 @@
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="APPENDER"/>
     </root>
-
     <logger name="com.shah" level="info" additivity="false">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="APPENDER"/>
