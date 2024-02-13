@@ -41,19 +41,19 @@ public class OpenApiConfig {
         Parameter header1 = new Parameter()
                 .in(HEADER)
                 .required(true)
-                .description(X_CORRELATION_ID)
+                .description("UUID value for tracing and debugging")
                 .example("35b79a56-57ce-4187-a4cc-d423895d7440")
                 .name(X_CORRELATION_ID);
         Parameter header2 = new Parameter()
                 .in(HEADER)
                 .required(true)
-                .description(X_SOURCE_COUNTRY)
+                .description("Source of country request coming from")
                 .example("SG")
                 .name(X_SOURCE_COUNTRY);
         Parameter header3 = new Parameter()
                 .in(HEADER)
                 .required(true)
-                .description(X_SOURCE_DATE_TIME)
+                .description("Date time")
                 .example("1702004334")
                 .name(X_SOURCE_DATE_TIME);
 
