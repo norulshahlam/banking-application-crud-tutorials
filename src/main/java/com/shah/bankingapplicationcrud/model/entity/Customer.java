@@ -2,17 +2,20 @@ package com.shah.bankingapplicationcrud.model.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
+/**
+ * @author NORUL
+ */
 @Builder
 @Getter
 @Setter
@@ -22,7 +25,6 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Customer {
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Type(type = "uuid-char")
     @Column(updatable = false, nullable = false, unique = true)
     @Id
     private UUID accountNumber;

@@ -7,6 +7,7 @@ import com.shah.bankingapplicationcrud.model.request.*;
 import com.shah.bankingapplicationcrud.model.response.BankingResponse;
 import com.shah.bankingapplicationcrud.repository.CustomerRepository;
 import com.shah.bankingapplicationcrud.service.CustomerService;
+import jakarta.transaction.Transactional;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.beans.FeatureDescriptor;
 import java.util.Optional;
 import java.util.UUID;

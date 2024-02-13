@@ -1,10 +1,10 @@
 package com.shah.bankingapplicationcrud.model.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Data
@@ -15,9 +15,8 @@ import java.util.UUID;
 public class GetOneCustomerRequest {
 
     @NotNull(message = "accountNumber can not be null")
-    @ApiModelProperty(
-            value = "Customer account number",
-            required = true,
+    @Schema(
+            description = "Customer account number",
             example = "f9bd1139-c907-11ec-b11c-0242ac110002")
     private UUID accountNumber;
 }
