@@ -19,31 +19,39 @@ import static com.shah.bankingapplicationcrud.constant.CommonConstants.*;
 @EnableWebMvc
 public class OpenApiConfig {
 
+    public static final String HEADER = "header";
+
     @Bean
     public OpenAPI customOpenAPI(OpenApiProperties properties) {
         return new OpenAPI()
                 .info(getInfo(properties)
-                        .contact(getContact()))
+                        .contact(getContact())
+                        .license(getLicense())
+                        )
                 .servers(List.of(getServer1(), getServer2()));
     }
 
+    /**
+     * Required header input. This will automatically inject header values into your request.
+     * @return
+     */
     @Bean
     public OperationCustomizer customize() {
 
         Parameter header1 = new Parameter()
-                .in("header")
+                .in(HEADER)
                 .required(true)
                 .description(X_CORRELATION_ID)
                 .example("35b79a56-57ce-4187-a4cc-d423895d7440")
                 .name(X_CORRELATION_ID);
         Parameter header2 = new Parameter()
-                .in("header")
+                .in(HEADER)
                 .required(true)
                 .description(X_SOURCE_COUNTRY)
                 .example("SG")
                 .name(X_SOURCE_COUNTRY);
         Parameter header3 = new Parameter()
-                .in("header")
+                .in(HEADER)
                 .required(true)
                 .description(X_SOURCE_DATE_TIME)
                 .example("1702004334")
