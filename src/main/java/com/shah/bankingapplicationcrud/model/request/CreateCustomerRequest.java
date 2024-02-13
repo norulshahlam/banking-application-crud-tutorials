@@ -13,6 +13,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.math.BigDecimal;
 import java.sql.Date;
 
+/**
+ * @author NORUL
+ */
 @SuperBuilder
 @Data
 @NoArgsConstructor
@@ -44,7 +47,7 @@ public class CreateCustomerRequest {
 
     @Schema(example = "male")
     @NotNull(message = "Gender cannot be empty")
-    @Pattern(regexp = "Male|Female", message = "Gender must be Male or Female")
+    @Pattern(regexp = "(?i)Male|Female", message = "Gender must be Male or Female")
     private String gender;
 
     @Schema(example = "Japan")

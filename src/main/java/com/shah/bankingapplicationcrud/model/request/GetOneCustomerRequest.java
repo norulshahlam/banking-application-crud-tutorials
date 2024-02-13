@@ -7,6 +7,9 @@ import lombok.*;
 
 import java.util.UUID;
 
+/**
+ * @author NORUL
+ */
 @Data
 @AllArgsConstructor
 @Builder
