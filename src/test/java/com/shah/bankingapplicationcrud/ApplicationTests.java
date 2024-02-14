@@ -13,7 +13,7 @@ import static com.shah.bankingapplicationcrud.constant.CommonConstants.GET_ALL_C
 
 @Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles(profiles = "mysql")
+@ActiveProfiles(profiles = "dev")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ApplicationTests {
 
