@@ -1,6 +1,7 @@
 package com.shah.bankingapplicationcrud.advice;
 
 import com.shah.bankingapplicationcrud.exception.BankingException;
+import com.shah.bankingapplicationcrud.model.Errors;
 import com.shah.bankingapplicationcrud.model.response.BankingResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
@@ -11,15 +12,12 @@ import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.CannotCreateTransactionException;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,19 +40,21 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({MethodArgumentNotValidException.class})
     @ResponseBody
-    public ResponseEntity<BankingResponse> handleMethodArgumentNotValidException(HttpServletRequest req, MethodArgumentNotValidException e) {
+    public ResponseEntity<BankingResponse<List<Errors>>> handleMethodArgumentNotValidException(HttpServletRequest req, MethodArgumentNotValidException e) {
 
-        String requestURL = req.getRequestURI();
-        List<String> cause = new ArrayList<>();
+        String requestUri = req.getRequestURI();
 
-        for (FieldError error : e.getBindingResult().getFieldErrors()) {
-            cause.add(error.getDefaultMessage());
-        }
-        for (ObjectError error : e.getBindingResult().getGlobalErrors()) {
-            cause.add(error.getDefaultMessage());
-        }
-        log.error(ERROR_DETAIL, requestURL, cause);
-        BankingResponse response = BankingResponse.failureResponse(cause, BAD_REQUEST);
+        List<Errors> cause = e.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(error -> Errors.builder()
+                        .fieldName(error.getField())
+                        .errorMessage(error.getDefaultMessage())
+                        .build())
+                .toList();
+
+        log.error(ERROR_DETAIL, requestUri, cause);
+        BankingResponse<List<Errors>> response = BankingResponse.failureResponse(cause, "Validation failed for request URI: " + requestUri);
         return ResponseEntity.ok(response);
     }
 
