@@ -12,9 +12,11 @@ import lombok.*;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BankingResponse<T> {
 
-    @Schema(description = "Possible value: \n" +
-                          " + SUCCESS\n" +
-                          " + FAILURE\n")
+    @Schema(description = """ 
+                              Possible value:
+                              SUCCESS
+                              FAILURE
+                          """)
     @NonNull
     private ResponseStatus status;
     private T data;
