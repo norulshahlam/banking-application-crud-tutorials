@@ -1,4 +1,4 @@
-package com.shah.bankingapplicationcrud.model;
+package com.shah.bankingapplicationcrud.exception;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

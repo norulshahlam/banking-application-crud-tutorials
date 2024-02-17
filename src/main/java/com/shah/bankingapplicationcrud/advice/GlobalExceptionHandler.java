@@ -1,7 +1,7 @@
 package com.shah.bankingapplicationcrud.advice;
 
 import com.shah.bankingapplicationcrud.exception.BankingException;
-import com.shah.bankingapplicationcrud.model.Errors;
+import com.shah.bankingapplicationcrud.exception.Errors;
 import com.shah.bankingapplicationcrud.model.response.BankingResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
