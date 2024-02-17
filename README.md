@@ -90,7 +90,7 @@ private String firstName;
 </details><br>
 <li><b>Validations</b></li><br>
 
-We assume that this is web-service where user can enter any field and value so a lot of validation is needed. Although most of the time validation will be done in front-end. Click [here](https://reflectoring.io/bean-validation-with-spring-boot/) for more information.
+Although most of the time validation will be done in front-end, we will assume that this is web-service where user can enter any field and value so a lot of validation is needed. This is because user can use REST client like Postman for request and can break the application. Click [here](https://reflectoring.io/bean-validation-with-spring-boot/) for more information.
 
 <li><b>Swagger Api</b></li><br>
 
@@ -152,15 +152,24 @@ For simplicity we will use _CommandLineRunner_ for this project.
 
 Spring Boot provides a _CommandLineRunner_ interface with a callback _run()_ method. This method will be called after the Spring application context is instantiated. [More info](https://www.baeldung.com/spring-boot-console-app)
 
+<li><b>Database loggers - p6spy</b></li><br>
+
+P6Spy, an open-source, free library useful for intercepting SQL logs in Java applications. This enables us to get th actual values when JPA executes a statement.
+
+Sample:
+
+![Image](./src/main/resources/p6spy.PNG)
+
+[More info](https://p6spy.readthedocs.io/en/latest/configandusage.html)
+
 <li><b>Console appenders</b></li><br>
 
-The console log can be customized to suit your preferences. we can customize the date format or what to display.
+The console log can be customized to suit your preferences. we can customize the date format or what to display. This offers greater flexibility and customization options compared to Spring Boot's property-based logging configuration like defining custom appenders, filters, log rotation policies, or other Logback-specific features. This is also inline with the principle of `Separation of Concerns`
 
 For quick setup, simply add this in your property:
 
     spring.main.banner-mode=off
     spring.output.ansi.enabled=ALWAYS
-    logging.pattern.console=%clr(%d{yy-MM-dd E HH:mm:ss.SSS}){blue} %clr(%-5p) %clr(${PID}){faint} %clr(---){faint} %clr([%8.15t]){cyan} %clr(%-40.40logger{0}){blue} %clr(:){red} %clr(%m){faint}%n
 
 Default console display:
 ![Image](./src/main/resources/before-customize-console.PNG)
