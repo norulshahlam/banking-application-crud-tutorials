@@ -1,7 +1,13 @@
 springdoc:
-  project-title: rest-api-tutorials
-  project-version: v1
-  project-description: Base project for REST API tutorials
+  pathsToMatch: /api/v1/**
+  title: rest-api-tutorials
+  version: v1
+  description: Base project for REST API tutorials
+  url: http://www.norulshahlam.com/
+  name: Shah & Co
+  email: norulshahlam@gmail.com
+  license-name: License 30AP
+  license-url: url
 server:
   port: 9090
 spring:

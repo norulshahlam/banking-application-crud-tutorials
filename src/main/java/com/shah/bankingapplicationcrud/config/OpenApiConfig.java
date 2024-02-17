@@ -22,11 +22,11 @@ public class OpenApiConfig {
     public static final String HEADER = "header";
 
     @Bean
-    public OpenAPI customOpenAPI(OpenApiProperties properties) {
+    public OpenAPI customOpenApi(SpringDocProperties properties) {
         return new OpenAPI()
                 .info(getInfo(properties)
-                        .contact(getContact())
-                        .license(getLicense())
+                        .contact(getContact(properties))
+                        .license(getLicense(properties))
                         )
                 .servers(List.of(getServer1(), getServer2()));
     }
@@ -75,24 +75,24 @@ public class OpenApiConfig {
                 .url("http://localhost:8082");
     }
 
-    private Contact getContact() {
+    private Contact getContact(SpringDocProperties properties) {
         return new Contact()
-                .url("https://www.infosys.com/")
-                .name("Infosys")
-                .email("norulshahlam.mohsen@infosys.com");
+                .url(properties.getUrl())
+                .name(properties.getName())
+                .email(properties.getEmail());
     }
 
-    private Info getInfo(OpenApiProperties properties) {
+    private Info getInfo(SpringDocProperties properties) {
         return new Info()
-                .title(properties.getProjectTitle())
-                .description(properties.getProjectDescription())
-                .version(properties.getProjectVersion())
-                .license(getLicense());
+                .title(properties.getTitle())
+                .description(properties.getDescription())
+                .version(properties.getVersion())
+                .license(getLicense(properties));
     }
 
-    private License getLicense() {
+    private License getLicense(SpringDocProperties properties) {
         return new License()
-                .name("Licensed under Infosys")
-                .url("https://www.lawinsider.com/dictionary/infosys-technologies-agreement");
+                .name(properties.getLicenseName())
+                .url(properties.getLicenseUrl());
     }
 }
