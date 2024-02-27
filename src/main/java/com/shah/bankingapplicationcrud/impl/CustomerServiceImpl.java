@@ -1,10 +1,10 @@
 package com.shah.bankingapplicationcrud.impl;
 
 import com.shah.bankingapplicationcrud.constant.ErrorConstants;
-import com.shah.bankingapplicationcrud.exception.BankingException;
+import com.shah.bankingapplicationcrud.exception.MyException;
 import com.shah.bankingapplicationcrud.model.entity.Customer;
 import com.shah.bankingapplicationcrud.model.request.*;
-import com.shah.bankingapplicationcrud.model.response.BankingResponse;
+import com.shah.bankingapplicationcrud.model.response.MyResponse;
 import com.shah.bankingapplicationcrud.repository.CustomerRepository;
 import com.shah.bankingapplicationcrud.service.CustomerService;
 import jakarta.transaction.Transactional;
@@ -26,7 +26,7 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 import static com.shah.bankingapplicationcrud.constant.ErrorConstants.*;
-import static com.shah.bankingapplicationcrud.model.response.BankingResponse.successResponse;
+import static com.shah.bankingapplicationcrud.model.response.MyResponse.successResponse;
 import static com.shah.bankingapplicationcrud.repository.CustomerRepository.firstNameLike;
 import static com.shah.bankingapplicationcrud.repository.CustomerRepository.lastNameLike;
 import static java.util.List.of;
@@ -58,7 +58,7 @@ public class CustomerServiceImpl implements CustomerService {
      */
 
     @Override
-    public BankingResponse<Page<Customer>> getAllCustomersOrSearchByLastAndFirstName(
+    public MyResponse<Page<Customer>> getAllCustomersOrSearchByLastAndFirstName(
             HttpHeaders headers, String name, int page, int size, String field) {
 
         Pageable pageRequest = of(page, size).withSort(by(ASC, field));
@@ -82,7 +82,7 @@ public class CustomerServiceImpl implements CustomerService {
             log.info("current customers displayed: {}, total customers found: {}", customers.getSize(), customers.getTotalElements());
             return successResponse(customers);
         }
-        throw new BankingException(ErrorConstants.CUSTOMER_NOT_FOUND);
+        throw new MyException(ErrorConstants.CUSTOMER_NOT_FOUND);
     }
 
     /**
@@ -92,11 +92,11 @@ public class CustomerServiceImpl implements CustomerService {
      * @return
      */
     @Override
-    public BankingResponse getOneCustomer(UUID request) {
+    public MyResponse getOneCustomer(UUID request) {
         log.info("Fetching customer...");
 
         Customer customer = repository.findById(request).orElseThrow(
-                () -> new BankingException(CUSTOMER_NOT_FOUND));
+                () -> new MyException(CUSTOMER_NOT_FOUND));
         log.info("Fetch customer success...");
         return successResponse(customer);
     }
@@ -109,7 +109,7 @@ public class CustomerServiceImpl implements CustomerService {
      */
 
     @Override
-    public BankingResponse<Customer> createOneCustomer(CreateCustomerRequest request) {
+    public MyResponse<Customer> createOneCustomer(CreateCustomerRequest request) {
         log.info("Creating one customer...");
 
         Optional<Customer> customer1 = repository.findByEmail(request.getEmail());
@@ -119,7 +119,7 @@ public class CustomerServiceImpl implements CustomerService {
             Customer savedCustomer = repository.save(customer);
             return successResponse(savedCustomer);
         }
-        throw new BankingException(CUSTOMER_EMAIL_ALREADY_EXISTS);
+        throw new MyException(CUSTOMER_EMAIL_ALREADY_EXISTS);
     }
 
     /**
@@ -132,10 +132,10 @@ public class CustomerServiceImpl implements CustomerService {
      */
 
     @Override
-    public BankingResponse<Customer> updateOneCustomer(PatchCustomerRequest request) {
+    public MyResponse<Customer> updateOneCustomer(PatchCustomerRequest request) {
         log.info("Editing one customer...");
 
-        Customer customer = repository.findById(request.getAccountNumber()).orElseThrow(() -> new BankingException(CUSTOMER_NOT_FOUND));
+        Customer customer = repository.findById(request.getAccountNumber()).orElseThrow(() -> new MyException(CUSTOMER_NOT_FOUND));
         copyProperties(request, customer, getNullPropertyNames(request));
         return successResponse(repository.save(customer));
     }
@@ -145,15 +145,15 @@ public class CustomerServiceImpl implements CustomerService {
      *
      * @param request
      * @return
-     * @throws BankingException
+     * @throws MyException
      */
 
     @Override
-    public BankingResponse<UUID> deleteOneCustomer(GetOneCustomerRequest request) {
+    public MyResponse<UUID> deleteOneCustomer(GetOneCustomerRequest request) {
         log.info("Check if customer exists...");
 
         UUID id = request.getAccountNumber();
-        Customer customer = repository.findById(request.getAccountNumber()).orElseThrow(() -> new BankingException(CUSTOMER_NOT_FOUND));
+        Customer customer = repository.findById(request.getAccountNumber()).orElseThrow(() -> new MyException(CUSTOMER_NOT_FOUND));
 
         log.info("Customer with account number {} found! Deleting customer...", customer.getAccountNumber());
         repository.deleteById(id);
@@ -168,25 +168,25 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Transactional
     @Override
-    public BankingResponse<TransferResponseDto> transferAmount(TransferRequest request) {
+    public MyResponse<TransferResponseDto> transferAmount(TransferRequest request) {
         UUID senderId = request.getPayerAccountNumber();
 
         // 1. check if payer acc exists
-        Customer payer = repository.findById(request.getPayerAccountNumber()).orElseThrow(() -> new BankingException(PAYER_NOT_FOUND));
+        Customer payer = repository.findById(request.getPayerAccountNumber()).orElseThrow(() -> new MyException(PAYER_NOT_FOUND));
         log.info("Payer found: {}", payer);
 
         // 2. check if payer bal is more than transfer amount
         if (payer.getAccBalance().compareTo(request.getAmount()) < 0) {
-            throw new BankingException(INSUFFICIENT_AMOUNT_FOR_PAYER);
+            throw new MyException(INSUFFICIENT_AMOUNT_FOR_PAYER);
         }
 
         // 2. check if payer account number is same as payee account number
         if (request.getPayeeAccountNumber().compareTo(request.getPayerAccountNumber()) == 0) {
-            throw new BankingException(PAYER_AND_PAYEE_ACCOUNT_NUMBERS_ARE_THE_SAME);
+            throw new MyException(PAYER_AND_PAYEE_ACCOUNT_NUMBERS_ARE_THE_SAME);
         }
 
         // 3. check if payee acc exists
-        Customer payee = repository.findById(request.getPayeeAccountNumber()).orElseThrow(() -> new BankingException(PAYEE_NOT_FOUND));
+        Customer payee = repository.findById(request.getPayeeAccountNumber()).orElseThrow(() -> new MyException(PAYEE_NOT_FOUND));
         log.info("Payee found: {}", payee);
 
         // 4. transfer

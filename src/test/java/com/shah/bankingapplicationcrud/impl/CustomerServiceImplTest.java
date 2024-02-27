@@ -1,10 +1,10 @@
 package com.shah.bankingapplicationcrud.impl;
 
 import com.shah.bankingapplicationcrud.constant.ErrorConstants;
-import com.shah.bankingapplicationcrud.exception.BankingException;
+import com.shah.bankingapplicationcrud.exception.MyException;
 import com.shah.bankingapplicationcrud.model.entity.Customer;
 import com.shah.bankingapplicationcrud.model.request.*;
-import com.shah.bankingapplicationcrud.model.response.BankingResponse;
+import com.shah.bankingapplicationcrud.model.response.MyResponse;
 import com.shah.bankingapplicationcrud.repository.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,7 +47,7 @@ class CustomerServiceImplTest {
 
     private Customer customer = null;
     private HttpHeaders headers = new HttpHeaders();
-    private BankingException bankingException = null;
+    private MyException myException = null;
 
     @BeforeEach
     void setUp() {
@@ -65,7 +65,7 @@ class CustomerServiceImplTest {
                 any(Pageable.class)))
                 .thenReturn(pagedCustomers);
 
-        BankingResponse<Page<Customer>> response = service.getAllCustomersOrSearchByLastAndFirstName(headers, "bob", 1, 1, "email");
+        MyResponse<Page<Customer>> response = service.getAllCustomersOrSearchByLastAndFirstName(headers, "bob", 1, 1, "email");
 
         assertThat(response.getData().get().findFirst()).contains(customer);
     }
@@ -77,7 +77,7 @@ class CustomerServiceImplTest {
                 any(Pageable.class)))
                 .thenReturn(new PageImpl<>(of()));
 
-        BankingException response = assertThrows(BankingException.class, () -> service.getAllCustomersOrSearchByLastAndFirstName(headers, "", 1, 1, "email"));
+        MyException response = assertThrows(MyException.class, () -> service.getAllCustomersOrSearchByLastAndFirstName(headers, "", 1, 1, "email"));
 
         assertThat(response.getErrorMessage()).isEqualTo(ErrorConstants.CUSTOMER_NOT_FOUND);
     }
@@ -85,7 +85,7 @@ class CustomerServiceImplTest {
     @Test
     void getOneCustomer_customer_found() {
         when(custRepo.findById(any(UUID.class))).thenReturn(Optional.of(customer));
-        BankingResponse<Customer> oneCustomer = service.getOneCustomer(RANDOM_UUID1);
+        MyResponse<Customer> oneCustomer = service.getOneCustomer(RANDOM_UUID1);
         assertThat(oneCustomer).isNotNull();
         assertThat(oneCustomer.getStatus()).isEqualTo(SUCCESS);
     }
@@ -93,9 +93,9 @@ class CustomerServiceImplTest {
     @Test
     void getOneCustomer_customer_NOT_found() {
 
-        bankingException = assertThrows(BankingException.class, () -> service.getOneCustomer(RANDOM_UUID1));
+        myException = assertThrows(MyException.class, () -> service.getOneCustomer(RANDOM_UUID1));
 
-        assertThat(bankingException.getErrorMessage()).isEqualTo(ErrorConstants.CUSTOMER_NOT_FOUND);
+        assertThat(myException.getErrorMessage()).isEqualTo(ErrorConstants.CUSTOMER_NOT_FOUND);
     }
 
     @Test
@@ -104,7 +104,7 @@ class CustomerServiceImplTest {
         CreateCustomerRequest request = CreateCustomerRequest.builder().build();
         copyProperties(customer, request);
 
-        BankingResponse<Customer> response = service.createOneCustomer(request);
+        MyResponse<Customer> response = service.createOneCustomer(request);
         assertThat(response.getStatus()).isEqualTo(SUCCESS);
     }
 
@@ -116,9 +116,9 @@ class CustomerServiceImplTest {
 
         when(custRepo.findByEmail(any())).thenReturn(Optional.of(customer));
 
-        bankingException = assertThrows(BankingException.class, () -> service.createOneCustomer(request));
+        myException = assertThrows(MyException.class, () -> service.createOneCustomer(request));
 
-        assertThat(bankingException.getErrorMessage()).isEqualTo(CUSTOMER_EMAIL_ALREADY_EXISTS);
+        assertThat(myException.getErrorMessage()).isEqualTo(CUSTOMER_EMAIL_ALREADY_EXISTS);
     }
 
     @Test
@@ -127,7 +127,7 @@ class CustomerServiceImplTest {
         copyProperties(customer, request);
         request.setAccountNumber(RANDOM_UUID1);
         when(custRepo.findById(any())).thenReturn(Optional.of(customer));
-        BankingResponse<Customer> response = service.updateOneCustomer(request);
+        MyResponse<Customer> response = service.updateOneCustomer(request);
         assertThat(response.getStatus()).isEqualTo(SUCCESS);
     }
 
@@ -136,18 +136,18 @@ class CustomerServiceImplTest {
         PatchCustomerRequest request = PatchCustomerRequest.builder().build();
         copyProperties(customer, request);
 
-        when(custRepo.findById(any())).thenThrow(new BankingException(ErrorConstants.CUSTOMER_NOT_FOUND));
+        when(custRepo.findById(any())).thenThrow(new MyException(ErrorConstants.CUSTOMER_NOT_FOUND));
 
-        bankingException = assertThrows(BankingException.class, () -> service.updateOneCustomer(request));
+        myException = assertThrows(MyException.class, () -> service.updateOneCustomer(request));
 
-        assertThat(bankingException.getErrorMessage()).isEqualTo(ErrorConstants.CUSTOMER_NOT_FOUND);
+        assertThat(myException.getErrorMessage()).isEqualTo(ErrorConstants.CUSTOMER_NOT_FOUND);
     }
 
     @Test
     void deleteOneCustomer_success() {
         GetOneCustomerRequest request = GetOneCustomerRequest.builder().accountNumber(RANDOM_UUID1).build();
         when(custRepo.findById(any())).thenReturn(Optional.of(customer));
-        BankingResponse<UUID> response = service.deleteOneCustomer(request);
+        MyResponse<UUID> response = service.deleteOneCustomer(request);
         assertThat(response.getStatus()).isEqualTo(SUCCESS);
     }
 
@@ -155,11 +155,11 @@ class CustomerServiceImplTest {
     void deleteOneCustomer_fail_CUSTOMER_NOT_FOUND() {
         GetOneCustomerRequest request = GetOneCustomerRequest.builder().accountNumber(RANDOM_UUID1).build();
 
-        when(custRepo.findById(any())).thenThrow(new BankingException(ErrorConstants.CUSTOMER_NOT_FOUND));
+        when(custRepo.findById(any())).thenThrow(new MyException(ErrorConstants.CUSTOMER_NOT_FOUND));
 
-        bankingException = assertThrows(BankingException.class, () -> service.deleteOneCustomer(request));
+        myException = assertThrows(MyException.class, () -> service.deleteOneCustomer(request));
 
-        assertThat(bankingException.getErrorMessage()).isEqualTo(ErrorConstants.CUSTOMER_NOT_FOUND);
+        assertThat(myException.getErrorMessage()).isEqualTo(ErrorConstants.CUSTOMER_NOT_FOUND);
     }
 
     @Test
@@ -176,27 +176,27 @@ class CustomerServiceImplTest {
         when(custRepo.findById(request.getPayerAccountNumber())).thenReturn(Optional.of(payer));
         when(custRepo.findById(request.getPayeeAccountNumber())).thenReturn(Optional.of(payee));
         when(custRepo.saveAll(of(payee, payer))).thenReturn(of(payee, payer));
-        BankingResponse<TransferResponseDto> response = service.transferAmount(request);
+        MyResponse<TransferResponseDto> response = service.transferAmount(request);
         assertThat(response.getStatus()).isEqualTo(SUCCESS);
 
         // PAYEE NOT FOUND
         when(custRepo.findById(request.getPayeeAccountNumber())).thenReturn(Optional.empty());
-        bankingException = assertThrows(BankingException.class, () -> service.transferAmount(request));
-        assertThat(bankingException.getErrorMessage()).isEqualTo(PAYEE_NOT_FOUND);
+        myException = assertThrows(MyException.class, () -> service.transferAmount(request));
+        assertThat(myException.getErrorMessage()).isEqualTo(PAYEE_NOT_FOUND);
 
         // PAYEE AND PAYER ACCOUNT NUMBERS ARE THE SAME
         request.setPayeeAccountNumber(RANDOM_UUID1);
-        bankingException = assertThrows(BankingException.class, () -> service.transferAmount(request));
-        assertThat(bankingException.getErrorMessage()).isEqualTo(PAYER_AND_PAYEE_ACCOUNT_NUMBERS_ARE_THE_SAME);
+        myException = assertThrows(MyException.class, () -> service.transferAmount(request));
+        assertThat(myException.getErrorMessage()).isEqualTo(PAYER_AND_PAYEE_ACCOUNT_NUMBERS_ARE_THE_SAME);
 
         // INSUFFICIENT BALANCE
         request.setAmount(valueOf(1000.50));
-        bankingException = assertThrows(BankingException.class, () -> service.transferAmount(request));
-        assertThat(bankingException.getErrorMessage()).isEqualTo(INSUFFICIENT_AMOUNT_FOR_PAYER);
+        myException = assertThrows(MyException.class, () -> service.transferAmount(request));
+        assertThat(myException.getErrorMessage()).isEqualTo(INSUFFICIENT_AMOUNT_FOR_PAYER);
 
         // PAYER NOT FOUND
         when(custRepo.findById(RANDOM_UUID1)).thenReturn(Optional.empty());
-        bankingException = assertThrows(BankingException.class, () -> service.transferAmount(request));
-        assertThat(bankingException.getErrorMessage()).isEqualTo(PAYER_NOT_FOUND);
+        myException = assertThrows(MyException.class, () -> service.transferAmount(request));
+        assertThat(myException.getErrorMessage()).isEqualTo(PAYER_NOT_FOUND);
     }
 }

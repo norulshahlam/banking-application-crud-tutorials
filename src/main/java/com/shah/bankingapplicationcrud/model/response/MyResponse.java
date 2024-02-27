@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BankingResponse<T> {
+public class MyResponse<T> {
 
     @Schema(description = """ 
                               Possible value:
@@ -22,23 +22,23 @@ public class BankingResponse<T> {
     private T data;
     private String errorMessage;
 
-    public static <T> BankingResponse successResponse(T data) {
-        return BankingResponse.builder()
+    public static <T> MyResponse successResponse(T data) {
+        return MyResponse.builder()
                 .status(ResponseStatus.SUCCESS)
                 .data(data)
                 .build();
     }
 
-    public static <T> BankingResponse failureResponse(T data, String errorMessage) {
-        return BankingResponse.builder()
+    public static <T> MyResponse failureResponse(T data, String errorMessage) {
+        return MyResponse.builder()
                 .status(ResponseStatus.FAILURE)
                 .data(data)
                 .errorMessage(errorMessage)
                 .build();
     }
 
-    public static BankingResponse failureResponse(String errorMessage) {
-        return BankingResponse.builder()
+    public static MyResponse failureResponse(String errorMessage) {
+        return MyResponse.builder()
                 .status(ResponseStatus.FAILURE)
                 .errorMessage(errorMessage)
                 .build();

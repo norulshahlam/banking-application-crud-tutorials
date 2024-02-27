@@ -9,6 +9,6 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public class BankingException extends RuntimeException {
+public class MyException extends RuntimeException {
     private final String errorMessage;
 }

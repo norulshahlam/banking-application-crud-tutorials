@@ -3,7 +3,7 @@ package com.shah.bankingapplicationcrud.controller;
 import com.shah.bankingapplicationcrud.impl.CustomerServiceImpl;
 import com.shah.bankingapplicationcrud.model.entity.Customer;
 import com.shah.bankingapplicationcrud.model.request.*;
-import com.shah.bankingapplicationcrud.model.response.BankingResponse;
+import com.shah.bankingapplicationcrud.model.response.MyResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -55,7 +55,7 @@ public class CustomerController {
     @Operation(description = "Retrieve all customers. Optional query param to search for customer containing by first or last name",
             tags = "Retrieve all customers")
     @GetMapping(GET_ALL_CUSTOMERS)
-    public ResponseEntity<BankingResponse<Page<Customer>>> searchCustomersByName(
+    public ResponseEntity<MyResponse<Page<Customer>>> searchCustomersByName(
             @RequestHeader HttpHeaders headers,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
@@ -68,7 +68,7 @@ public class CustomerController {
     @Operation(description = "Get one customer",
             tags = "Get one customer")
     @GetMapping(GET_ONE_CUSTOMER + "/{request}")
-    public ResponseEntity<BankingResponse<Customer>> getOneCustomer(
+    public ResponseEntity<MyResponse<Customer>> getOneCustomer(
             @Parameter(example = "001d846e-4488-4ecc-84c2-9b6f1d130711")
             @Valid @PathVariable UUID request,
             @RequestHeader HttpHeaders headers) {
@@ -79,7 +79,7 @@ public class CustomerController {
     @Operation(description = "Add customer",
             tags = "Add customer")
     @PostMapping(CREATE_CUSTOMER)
-    public ResponseEntity<BankingResponse<Customer>> createOneCustomer(
+    public ResponseEntity<MyResponse<Customer>> createOneCustomer(
             @Valid @RequestBody CreateCustomerRequest createCustomerRequest,
             @RequestHeader HttpHeaders headers) {
         validateHeaders(headers);
@@ -89,7 +89,7 @@ public class CustomerController {
     @Operation(description = "Patch customer",
             tags = "Patch customer")
     @PatchMapping(PATCH_CUSTOMER)
-    public ResponseEntity<BankingResponse<Customer>> updateOneCustomer(
+    public ResponseEntity<MyResponse<Customer>> updateOneCustomer(
             @Valid @RequestBody PatchCustomerRequest createCustomerRequest,
             @RequestHeader HttpHeaders headers) {
         validateHeaders(headers);
@@ -99,7 +99,7 @@ public class CustomerController {
     @Operation(description = "Delete customer",
             tags = "Delete customer")
     @DeleteMapping(DELETE_CUSTOMER)
-    public ResponseEntity<BankingResponse<UUID>> deleteOneCustomer(
+    public ResponseEntity<MyResponse<UUID>> deleteOneCustomer(
             @Valid @RequestBody GetOneCustomerRequest request,
             @RequestHeader HttpHeaders headers) {
         validateHeaders(headers);
@@ -109,7 +109,7 @@ public class CustomerController {
     @Operation(description = "Transfer amount",
             tags = "Transfer amount")
     @PostMapping(TRANSFER)
-    public ResponseEntity<BankingResponse<TransferResponseDto>> transferAmount(
+    public ResponseEntity<MyResponse<TransferResponseDto>> transferAmount(
             @Valid @RequestBody TransferRequest request,
             @RequestHeader HttpHeaders headers) {
         validateHeaders(headers);

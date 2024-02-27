@@ -2,11 +2,11 @@ package com.shah.bankingapplicationcrud.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shah.bankingapplicationcrud.constant.ErrorConstants;
-import com.shah.bankingapplicationcrud.exception.BankingException;
+import com.shah.bankingapplicationcrud.exception.MyException;
 import com.shah.bankingapplicationcrud.impl.CustomerServiceImpl;
 import com.shah.bankingapplicationcrud.model.entity.Customer;
 import com.shah.bankingapplicationcrud.model.request.*;
-import com.shah.bankingapplicationcrud.model.response.BankingResponse;
+import com.shah.bankingapplicationcrud.model.response.MyResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +63,7 @@ class CustomerControllerTest {
 
     @Test
     void getOneCustomer_success() throws Exception {
-        BankingResponse<Customer> response = BankingResponse.successResponse(customer);
+        MyResponse<Customer> response = MyResponse.successResponse(customer);
         when(service.getOneCustomer(any(UUID.class))).thenReturn(response);
         requestPayload = objectMapper.writeValueAsString(RANDOM_UUID1);
 
@@ -81,7 +81,7 @@ class CustomerControllerTest {
     @Test
     void getOneCustomer_customer_not_found() throws Exception {
 
-        when(service.getOneCustomer(any(UUID.class))).thenThrow(new BankingException(CUSTOMER_NOT_FOUND));
+        when(service.getOneCustomer(any(UUID.class))).thenThrow(new MyException(CUSTOMER_NOT_FOUND));
 
         mockMvc.perform(get(CONTEXT_API_V1 + GET_ONE_CUSTOMER + "/" + RANDOM_UUID2)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -95,7 +95,7 @@ class CustomerControllerTest {
     @Test
     void searchCustomersByName_success() throws Exception {
         Page<Customer> pagedCustomers = new PageImpl<>(List.of(customer, customer, customer));
-        BankingResponse<Page<Customer>> response = BankingResponse.successResponse(pagedCustomers);
+        MyResponse<Page<Customer>> response = MyResponse.successResponse(pagedCustomers);
         when(service.getAllCustomersOrSearchByLastAndFirstName(any(HttpHeaders.class), anyString(), anyInt(), anyInt(), anyString())).thenReturn(response);
 
         mockMvc.perform(get(CONTEXT_API_V1 + GET_ALL_CUSTOMERS)
@@ -111,7 +111,7 @@ class CustomerControllerTest {
 
     @Test
     void searchCustomersByName_customer_not_found() throws Exception {
-        BankingResponse<Page<Customer>> response = BankingResponse.failureResponse((ErrorConstants.CUSTOMER_NOT_FOUND));
+        MyResponse<Page<Customer>> response = MyResponse.failureResponse((ErrorConstants.CUSTOMER_NOT_FOUND));
         when(service.getAllCustomersOrSearchByLastAndFirstName(any(HttpHeaders.class), anyString(), anyInt(), anyInt(), anyString())).thenReturn(response);
 
         mockMvc.perform(post(CONTEXT_API_V1 + GET_ALL_CUSTOMERS)
@@ -127,7 +127,7 @@ class CustomerControllerTest {
 
     @Test
     void createOneCustomer_success() throws Exception {
-        BankingResponse<Customer> response = BankingResponse.successResponse(customer);
+        MyResponse<Customer> response = MyResponse.successResponse(customer);
         CreateCustomerRequest request = CreateCustomerRequest.builder().build();
         copyProperties(customer, request);
         requestPayload = objectMapper.writeValueAsString(request);
@@ -146,7 +146,7 @@ class CustomerControllerTest {
 
     @Test
     void createOneCustomer_failed_validation() throws Exception {
-        BankingResponse<Customer> response = BankingResponse.successResponse(customer);
+        MyResponse<Customer> response = MyResponse.successResponse(customer);
         CreateCustomerRequest request = CreateCustomerRequest.builder().build();
         customer.setGender("invalid gender");
         copyProperties(customer, request);
@@ -167,7 +167,7 @@ class CustomerControllerTest {
 
     @Test
     void updateOneCustomer_success() throws Exception {
-        BankingResponse<Customer> response = BankingResponse.successResponse(customer);
+        MyResponse<Customer> response = MyResponse.successResponse(customer);
         PatchCustomerRequest request = PatchCustomerRequest.builder().build();
         copyProperties(customer, request);
         when(service.updateOneCustomer(any(PatchCustomerRequest.class))).thenReturn(response);
@@ -186,7 +186,7 @@ class CustomerControllerTest {
 
     @Test
     void updateOneCustomer_customer_not_found() throws Exception {
-        BankingResponse<Customer> response = BankingResponse.failureResponse(ErrorConstants.CUSTOMER_NOT_FOUND);
+        MyResponse<Customer> response = MyResponse.failureResponse(ErrorConstants.CUSTOMER_NOT_FOUND);
         PatchCustomerRequest request = PatchCustomerRequest.builder().build();
         customer.setAccountNumber(UUID.randomUUID());
         copyProperties(customer, request);
@@ -208,7 +208,7 @@ class CustomerControllerTest {
     void deleteOneCustomer_success() throws Exception {
         UUID id = RANDOM_UUID1;
         GetOneCustomerRequest request = builder().accountNumber(RANDOM_UUID1).build();
-        BankingResponse<UUID> response = BankingResponse.successResponse(id);
+        MyResponse<UUID> response = MyResponse.successResponse(id);
         requestPayload = objectMapper.writeValueAsString(request);
         when(service.deleteOneCustomer(any())).thenReturn(response);
 
@@ -227,7 +227,7 @@ class CustomerControllerTest {
     void deleteOneCustomer_customer_not_found() throws Exception {
         UUID id = RANDOM_UUID1;
         GetOneCustomerRequest request = builder().accountNumber(RANDOM_UUID1).build();
-        BankingResponse<UUID> response = BankingResponse.failureResponse(ErrorConstants.CUSTOMER_NOT_FOUND);
+        MyResponse<UUID> response = MyResponse.failureResponse(ErrorConstants.CUSTOMER_NOT_FOUND);
         requestPayload = objectMapper.writeValueAsString(request);
         when(service.deleteOneCustomer(any())).thenReturn(response);
 
@@ -246,7 +246,7 @@ class CustomerControllerTest {
     void transferAmount_success() throws Exception {
         TransferRequest request = initTransferAmount();
         TransferResponseDto data = initTransferResponseDto();
-        BankingResponse<TransferResponseDto> response = BankingResponse.successResponse(data);
+        MyResponse<TransferResponseDto> response = MyResponse.successResponse(data);
         requestPayload = objectMapper.writeValueAsString(request);
         when(service.transferAmount(any(TransferRequest.class))).thenReturn(response);
 
@@ -265,7 +265,7 @@ class CustomerControllerTest {
     void transferAmount_insufficient_amount() throws Exception {
         TransferRequest request = initTransferAmount();
         TransferResponseDto data = initTransferResponseDto();
-        BankingResponse<TransferResponseDto> response = BankingResponse.failureResponse(ErrorConstants.CUSTOMER_NOT_FOUND);
+        MyResponse<TransferResponseDto> response = MyResponse.failureResponse(ErrorConstants.CUSTOMER_NOT_FOUND);
         requestPayload = objectMapper.writeValueAsString(request);
         when(service.transferAmount(any(TransferRequest.class))).thenReturn(response);
 

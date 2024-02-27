@@ -1,8 +1,8 @@
 package com.shah.bankingapplicationcrud.advice;
 
-import com.shah.bankingapplicationcrud.exception.BankingException;
+import com.shah.bankingapplicationcrud.exception.MyException;
 import com.shah.bankingapplicationcrud.exception.Errors;
-import com.shah.bankingapplicationcrud.model.response.BankingResponse;
+import com.shah.bankingapplicationcrud.model.response.MyResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({MethodArgumentNotValidException.class})
     @ResponseBody
-    public ResponseEntity<BankingResponse<List<Errors>>> handleMethodArgumentNotValidException(HttpServletRequest req, MethodArgumentNotValidException e) {
+    public ResponseEntity<MyResponse<List<Errors>>> handleMethodArgumentNotValidException(HttpServletRequest req, MethodArgumentNotValidException e) {
 
         String requestUri = req.getRequestURI();
 
@@ -54,7 +54,7 @@ public class GlobalExceptionHandler {
                 .toList();
 
         log.error(ERROR_DETAIL, requestUri, cause);
-        BankingResponse<List<Errors>> response = BankingResponse.failureResponse(cause, "Validation failed for request URI: " + requestUri);
+        MyResponse<List<Errors>> response = MyResponse.failureResponse(cause, "Validation failed for request URI: " + requestUri);
         return ResponseEntity.ok(response);
     }
 
@@ -69,7 +69,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({ConstraintViolationException.class})
     @ResponseBody
-    public ResponseEntity<BankingResponse> handleConstraintViolationException(HttpServletRequest req, ConstraintViolationException e) {
+    public ResponseEntity<MyResponse> handleConstraintViolationException(HttpServletRequest req, ConstraintViolationException e) {
 
         List<String> errorMessages = e.getConstraintViolations()
                 .stream()
@@ -77,7 +77,7 @@ public class GlobalExceptionHandler {
                 .collect(Collectors.toList());
         log.error("requestUrl : {}, occurred an error : {}", req.getRequestURI(), errorMessages);
 
-        BankingResponse response = BankingResponse.failureResponse(errorMessages, CONSTRAINT_VIOLATION_EXCEPTION);
+        MyResponse response = MyResponse.failureResponse(errorMessages, CONSTRAINT_VIOLATION_EXCEPTION);
         return ResponseEntity.ok(response);
     }
 
@@ -94,7 +94,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException exception) {
         String cause = exception.getCause().getCause().getMessage();
 
-        BankingResponse response = BankingResponse.failureResponse(cause, DATABASE_INTEGRITY_VIOLATION_EXCEPTION);
+        MyResponse response = MyResponse.failureResponse(cause, DATABASE_INTEGRITY_VIOLATION_EXCEPTION);
 
         return ResponseEntity.ok(response);
     }
@@ -111,10 +111,10 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({PropertyReferenceException.class})
     @ResponseBody
-    public ResponseEntity<BankingResponse> handlePropertyReferenceException(HttpServletRequest req, PropertyReferenceException e) {
+    public ResponseEntity<MyResponse> handlePropertyReferenceException(HttpServletRequest req, PropertyReferenceException e) {
         String cause = e.getMessage();
         log.error(ERROR_DETAIL, req.getRequestURI(), cause);
-        BankingResponse response = BankingResponse.failureResponse(cause, FIELD_PROPERTY_NOT_FOUND);
+        MyResponse response = MyResponse.failureResponse(cause, FIELD_PROPERTY_NOT_FOUND);
         return ResponseEntity.ok(response);
     }
 
@@ -127,13 +127,13 @@ public class GlobalExceptionHandler {
      */
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({BankingException.class})
+    @ExceptionHandler({MyException.class})
     @ResponseBody
-    public ResponseEntity<BankingResponse> handleBankingException(HttpServletRequest req, BankingException e) {
+    public ResponseEntity<MyResponse> handleBankingException(HttpServletRequest req, MyException e) {
         String errorMessage = e.getErrorMessage();
         log.error(ERROR_DETAIL, req.getRequestURI(), errorMessage);
 
-        BankingResponse response = BankingResponse.failureResponse(BAD_REQUEST, errorMessage);
+        MyResponse response = MyResponse.failureResponse(BAD_REQUEST, errorMessage);
         return ResponseEntity.ok(response);
     }
 
@@ -148,10 +148,10 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({CannotCreateTransactionException.class})
     @ResponseBody
-    public ResponseEntity<BankingResponse> handleCannotCreateTransactionException(CannotCreateTransactionException exception) {
+    public ResponseEntity<MyResponse> handleCannotCreateTransactionException(CannotCreateTransactionException exception) {
         String cause = exception.getCause().getCause().getMessage();
 
-        BankingResponse response = BankingResponse.failureResponse(cause, JPA_CONNECTION_ERROR);
+        MyResponse response = MyResponse.failureResponse(cause, JPA_CONNECTION_ERROR);
         return ResponseEntity.ok(response);
     }
 
@@ -166,11 +166,11 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({Exception.class})
     @ResponseBody
-    public ResponseEntity<BankingResponse> handleBaseException(HttpServletRequest req, Exception e) {
+    public ResponseEntity<MyResponse> handleBaseException(HttpServletRequest req, Exception e) {
         String cause = e.getMessage();
         log.error(ERROR_DETAIL, req.getRequestURI(), cause);
 
-        BankingResponse response = BankingResponse.failureResponse(cause);
+        MyResponse response = MyResponse.failureResponse(cause);
         return ResponseEntity.ok(response);
     }
 }

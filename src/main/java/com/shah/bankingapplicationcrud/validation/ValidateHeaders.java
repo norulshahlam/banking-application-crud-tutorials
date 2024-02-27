@@ -1,6 +1,6 @@
 package com.shah.bankingapplicationcrud.validation;
 
-import com.shah.bankingapplicationcrud.exception.BankingException;
+import com.shah.bankingapplicationcrud.exception.MyException;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
@@ -42,7 +42,7 @@ public class ValidateHeaders {
             }
         }
         if (!headerList.isEmpty()) {
-            throw new BankingException(StringUtils.join(headerList, ", "));
+            throw new MyException(StringUtils.join(headerList, ", "));
         }
     }
 }
