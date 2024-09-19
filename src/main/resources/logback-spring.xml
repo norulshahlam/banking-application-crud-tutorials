@@ -5,11 +5,11 @@
     <springProperty name="profile" source="spring.profiles.active"  defaultValue="default-profile"/>
     <!--  where logs is saved  -->
     <property name="LOGS" value="./logs"/>
+    <property name="LOGS_PATTERN" value="%cyan(%d{dd-MMM-yyyy E HH:mm:ss.SSS}) %green([${appName}]) %blue([${profile}]) %yellow([%t]) %highlight(%-5level) %magenta(%logger{10}) - %msg%n"/>
     <!--  your console output  -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%cyan(%d{dd-MMM-yyyy E HH:mm:ss.SSS}) %green([${appName}]) %blue([${profile}]) %yellow([%t]) %highlight(%-5level) %magenta(%logger{10}) - %msg%n
-            </pattern>
+            <pattern>${LOGS_PATTERN}</pattern>
         </encoder>
     </appender>
 
@@ -17,8 +17,7 @@
     <appender name="APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOGS}/logger.log</file>
         <encoder>
-            <pattern>>%cyan(%d{dd-MMM-yyyy E HH:mm:ss.SSS}) %green([${appName}]) %blue([${profile}]) %yellow([%t]) %highlight(%-5level) %magenta(%logger{10}) - %msg%n
-            </pattern>
+            <pattern>${LOGS_PATTERN}</pattern>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOGS}/${appName}/${profile}/logger-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
