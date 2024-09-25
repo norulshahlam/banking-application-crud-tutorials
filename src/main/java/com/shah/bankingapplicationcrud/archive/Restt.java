@@ -1,6 +1,8 @@
 package com.shah.bankingapplicationcrud.archive;
 
 
+import lombok.extern.slf4j.Slf4j;
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
@@ -17,9 +19,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class Restt {
-
-    private static final Logger LOGGER = Logger.getInstance();
 
     private final HttpClient httpClient = RestUtils.buildHttpClient(
             System.getProperty("isga.certificate.file"),
@@ -40,7 +41,7 @@ public class Restt {
     private String getToken() throws RestException, IOException, JSONException {
         LocalDateTime now = LocalDateTime.now();
         if (now.isAfter(isgaTokenExpiration)) {
-            LOGGER.debug(String.format("Refreshing ISGA token at: %s", LocalDateTime.now()));
+            log.debug(String.format("Refreshing ISGA token at: %s", LocalDateTime.now()));
 
             HttpPost post = new HttpPost(isgaEndpoint);
             post.addHeader("Accept", "application/json");
@@ -56,7 +57,7 @@ public class Restt {
             RestUtils.Result result = RestUtils.execute(httpClient, post);
 
             if (result.getStatusCode() != HttpStatus.OK.value()) {
-                LOGGER.error(result.getBody());
+                log.error(result.getBody());
                 throw new RestException(String.format("Error in ISGA token renewal: %d", result.getStatusCode()));
             }
 
@@ -68,12 +69,12 @@ public class Restt {
         return isgaToken;
     }
 
-    public boolean sendNgaDocument(Path file, Path meta) throws RestException, IOException {
+    public boolean sendNgaDocument(Path file, Path meta) throws IOException {
         String token;
         try {
             token = getToken();
         } catch (Exception e) {
-            LOGGER.error("Failed to renew ISGA token", e);
+            log.error("Failed to renew ISGA token", e);
             return true;
         }
 
@@ -94,13 +95,13 @@ public class Restt {
         // Execute HTTP request
         RestUtils.Result result = RestUtils.execute(httpClient, post);
 
-        LOGGER.debug(String.format("%d - %s", result.getStatusCode(), result.getHeaders()));
+        log.debug(String.format("%d - %s", result.getStatusCode(), result.getHeaders()));
         if (result.getStatusCode() != HttpStatus.CREATED.value()) {
-            LOGGER.error(result.getBody());
+            log.error(result.getBody());
             return false;
         }
 
-        LOGGER.debug(String.format("Location: %s", result.getHeaders().get("X-NGA-Location")));
+        log.debug(String.format("Location: %s", result.getHeaders().get("X-NGA-Location")));
         return true;
     }
 }
