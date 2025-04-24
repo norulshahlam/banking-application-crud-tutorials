@@ -112,118 +112,117 @@ public class CustomerServiceImpl implements CustomerService {
     public MyResponse<Customer> createOneCustomer(CreateCustomerRequest request) {
         log.info("Creating one customer...");
 
-        Optional<Customer> customer1 = repository.findByEmail(request.getEmail());
+        repository.findByEmail(request.getEmail()).ifPresent(i -> {
+            throw new MyException(CUSTOMER_EMAIL_ALREADY_EXISTS);
+        });
         Customer customer = new Customer();
-        if (customer1.isEmpty()) {
-            copyProperties(request, customer);
-            Customer savedCustomer = repository.save(customer);
-            return successResponse(savedCustomer);
-        }
-        throw new MyException(CUSTOMER_EMAIL_ALREADY_EXISTS);
-    }
-
-    /**
-     * Patch or put customer
-     * To edit a single field, simply add that field, we don't need to include rest of the fields
-     * To edit all field, simply add all fields.
-     *
-     * @param request
-     * @return
-     */
-
-    @Override
-    public MyResponse<Customer> updateOneCustomer(PatchCustomerRequest request) {
-        log.info("Editing one customer...");
-
-        Customer customer = repository.findById(request.getAccountNumber()).orElseThrow(() -> new MyException(CUSTOMER_NOT_FOUND));
-        copyProperties(request, customer, getNullPropertyNames(request));
+        copyProperties(request, customer);
         return successResponse(repository.save(customer));
     }
+}
 
-    /**
-     * Delete customer by id
-     *
-     * @param request
-     * @return
-     * @throws MyException
-     */
+/**
+ * Patch or put customer
+ * To edit a single field, simply add that field, we don't need to include rest of the fields
+ * To edit all field, simply add all fields.
+ *
+ * @param request
+ * @return
+ */
 
-    @Override
-    public MyResponse<UUID> deleteOneCustomer(GetOneCustomerRequest request) {
-        log.info("Check if customer exists...");
+@Override
+public MyResponse<Customer> updateOneCustomer(PatchCustomerRequest request) {
+    log.info("Editing one customer...");
 
-        UUID id = request.getAccountNumber();
-        Customer customer = repository.findById(request.getAccountNumber()).orElseThrow(() -> new MyException(CUSTOMER_NOT_FOUND));
+    Customer customer = repository.findById(request.getAccountNumber()).orElseThrow(() -> new MyException(CUSTOMER_NOT_FOUND));
+    copyProperties(request, customer, getNullPropertyNames(request));
+    return successResponse(repository.save(customer));
+}
 
-        log.info("Customer with account number {} found! Deleting customer...", customer.getAccountNumber());
-        repository.deleteById(id);
-        return successResponse(id);
+/**
+ * Delete customer by id
+ *
+ * @param request
+ * @return
+ * @throws MyException
+ */
+
+@Override
+public MyResponse<UUID> deleteOneCustomer(GetOneCustomerRequest request) {
+    log.info("Check if customer exists...");
+
+    UUID id = request.getAccountNumber();
+    Customer customer = repository.findById(request.getAccountNumber()).orElseThrow(() -> new MyException(CUSTOMER_NOT_FOUND));
+
+    log.info("Customer with account number {} found! Deleting customer...", customer.getAccountNumber());
+    repository.deleteById(id);
+    return successResponse(id);
+}
+
+/**
+ * To transfer amount from one acc to another
+ *
+ * @param request
+ * @return
+ */
+@Transactional
+@Override
+public MyResponse<TransferResponseDto> transferAmount(TransferRequest request) {
+    UUID senderId = request.getPayerAccountNumber();
+
+    // 1. check if payer acc exists
+    Customer payer = repository.findById(request.getPayerAccountNumber()).orElseThrow(() -> new MyException(PAYER_NOT_FOUND));
+    log.info("Payer found: {}", payer);
+
+    // 2. check if payer bal is more than transfer amount
+    if (payer.getAccBalance().compareTo(request.getAmount()) < 0) {
+        throw new MyException(INSUFFICIENT_AMOUNT_FOR_PAYER);
     }
 
-    /**
-     * To transfer amount from one acc to another
-     *
-     * @param request
-     * @return
-     */
-    @Transactional
-    @Override
-    public MyResponse<TransferResponseDto> transferAmount(TransferRequest request) {
-        UUID senderId = request.getPayerAccountNumber();
-
-        // 1. check if payer acc exists
-        Customer payer = repository.findById(request.getPayerAccountNumber()).orElseThrow(() -> new MyException(PAYER_NOT_FOUND));
-        log.info("Payer found: {}", payer);
-
-        // 2. check if payer bal is more than transfer amount
-        if (payer.getAccBalance().compareTo(request.getAmount()) < 0) {
-            throw new MyException(INSUFFICIENT_AMOUNT_FOR_PAYER);
-        }
-
-        // 2. check if payer account number is same as payee account number
-        if (request.getPayeeAccountNumber().compareTo(request.getPayerAccountNumber()) == 0) {
-            throw new MyException(PAYER_AND_PAYEE_ACCOUNT_NUMBERS_ARE_THE_SAME);
-        }
-
-        // 3. check if payee acc exists
-        Customer payee = repository.findById(request.getPayeeAccountNumber()).orElseThrow(() -> new MyException(PAYEE_NOT_FOUND));
-        log.info("Payee found: {}", payee);
-
-        // 4. transfer
-        payee.setAccBalance(payee.getAccBalance().add(request.getAmount()));
-        payer.setAccBalance(payer.getAccBalance().subtract(request.getAmount()));
-        log.info("Transfer success");
-
-        // 5. update both accounts to db
-        Iterable<Customer> customers = repository.saveAll(of(payee, payer));
-        log.info("Customers updated: {}", customers);
-
-        // 6. create object for response
-        TransferResponseDto data = TransferResponseDto.builder()
-                .payerAccountNumber(senderId)
-                .payerFirstName(payer.getFirstName())
-                .payerOldAccBal(payer.getAccBalance().add(request.getAmount()))
-                .payerNewAccBal(payer.getAccBalance())
-                .payeeAccountNumber(request.getPayeeAccountNumber())
-                .payeeFirstName(payee.getFirstName())
-                .payeeOldAccBal(payee.getAccBalance().subtract(request.getAmount()))
-                .payeeNewAccBal(payee.getAccBalance())
-                .transactionDate(customers.iterator().next().getUpdatedAt())
-                .amountTransferred(request.getAmount())
-                .build();
-
-        return successResponse(data);
+    // 2. check if payer account number is same as payee account number
+    if (request.getPayeeAccountNumber().compareTo(request.getPayerAccountNumber()) == 0) {
+        throw new MyException(PAYER_AND_PAYEE_ACCOUNT_NUMBERS_ARE_THE_SAME);
     }
 
-    /**
-     * For ignoring empty fields during copy property
-     *
-     * @param source
-     * @return
-     */
+    // 3. check if payee acc exists
+    Customer payee = repository.findById(request.getPayeeAccountNumber()).orElseThrow(() -> new MyException(PAYEE_NOT_FOUND));
+    log.info("Payee found: {}", payee);
 
-    private String[] getNullPropertyNames(Object source) {
-        final BeanWrapper wrappedSource = new BeanWrapperImpl(source);
-        return Stream.of(wrappedSource.getPropertyDescriptors()).map(FeatureDescriptor::getName).filter(propertyName -> wrappedSource.getPropertyValue(propertyName) == null).toArray(String[]::new);
-    }
+    // 4. transfer
+    payee.setAccBalance(payee.getAccBalance().add(request.getAmount()));
+    payer.setAccBalance(payer.getAccBalance().subtract(request.getAmount()));
+    log.info("Transfer success");
+
+    // 5. update both accounts to db
+    Iterable<Customer> customers = repository.saveAll(of(payee, payer));
+    log.info("Customers updated: {}", customers);
+
+    // 6. create object for response
+    TransferResponseDto data = TransferResponseDto.builder()
+            .payerAccountNumber(senderId)
+            .payerFirstName(payer.getFirstName())
+            .payerOldAccBal(payer.getAccBalance().add(request.getAmount()))
+            .payerNewAccBal(payer.getAccBalance())
+            .payeeAccountNumber(request.getPayeeAccountNumber())
+            .payeeFirstName(payee.getFirstName())
+            .payeeOldAccBal(payee.getAccBalance().subtract(request.getAmount()))
+            .payeeNewAccBal(payee.getAccBalance())
+            .transactionDate(customers.iterator().next().getUpdatedAt())
+            .amountTransferred(request.getAmount())
+            .build();
+
+    return successResponse(data);
+}
+
+/**
+ * For ignoring empty fields during copy property
+ *
+ * @param source
+ * @return
+ */
+
+private String[] getNullPropertyNames(Object source) {
+    final BeanWrapper wrappedSource = new BeanWrapperImpl(source);
+    return Stream.of(wrappedSource.getPropertyDescriptors()).map(FeatureDescriptor::getName).filter(propertyName -> wrappedSource.getPropertyValue(propertyName) == null).toArray(String[]::new);
+}
 }
