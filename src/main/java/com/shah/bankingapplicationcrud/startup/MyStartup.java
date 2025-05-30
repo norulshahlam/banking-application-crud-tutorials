@@ -14,7 +14,7 @@ public class MyStartup implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        log.info("Application name: " + appName + " just loaded!");
+        log.info("Application name: {} just loaded!", appName);
         log.info("EXECUTING : command line runner");
 
         for (int i = 0; i < args.length; ++i) {
