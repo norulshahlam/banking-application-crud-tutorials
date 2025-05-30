@@ -13,7 +13,7 @@ public class MyStartup implements CommandLineRunner {
     private String appName;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         log.info("Application name: {} just loaded!", appName);
         log.info("EXECUTING : command line runner");
 
