@@ -41,7 +41,7 @@ public class Restt {
     private String getToken() throws RestException, IOException, JSONException {
         LocalDateTime now = LocalDateTime.now();
         if (now.isAfter(isgaTokenExpiration)) {
-            log.debug(String.format("Refreshing ISGA token at: %s", LocalDateTime.now()));
+            log.debug("Refreshing ISGA token at: {}", LocalDateTime.now());
 
             HttpPost post = new HttpPost(isgaEndpoint);
             post.addHeader("Accept", "application/json");
@@ -95,13 +95,13 @@ public class Restt {
         // Execute HTTP request
         RestUtils.Result result = RestUtils.execute(httpClient, post);
 
-        log.debug(String.format("%d - %s", result.getStatusCode(), result.getHeaders()));
+        log.debug("{} - {}", result.getStatusCode(), result.getHeaders());
         if (result.getStatusCode() != HttpStatus.CREATED.value()) {
             log.error(result.getBody());
             return false;
         }
 
-        log.debug(String.format("Location: %s", result.getHeaders().get("X-NGA-Location")));
+        log.debug("Location: {}", result.getHeaders().get("X-NGA-Location"));
         return true;
     }
 }

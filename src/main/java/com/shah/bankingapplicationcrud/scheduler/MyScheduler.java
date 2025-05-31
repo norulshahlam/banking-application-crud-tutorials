@@ -30,6 +30,6 @@ public class MyScheduler {
 
         String interval = getDescription(scheduledPeriodInCron);
 
-        log.info("Scheduler triggered for " + interval + " on " + dateTimeFormatted);
+        log.info("Scheduler triggered for {} on {}", interval, dateTimeFormatted);
     }
 }
