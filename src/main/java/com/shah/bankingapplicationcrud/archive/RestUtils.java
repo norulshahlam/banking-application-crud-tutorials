@@ -3,7 +3,6 @@ package com.shah.bankingapplicationcrud.archive;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.util.EntityUtils;
@@ -17,28 +16,8 @@ import java.util.Map;
 
 public class RestUtils {
 
-    public static class Result {
-        private int statusCode;
-        private String body;
-        private Map<String, String> headers;
 
-        public Result(int statusCode, String body, Map<String, String> headers) {
-            this.statusCode = statusCode;
-            this.body = body;
-            this.headers = headers;
-        }
-
-        public int getStatusCode() {
-            return statusCode;
-        }
-
-        public String getBody() {
-            return body;
-        }
-
-        public Map<String, String> getHeaders() {
-            return headers;
-        }
+    public record Result(int statusCode, String body, Map<String, String> headers) {
     }
 
     // Builds the HttpClient with SSL based on provided certificate information
@@ -54,11 +33,9 @@ public class RestUtils {
                     .loadKeyMaterial(keyStore, password.toCharArray())
                     .build();
 
-            CloseableHttpClient httpClient = HttpClients.custom()
+            return HttpClients.custom()
                     .setSSLContext(sslContext)
                     .build();
-
-            return httpClient;
         } catch (Exception e) {
             throw new RuntimeException("Failed to build HTTP client with provided certificate", e);
         }

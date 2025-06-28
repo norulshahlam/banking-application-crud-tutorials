@@ -27,9 +27,8 @@ import java.util.UUID;
 import static com.shah.bankingapplicationcrud.constant.CommonConstants.*;
 import static com.shah.bankingapplicationcrud.constant.ErrorConstants.CUSTOMER_NOT_FOUND;
 import static com.shah.bankingapplicationcrud.model.enums.ResponseStatus.FAILURE;
-import static com.shah.bankingapplicationcrud.model.request.GetOneCustomerRequest.builder;
 import static com.shah.bankingapplicationcrud.service.Initializer.*;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
@@ -159,7 +158,7 @@ class CustomerControllerTest {
                         .headers(headers))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException))
+                .andExpect(result -> assertInstanceOf(MethodArgumentNotValidException.class, result.getResolvedException()))
                 .andExpect(jsonPath("$.errorMessage")
                         .isNotEmpty());
 
@@ -206,9 +205,8 @@ class CustomerControllerTest {
 
     @Test
     void deleteOneCustomer_success() throws Exception {
-        UUID id = RANDOM_UUID1;
-        GetOneCustomerRequest request = builder().accountNumber(RANDOM_UUID1).build();
-        MyResponse<UUID> response = MyResponse.successResponse(id);
+        GetOneCustomerRequest request = GetOneCustomerRequest.builder().accountNumber(RANDOM_UUID1).build();
+        MyResponse<UUID> response = MyResponse.successResponse(RANDOM_UUID1);
         requestPayload = objectMapper.writeValueAsString(request);
         when(service.deleteOneCustomer(any())).thenReturn(response);
 
@@ -225,8 +223,7 @@ class CustomerControllerTest {
 
     @Test
     void deleteOneCustomer_customer_not_found() throws Exception {
-        UUID id = RANDOM_UUID1;
-        GetOneCustomerRequest request = builder().accountNumber(RANDOM_UUID1).build();
+        GetOneCustomerRequest request = GetOneCustomerRequest.builder().accountNumber(RANDOM_UUID1).build();
         MyResponse<UUID> response = MyResponse.failureResponse(ErrorConstants.CUSTOMER_NOT_FOUND);
         requestPayload = objectMapper.writeValueAsString(request);
         when(service.deleteOneCustomer(any())).thenReturn(response);
